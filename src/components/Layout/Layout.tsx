@@ -2,8 +2,11 @@ import React  from 'react'
 import Aux from '../../hoc/Aux'
 import classes from './Layout.module.scss'
 
-// @ts-ignore
-const Layout = (props) => (
+export interface LayoutProps {
+	children: React.ReactNode
+}
+
+const Layout = (props: LayoutProps) => (
 	<Aux>
 		<div>Toolbar, SideDrawer, Backdrop</div>
 		<main className={classes.Content}>
