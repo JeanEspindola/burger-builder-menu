@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './BurgerIngredient.module.scss'
-import { IngredientsType } from '../../../utils/constants'
+import { IngredientsEnum } from '../../../utils/constants'
 
 export interface BurgerIngredientProps {
 	type: string,
@@ -10,10 +10,10 @@ const BurgerIngredient = (props: BurgerIngredientProps) => {
 	let ingredient = null
 
 	switch (props.type) {
-		case (IngredientsType.breadBottom):
+		case (IngredientsEnum.breadBottom):
 			ingredient = <div className={classes.BreadBottom}/>
 			break
-		case (IngredientsType.breadTop):
+		case (IngredientsEnum.breadTop):
 			ingredient = (
 					<div className={classes.BreadTop}>
 						<div className={classes.Seeds1}/>
@@ -21,16 +21,16 @@ const BurgerIngredient = (props: BurgerIngredientProps) => {
 					</div>
 			)
 			break
-		case (IngredientsType.meat):
+		case (IngredientsEnum.meat):
 			ingredient = <div className={classes.Meat}/>
 			break
-		case (IngredientsType.cheese):
+		case (IngredientsEnum.cheese):
 			ingredient = <div className={classes.Cheese}/>
 			break
-		case (IngredientsType.salad):
+		case (IngredientsEnum.salad):
 			ingredient = <div className={classes.Salad}/>
 			break;
-		case (IngredientsType.bacon):
+		case (IngredientsEnum.bacon):
 			ingredient = <div className={classes.Bacon}/>
 			break
 		default:

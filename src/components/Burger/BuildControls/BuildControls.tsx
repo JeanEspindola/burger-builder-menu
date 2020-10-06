@@ -1,20 +1,20 @@
 import React from 'react'
 import classes from './BuildControls.module.scss'
 import BuildControl from './BuildControl/BuildControl'
-import { IngredientsLabel, IngredientsType } from '../../../utils/constants'
+import { IngredientsLabel, IngredientsEnum } from '../../../utils/constants'
 
 export interface BuildControlsProps {
 	//TODO: type
 	disabled: any
-	ingredientAdded(type: IngredientsType): void
-	ingredientRemoved(type: IngredientsType): void
+	ingredientAdded(type: IngredientsEnum): void
+	ingredientRemoved(type: IngredientsEnum): void
 }
 
 const controls = [
-	{ label: IngredientsLabel.salad, type: IngredientsType.salad },
-	{ label: IngredientsLabel.bacon, type: IngredientsType.bacon },
-	{ label: IngredientsLabel.meat, type: IngredientsType.meat },
-	{ label: IngredientsLabel.cheese, type: IngredientsType.cheese },
+	{ label: IngredientsLabel.salad, type: IngredientsEnum.salad },
+	{ label: IngredientsLabel.bacon, type: IngredientsEnum.bacon },
+	{ label: IngredientsLabel.cheese, type: IngredientsEnum.cheese },
+	{ label: IngredientsLabel.meat, type: IngredientsEnum.meat },
 ]
 
 const BuildControls = (props: BuildControlsProps) => (

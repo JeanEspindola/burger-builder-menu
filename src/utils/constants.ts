@@ -1,10 +1,10 @@
-export enum IngredientsType {
+export enum IngredientsEnum {
 	salad = 'salad',
 	bacon = 'bacon',
 	meat = 'meat',
 	cheese = 'cheese',
-	breadBottom = 'bread-bottom',
-	breadTop = 'bread-top'
+	breadBottom = 'breadBottom',
+	breadTop = 'breadTop'
 }
 
 export enum IngredientsLabel {

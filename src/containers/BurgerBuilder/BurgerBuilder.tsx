@@ -2,17 +2,33 @@ import React, { Component } from 'react'
 import Aux from '../../hoc/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
-import { IngredientsType } from '../../utils/constants'
+import { IngredientsEnum } from '../../utils/constants'
 
 const INGREDIENT_PRICES = {
+	breadTop: 0,
+	breadBottom: 0,
 	salad: 0.5,
 	cheese: 0.4,
 	meat: 1.3,
 	bacon: 0.7,
 }
 
+export interface IngredientsType {
+	breadTop?: number,
+	salad: number,
+	bacon: number,
+	cheese: number,
+	meat: number,
+	breadBottom?: number
+}
+
+export interface BurgerBuilderStateType {
+	ingredients: IngredientsType,
+	totalPrice: number,
+}
+
 class BurgerBuilder extends Component {
-	state = {
+	state: BurgerBuilderStateType = {
 		ingredients: {
 			salad: 0,
 			bacon: 0,
@@ -22,17 +38,15 @@ class BurgerBuilder extends Component {
 		totalPrice: 4,
 	}
 
-	addIngredientHandler = (type: IngredientsType) => {
-		// @ts-ignore
-		const oldCount = this.state.ingredients[type]
+	addIngredientHandler = (type: IngredientsEnum) => {
+
+		const oldCount = this.state.ingredients[type] || 0
 		const updatedCount = oldCount + 1
 		const updatedIngredients = {
 				...this.state.ingredients
 		}
 
-		// @ts-ignore
 		updatedIngredients[type] = updatedCount
-		// @ts-ignore
 		const priceAddition = INGREDIENT_PRICES[type]
 		const oldPrice = this.state.totalPrice
 		const newPrice = oldPrice + priceAddition
@@ -40,9 +54,8 @@ class BurgerBuilder extends Component {
 		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
 	}
 
-	removeIngredientHandler = (type: IngredientsType) => {
-		// @ts-ignore
-		const oldCount = this.state.ingredients[type]
+	removeIngredientHandler = (type: IngredientsEnum) => {
+		const oldCount = this.state.ingredients[type] || 0
 		if (oldCount <= 0) {
 			return
 		}
@@ -51,9 +64,7 @@ class BurgerBuilder extends Component {
 			...this.state.ingredients
 		}
 
-		// @ts-ignore
 		updatedIngredients[type] = updatedCount
-		// @ts-ignore
 		const priceDeduction = INGREDIENT_PRICES[type]
 		const oldPrice = this.state.totalPrice
 		const newPrice = oldPrice - priceDeduction
