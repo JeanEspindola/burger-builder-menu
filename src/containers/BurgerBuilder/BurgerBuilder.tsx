@@ -3,6 +3,8 @@ import Aux from '../../hoc/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import { IngredientsEnum } from '../../utils/constants'
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
 const INGREDIENT_PRICES = {
 	breadTop: 0,
@@ -25,6 +27,7 @@ export interface IngredientsType {
 export interface BurgerBuilderStateType {
 	ingredients: IngredientsType,
 	totalPrice: number,
+	purchasable: boolean,
 }
 
 class BurgerBuilder extends Component {
@@ -36,6 +39,19 @@ class BurgerBuilder extends Component {
 			meat: 0,
 		},
 		totalPrice: 4,
+		purchasable: false,
+	}
+
+	// @ts-ignore
+	updatePurchaseState = (ingredients) => {
+		const sum = Object.keys(ingredients)
+				.map(igKey => {
+					// @ts-ignore
+					return ingredients[igKey]
+				})
+				.reduce((sum, el) => sum + el, 0)
+
+		this.setState({ purchasable: sum > 0 })
 	}
 
 	addIngredientHandler = (type: IngredientsEnum) => {
@@ -52,6 +68,7 @@ class BurgerBuilder extends Component {
 		const newPrice = oldPrice + priceAddition
 
 		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
+		this.updatePurchaseState(updatedIngredients)
 	}
 
 	removeIngredientHandler = (type: IngredientsEnum) => {
@@ -70,6 +87,7 @@ class BurgerBuilder extends Component {
 		const newPrice = oldPrice - priceDeduction
 
 		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
+		this.updatePurchaseState(updatedIngredients)
 	}
 
 	render () {
@@ -83,11 +101,16 @@ class BurgerBuilder extends Component {
 		}
 		return (
 				<Aux>
+					<Modal>
+						<OrderSummary ingredients={this.state.ingredients} />
+					</Modal>
 					<Burger ingredients={this.state.ingredients}/>
 					<BuildControls
 						ingredientAdded={this.addIngredientHandler}
 						ingredientRemoved={this.removeIngredientHandler}
 						disabled={disableInfo}
+						price={this.state.totalPrice}
+						purchasable={this.state.purchasable}
 					/>
 				</Aux>
 		);

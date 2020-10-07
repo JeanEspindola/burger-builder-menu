@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from './Burger.module.scss'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
+import { IngredientsEnum } from '../../utils/constants'
 
 // @ts-ignore
 const Burger = (props) => {
@@ -21,9 +22,9 @@ const Burger = (props) => {
 
 	return (
 			<div className={classes.Burger}>
-				<BurgerIngredient type="breadTop" />
+				<BurgerIngredient type={IngredientsEnum.breadTop} />
 				{transfIngredients}
-				<BurgerIngredient type="breadBottom" />
+				<BurgerIngredient type={IngredientsEnum.breadBottom} />
 			</div>
 	)
 }

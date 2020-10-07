@@ -8,6 +8,8 @@ export interface BuildControlsProps {
 	disabled: any
 	ingredientAdded(type: IngredientsEnum): void
 	ingredientRemoved(type: IngredientsEnum): void
+	price: number
+	purchasable: boolean
 }
 
 const controls = [
@@ -19,6 +21,7 @@ const controls = [
 
 const BuildControls = (props: BuildControlsProps) => (
 	<div className={classes.BuildControls}>
+		<p>Current price: <strong>{props.price.toFixed(2)}</strong></p>
 		{controls.map(ctrl => (
 				<BuildControl
 						key={ctrl.label}
@@ -28,6 +31,12 @@ const BuildControls = (props: BuildControlsProps) => (
 						disable={props.disabled[ctrl.type]}
 				/>
 		))}
+		<button
+				className={classes.OrderButton}
+				disabled={!props.purchasable}
+		>
+			ORDER NOW
+		</button>
 	</div>
 )
 
