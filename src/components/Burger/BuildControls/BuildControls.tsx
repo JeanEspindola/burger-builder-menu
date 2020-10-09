@@ -6,8 +6,9 @@ import { IngredientsLabel, IngredientsEnum } from '../../../utils/constants'
 export interface BuildControlsProps {
 	//TODO: type
 	disabled: any
-	ingredientAdded(type: IngredientsEnum): void
-	ingredientRemoved(type: IngredientsEnum): void
+	ingredientAdded: (type: IngredientsEnum) => void
+	ingredientRemoved: (type: IngredientsEnum) => void
+	ordered: () => void
 	price: number
 	purchasable: boolean
 }
@@ -34,6 +35,7 @@ const BuildControls = (props: BuildControlsProps) => (
 		<button
 				className={classes.OrderButton}
 				disabled={!props.purchasable}
+				onClick={props.ordered}
 		>
 			ORDER NOW
 		</button>

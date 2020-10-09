@@ -28,6 +28,7 @@ export interface BurgerBuilderStateType {
 	ingredients: IngredientsType,
 	totalPrice: number,
 	purchasable: boolean,
+	purchasing: boolean,
 }
 
 class BurgerBuilder extends Component {
@@ -40,6 +41,7 @@ class BurgerBuilder extends Component {
 		},
 		totalPrice: 4,
 		purchasable: false,
+		purchasing: false,
 	}
 
 	// @ts-ignore
@@ -52,6 +54,18 @@ class BurgerBuilder extends Component {
 				.reduce((sum, el) => sum + el, 0)
 
 		this.setState({ purchasable: sum > 0 })
+	}
+
+	purchaseHandler = () => {
+		this.setState({ purchasing: true })
+	}
+
+	purchaseCancelHandler = () => {
+		this.setState({ purchasing: false })
+	}
+
+	purchaseContinueHandler = () => {
+		alert('You continue!!')
 	}
 
 	addIngredientHandler = (type: IngredientsEnum) => {
@@ -101,8 +115,13 @@ class BurgerBuilder extends Component {
 		}
 		return (
 				<Aux>
-					<Modal>
-						<OrderSummary ingredients={this.state.ingredients} />
+					<Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+						<OrderSummary
+								ingredients={this.state.ingredients}
+								price={this.state.totalPrice}
+								purchaseCanceled={this.purchaseCancelHandler}
+								purchaseContinued={this.purchaseContinueHandler}
+						/>
 					</Modal>
 					<Burger ingredients={this.state.ingredients}/>
 					<BuildControls
@@ -110,6 +129,7 @@ class BurgerBuilder extends Component {
 						ingredientRemoved={this.removeIngredientHandler}
 						disabled={disableInfo}
 						price={this.state.totalPrice}
+						ordered={this.purchaseHandler}
 						purchasable={this.state.purchasable}
 					/>
 				</Aux>
