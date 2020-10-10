@@ -1,8 +1,13 @@
 import React from 'react'
 import classes from './NavigationItem.module.scss'
 
-// @ts-ignore
-const NavigationItem = (props) => (
+export interface NavigationItemProps {
+	children: React.ReactNode
+	active?: boolean
+	link: string
+}
+
+const NavigationItem = (props: NavigationItemProps) => (
 		<li className={classes.NavigationItem}>
 			<a
 					href={props.link}

@@ -1,5 +1,5 @@
 import React from 'react'
-import Aux from '../../../hoc/Aux'
+import Aux from '../../../hoc/Aux/Aux'
 import Button from '../../UI/Button/Button'
 
 // TODO: type ingredients
@@ -9,7 +9,6 @@ export interface OrderSummaryProps {
 	purchaseCanceled: () => void
 	purchaseContinued: () => void
 }
-
 
 const OrderSummary = (props: OrderSummaryProps) => {
 	const ingredientSummary = Object.keys(props.ingredients)

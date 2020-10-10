@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
-import Aux from '../../hoc/Aux'
+import Aux from '../Aux/Aux'
 import classes from './Layout.module.scss'
-import Toolbar from '../Navigation/Toolbar/Toolbar'
-import SideDrawer from '../Navigation/SideDrawer/SideDrawer'
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
+import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
 
 export interface LayoutProps {
 	children: React.ReactNode
 }
 
-class Layout extends Component {
-	state = {
-		showSideDrawer: true
+export interface LayoutState {
+	showSideDrawer: boolean
+}
+
+class Layout extends React.Component<LayoutProps> {
+	state: LayoutState = {
+		showSideDrawer: false
 	}
 
 	sideDrawerClosedHandler = () => {
@@ -18,8 +22,8 @@ class Layout extends Component {
 	}
 
 	sideDrawerToggleHandler = () => {
-		this.setState((prevState) => {
-			// @ts-ignore
+		this.setState((prevState: LayoutState) => {
+
 			return {showSideDrawer: !prevState.showSideDrawer}
 		})
 	}

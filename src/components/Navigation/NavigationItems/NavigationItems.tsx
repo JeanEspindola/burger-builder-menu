@@ -2,8 +2,9 @@ import React from 'react'
 import classes from './NavigationItems.module.scss'
 import NavigationItem from './NavigationItem/NavigationItem'
 
-// @ts-ignore
-const NavigationItems = (props) => (
+export interface NavigationItemsProps {}
+
+const NavigationItems = (props: NavigationItemsProps) => (
     <ul className={classes.NavigationItems}>
 			<NavigationItem link="/" active>Burger Builder</NavigationItem>
 			<NavigationItem link="/">Checkout</NavigationItem>
