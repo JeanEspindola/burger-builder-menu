@@ -13,3 +13,8 @@ export enum IngredientsLabel {
 	meat = 'Meat',
 	cheese = 'Cheese',
 }
+
+export enum ButtonsEnum {
+	danger = 'Danger',
+	success = 'Success',
+}

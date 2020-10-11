@@ -1,10 +1,11 @@
 import React from 'react'
 import Aux from '../../../hoc/Aux/Aux'
 import Button from '../../UI/Button/Button'
+import { ButtonsEnum } from '../../../utils/constants'
+import { IngredientsType } from '../../../containers/BurgerBuilder/BurgerBuilder'
 
-// TODO: type ingredients
 export interface OrderSummaryProps {
-	ingredients: any
+	ingredients: IngredientsType
 	price: number
 	purchaseCanceled: () => void
 	purchaseContinued: () => void
@@ -16,7 +17,6 @@ const OrderSummary = (props: OrderSummaryProps) => {
 				return (
 						<li key={igKey}>
 							<span style={{ textTransform: 'capitalize' }}>{igKey}:</span>
-							{/* @ts-ignore */}
 							{props.ingredients[igKey]}
 						</li>
 				)
@@ -31,8 +31,8 @@ const OrderSummary = (props: OrderSummaryProps) => {
 					</ul>
 					<p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
 					<p>Continue to Checkout?</p>
-					<Button btnType='Danger' clicked={props.purchaseCanceled}>CANCEL</Button>
-					<Button btnType='Success' clicked={props.purchaseContinued}>CONTINUE</Button>
+					<Button btnType={ButtonsEnum.danger} clicked={props.purchaseCanceled}>CANCEL</Button>
+					<Button btnType={ButtonsEnum.success} clicked={props.purchaseContinued}>CONTINUE</Button>
 				</Aux>
 		)
 }

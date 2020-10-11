@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Aux from '../Aux/Aux'
 import classes from './Layout.module.scss'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
@@ -39,6 +39,6 @@ class Layout extends React.Component<LayoutProps> {
 				</Aux>
 		)
 	}
-};
+}
 
 export default Layout

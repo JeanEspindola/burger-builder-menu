@@ -2,10 +2,14 @@ import React from 'react'
 import classes from './Burger.module.scss'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 import { IngredientsEnum } from '../../utils/constants'
+import { IngredientsType } from '../../containers/BurgerBuilder/BurgerBuilder'
 
-// @ts-ignore
-const Burger = (props) => {
-	let transfIngredients = Object.keys(props.ingredients)
+export interface BurgerProps {
+	ingredients: IngredientsType
+}
+
+const Burger = (props: BurgerProps) => {
+	let transfIngredients: JSX.Element[] = Object.keys(props.ingredients)
 			.map(itemKey => {
 				return [...Array(props.ingredients[itemKey])].map((_, i) => {
 					return <BurgerIngredient key={itemKey + i} type={itemKey} />
@@ -15,9 +19,10 @@ const Burger = (props) => {
 				return arr.concat(el)
 			}, [])
 
+	const emptyBurgerParagraph: JSX.Element = <p key="emptyP">Please start adding ingredients!</p>
+
 	if (transfIngredients.length === 0) {
-		// @ts-ignore
-		transfIngredients = <p>Please start adding ingredients!</p>
+		transfIngredients.push(emptyBurgerParagraph)
 	}
 
 	return (
