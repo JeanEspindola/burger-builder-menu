@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Burger.module.scss'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 import { IngredientsEnum } from '../../utils/constants'
-import { IngredientsType } from '../../containers/BurgerBuilder/BurgerBuilder'
+import { IngredientsType } from '../../utils/types'
 
 export interface BurgerProps {
 	ingredients: IngredientsType

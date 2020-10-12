@@ -2,7 +2,7 @@ import React from 'react'
 import Aux from '../../../hoc/Aux/Aux'
 import Button from '../../UI/Button/Button'
 import { ButtonsEnum } from '../../../utils/constants'
-import { IngredientsType } from '../../../containers/BurgerBuilder/BurgerBuilder'
+import { IngredientsType } from '../../../utils/types'
 
 export interface OrderSummaryProps {
 	ingredients: IngredientsType
