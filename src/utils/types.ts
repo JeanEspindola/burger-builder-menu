@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios'
+
 export interface DisableInfoType {
 	[key: string]: boolean,
 }
@@ -14,4 +16,8 @@ export interface BurgerBuilderStateType {
 	purchasing: boolean,
 	loading: boolean,
 	error: any,
+}
+
+export interface withErrorHandlerStateType {
+	error: AxiosError | null
 }

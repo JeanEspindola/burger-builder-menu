@@ -1,23 +1,21 @@
 import React from 'react'
 import Modal from '../../components/UI/Modal/Modal'
 import Aux from '../Aux/Aux'
+import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { withErrorHandlerStateType } from '../../utils/types'
 
-// @ts-ignore
-const withErrorHandler = (WrappedComponent, axios) => {
-	// @ts-ignore
+const withErrorHandler = <P extends object>(WrappedComponent: React.ComponentType<P>, axios: AxiosInstance) => {
 	return class extends React.Component {
-		state = {
+		state: withErrorHandlerStateType = {
 			error: null,
 		}
 		componentWillMount() {
-			// @ts-ignore
-			axios.interceptors.request.use(req => {
+			axios.interceptors.request.use((req: AxiosRequestConfig) => {
 				this.setState({ error: null })
 				return req
 			})
 
-			// @ts-ignore
-			axios.interceptors.response.use(res => res, error => {
+			axios.interceptors.response.use((res: AxiosResponse) => res, (error: AxiosError) => {
 				this.setState({ error: error })
 			})
 		}
@@ -27,18 +25,16 @@ const withErrorHandler = (WrappedComponent, axios) => {
 		}
 
 		render() {
-			const show = this.state.error !== null
-			// @ts-ignore
-			const message = show ? this.state.error.message : ''
+			const { error } = this.state
 
 			return (
 					<Aux>
 						<Modal
-								show={show}
+								show={error !== null}
 								modalClosed={this.errorConfirmedHandler}>
-							{message}
+							{error?.message}
 						</Modal>
-						<WrappedComponent {...this.props} />
+						<WrappedComponent {...this.props as P} />
 					</Aux>
 			)
 		}

@@ -21,8 +21,7 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
 	state: BurgerBuilderStateType = {
-		// @ts-ignore
-		ingredients: null,
+		ingredients: {},
 		totalPrice: 4,
 		purchasable: false,
 		purchasing: false,
@@ -131,7 +130,7 @@ class BurgerBuilder extends Component {
 		let orderSummary = null
 		let burger = error ? <p>Ingredients can't be loaded!</p> : <Spinner />
 
-		if (ingredients) {
+		if (Object.keys(ingredients).length > 0) {
 			burger = (
 					<Aux>
 						<Burger ingredients={ingredients}/>
