@@ -2,10 +2,10 @@ import React from 'react'
 import classes from './BuildControls.module.scss'
 import BuildControl from './BuildControl/BuildControl'
 import { IngredientsLabel, IngredientsEnum } from '../../../utils/constants'
+import { DisableInfoType } from '../../../utils/types'
 
 export interface BuildControlsProps {
-	//TODO: type
-	disabled: any
+	disabled: DisableInfoType
 	ingredientAdded: (type: IngredientsEnum) => void
 	ingredientRemoved: (type: IngredientsEnum) => void
 	ordered: () => void
@@ -14,10 +14,10 @@ export interface BuildControlsProps {
 }
 
 const controls = [
-	{ label: IngredientsLabel.salad, type: IngredientsEnum.salad },
 	{ label: IngredientsLabel.bacon, type: IngredientsEnum.bacon },
 	{ label: IngredientsLabel.cheese, type: IngredientsEnum.cheese },
 	{ label: IngredientsLabel.meat, type: IngredientsEnum.meat },
+	{ label: IngredientsLabel.salad, type: IngredientsEnum.salad },
 ]
 
 const BuildControls = (props: BuildControlsProps) => (
