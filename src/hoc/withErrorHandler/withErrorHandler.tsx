@@ -1,23 +1,37 @@
 import React from 'react'
 import Modal from '../../components/UI/Modal/Modal'
 import Aux from '../Aux/Aux'
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import {
+	AxiosError,
+	AxiosInstance,
+	AxiosRequestConfig,
+	AxiosResponse,
+} from 'axios'
 import { withErrorHandlerStateType } from '../../utils/types'
+
+let reqInterceptor: number
+let resInterceptor: number
 
 const withErrorHandler = <P extends object>(WrappedComponent: React.ComponentType<P>, axios: AxiosInstance) => {
 	return class extends React.Component {
 		state: withErrorHandlerStateType = {
 			error: null,
 		}
+
 		componentWillMount() {
-			axios.interceptors.request.use((req: AxiosRequestConfig) => {
+			reqInterceptor =	axios.interceptors.request.use((req: AxiosRequestConfig) => {
 				this.setState({ error: null })
 				return req
 			})
 
-			axios.interceptors.response.use((res: AxiosResponse) => res, (error: AxiosError) => {
+			resInterceptor = axios.interceptors.response.use((res: AxiosResponse) => res, (error: AxiosError) => {
 				this.setState({ error: error })
 			})
+		}
+
+		componentWillUnmount() {
+			axios.interceptors.request.eject(reqInterceptor)
+			axios.interceptors.response.eject(resInterceptor)
 		}
 
 		errorConfirmedHandler = () => {
