@@ -3,6 +3,7 @@ import classes from './BuildControls.module.scss'
 import BuildControl from './BuildControl/BuildControl'
 import { IngredientsLabel, IngredientsEnum } from '../../../utils/constants'
 import { DisableInfoType } from '../../../utils/types'
+import { FormattedMessage } from 'react-intl'
 
 export interface BuildControlsProps {
 	disabled: DisableInfoType
@@ -22,7 +23,12 @@ const controls = [
 
 const BuildControls = (props: BuildControlsProps) => (
 	<div className={classes.BuildControls}>
-		<p>Current price: <strong>{props.price.toFixed(2)}</strong></p>
+		<p>
+			<FormattedMessage id="menu.price" />
+			<strong>
+				{` `}{props.price.toFixed(2)}
+			</strong>
+		</p>
 		{controls.map(ctrl => (
 				<BuildControl
 						key={ctrl.label}
@@ -37,7 +43,7 @@ const BuildControls = (props: BuildControlsProps) => (
 				disabled={!props.purchasable}
 				onClick={props.ordered}
 		>
-			ORDER NOW
+			<FormattedMessage id="menu.order" />
 		</button>
 	</div>
 )

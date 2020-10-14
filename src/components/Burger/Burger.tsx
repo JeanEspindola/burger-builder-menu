@@ -3,6 +3,7 @@ import classes from './Burger.module.scss'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 import { IngredientsEnum } from '../../utils/constants'
 import { IngredientsType } from '../../utils/types'
+import { FormattedMessage } from 'react-intl'
 
 export interface BurgerProps {
 	ingredients: IngredientsType
@@ -19,7 +20,7 @@ const Burger = (props: BurgerProps) => {
 				return arr.concat(el)
 			}, [])
 
-	const emptyBurgerParagraph: JSX.Element = <p key="emptyP">Please start adding ingredients!</p>
+	const emptyBurgerParagraph: JSX.Element = <p key="emptyP"><FormattedMessage id="burger.noIngredients" /></p>
 
 	if (transfIngredients.length === 0) {
 		transfIngredients.push(emptyBurgerParagraph)

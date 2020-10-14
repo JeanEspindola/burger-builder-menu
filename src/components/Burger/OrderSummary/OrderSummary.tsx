@@ -3,6 +3,7 @@ import Aux from '../../../hoc/Aux/Aux'
 import Button from '../../UI/Button/Button'
 import { ButtonsEnum } from '../../../utils/constants'
 import { IngredientsType } from '../../../utils/types'
+import { FormattedMessage } from 'react-intl'
 
 export interface OrderSummaryProps {
 	ingredients: IngredientsType
@@ -24,15 +25,31 @@ const OrderSummary = (props: OrderSummaryProps) => {
 
 	return (
 				<Aux>
-					<h3>Your Order</h3>
-					<p>A delicious Burger with the following ingredients:</p>
+					<h3>
+						<FormattedMessage id="orderSummary.title" />
+					</h3>
+					<p>
+
+						<FormattedMessage id="orderSummary.description" />
+					</p>
 					<ul>
 						{ingredientSummary}
 					</ul>
-					<p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
-					<p>Continue to Checkout?</p>
-					<Button btnType={ButtonsEnum.danger} clicked={props.purchaseCanceled}>CANCEL</Button>
-					<Button btnType={ButtonsEnum.success} clicked={props.purchaseContinued}>CONTINUE</Button>
+					<p>
+						<strong>
+						<FormattedMessage id="orderSummary.price" />
+							{` `}${props.price.toFixed(2)}
+						</strong>
+					</p>
+					<p>
+						<FormattedMessage id="orderSummary.continueCheckout" />
+					</p>
+					<Button btnType={ButtonsEnum.danger} clicked={props.purchaseCanceled}>
+						<FormattedMessage id="button.cancel" />
+					</Button>
+					<Button btnType={ButtonsEnum.success} clicked={props.purchaseContinued}>
+						<FormattedMessage id="button.continue" />
+					</Button>
 				</Aux>
 		)
 }

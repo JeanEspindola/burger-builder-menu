@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from './BuildControl.module.scss'
+import { FormattedMessage } from 'react-intl'
 
 export interface BuildControlProps {
 	disable: boolean
@@ -16,13 +17,13 @@ const BuildControl = (props: BuildControlProps) => (
 					onClick={props.removed}
 					disabled={props.disable}
 			>
-				Less
+				<FormattedMessage id="button.less" />
 			</button>
 			<button
 					className={classes.More}
 					onClick={props.added}
 			>
-				More
+				<FormattedMessage id="button.more" />
 			</button>
 		</div>
 )
