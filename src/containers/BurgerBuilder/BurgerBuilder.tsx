@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Aux from '../../hoc/Aux/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
-import { IngredientsEnum } from '../../utils/constants'
+import { BASE_URL, INGREDIENTS_URL, IngredientsEnum } from '../../utils/constants'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import axios from '../../axios-orders'
@@ -30,7 +30,7 @@ class BurgerBuilder extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('https://react-burger-builder-menu.firebaseio.com/ingredients.json')
+		axios.get(`${BASE_URL}${INGREDIENTS_URL}`)
 				.then(response => {
 					this.setState({ ingredients: response.data })
 				})
