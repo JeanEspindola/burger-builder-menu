@@ -1,5 +1,4 @@
 import React from 'react'
-import Aux from '../../../hoc/Aux/Aux'
 import Button from '../../UI/Button/Button'
 import { ButtonsEnum } from '../../../utils/constants'
 import { IngredientsType } from '../../../utils/types'
@@ -24,7 +23,7 @@ const OrderSummary = (props: OrderSummaryProps) => {
 			})
 
 	return (
-				<Aux>
+				<React.Fragment>
 					<h3>
 						<FormattedMessage id="orderSummary.title" />
 					</h3>
@@ -50,7 +49,7 @@ const OrderSummary = (props: OrderSummaryProps) => {
 					<Button btnType={ButtonsEnum.success} clicked={props.purchaseContinued}>
 						<FormattedMessage id="button.continue" />
 					</Button>
-				</Aux>
+				</React.Fragment>
 		)
 }
 

@@ -2,6 +2,7 @@ export default {
 	'loading': 'Loading...',
 	'menu.burgerBuilder': 'Burger Builder',
 	'menu.checkout': 'Checkout',
+	'menu.orders': 'Orders',
 	'menu.price': 'Current price:',
 	'menu.order': 'ORDER NOW',
 

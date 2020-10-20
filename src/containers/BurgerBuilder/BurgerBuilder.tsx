@@ -1,5 +1,4 @@
 import React  from 'react'
-import Aux from '../../hoc/Aux/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import { BASE_URL, INGREDIENTS_URL, IngredientsEnum } from '../../utils/constants'
@@ -129,7 +128,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 
 		if (Object.keys(ingredients).length > 0) {
 			burger = (
-					<Aux>
+					<React.Fragment>
 						<Burger ingredients={ingredients}/>
 						<BuildControls
 								ingredientAdded={this.addIngredientHandler}
@@ -139,7 +138,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 								ordered={this.purchaseHandler}
 								purchasable={purchasable}
 						/>
-					</Aux>
+					</React.Fragment>
 			)
 
 			orderSummary = <OrderSummary
@@ -155,12 +154,12 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 		}
 
 		return (
-				<Aux>
+				<React.Fragment>
 					<Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
 						{orderSummary}
 					</Modal>
 					{burger}
-				</Aux>
+				</React.Fragment>
 		);
 	}
 }

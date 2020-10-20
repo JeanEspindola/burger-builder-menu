@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '../../components/UI/Modal/Modal'
-import Aux from '../Aux/Aux'
 import {
 	AxiosError,
 	AxiosInstance,
@@ -42,14 +41,14 @@ const withErrorHandler = <P extends object>(WrappedComponent: React.ComponentTyp
 			const { error } = this.state
 
 			return (
-					<Aux>
+					<React.Fragment>
 						<Modal
 								show={error !== null}
 								modalClosed={this.errorConfirmedHandler}>
 							{error?.message}
 						</Modal>
 						<WrappedComponent {...this.props as P} />
-					</Aux>
+					</React.Fragment>
 			)
 		}
 	}

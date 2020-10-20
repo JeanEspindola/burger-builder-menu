@@ -7,11 +7,11 @@ export interface NavigationItemsProps {}
 
 const NavigationItems = (props: NavigationItemsProps) => (
     <ul className={classes.NavigationItems}>
-			<NavigationItem link="/" active>
+			<NavigationItem link="/" exact>
 				<FormattedMessage id="menu.burgerBuilder" />
 			</NavigationItem>
-			<NavigationItem link="/">
-				<FormattedMessage id="menu.checkout" />
+			<NavigationItem link="/orders">
+				<FormattedMessage id="menu.orders" />
 			</NavigationItem>
 		</ul>
 )

@@ -1,6 +1,5 @@
 import React from 'react'
 import classes from './Modal.module.scss'
-import Aux from '../../../hoc/Aux/Aux'
 import Backdrop from '../Backdrop/Backdrop'
 
 export interface ModalProps {
@@ -17,7 +16,7 @@ class Modal extends React.Component<ModalProps> {
 	render() {
 		const { show, children, modalClosed } = this.props
 		return (
-				<Aux>
+				<React.Fragment>
 					<Backdrop show={show} clicked={modalClosed}/>
 					<div
 							className={classes.Modal}
@@ -28,7 +27,7 @@ class Modal extends React.Component<ModalProps> {
 					>
 						{children}
 					</div>
-				</Aux>
+				</React.Fragment>
 		)
 	}
 }
