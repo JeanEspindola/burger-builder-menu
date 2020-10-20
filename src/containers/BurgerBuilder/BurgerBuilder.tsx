@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React  from 'react'
 import Aux from '../../hoc/Aux/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
@@ -9,6 +9,7 @@ import axios from '../../axios-orders'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import { BurgerBuilderStateType, DisableInfoType, IngredientsType } from '../../utils/types'
+import { RouteComponentProps } from 'react-router-dom'
 
 const INGREDIENT_PRICES = {
 	breadTop: 0,
@@ -19,7 +20,11 @@ const INGREDIENT_PRICES = {
 	bacon: 0.7,
 }
 
-class BurgerBuilder extends Component {
+interface BurgerBuilderProps {
+	history: RouteComponentProps['history']
+}
+
+class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	state: BurgerBuilderStateType = {
 		ingredients: {},
 		totalPrice: 4,
@@ -65,7 +70,6 @@ class BurgerBuilder extends Component {
 		queryParams.push('price=' + this.state.totalPrice)
 
 		const queryString = queryParams.join('&')
-		// @ts-ignore
 		this.props.history.push({
 			pathname: '/checkout',
 			search: '?' + queryString,

@@ -4,12 +4,20 @@ import Burger from '../Burger/Burger'
 import Button from '../UI/Button/Button'
 import { ButtonsEnum } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
+import { IngredientsType } from '../../utils/types'
 
-// @ts-ignore
-const CheckoutSummary = (props) => {
+interface CheckoutSummaryProps {
+	ingredients: IngredientsType
+	checkoutCancelled: () => void
+	checkoutContinued: () => void
+}
+
+const CheckoutSummary = (props: CheckoutSummaryProps) => {
 	return (
 		<div className={classes.CheckoutSummary}>
-			<h1>We hope it tastes well!!</h1>
+			<h1>
+				<FormattedMessage id="checkoutSummary.title" />
+			</h1>
 			<div style={{ width: '100%', margin: 'auto' }}>
 				<Burger ingredients={props.ingredients} />
 			</div>

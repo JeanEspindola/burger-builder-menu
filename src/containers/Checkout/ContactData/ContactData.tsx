@@ -1,12 +1,20 @@
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import Button from '../../../components/UI/Button/Button'
 import { ButtonsEnum } from '../../../utils/constants'
 import axios from '../../../axios-orders'
 import classes from './ContactData.module.scss'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
+import { IngredientsType } from '../../../utils/types'
 
-class ContactData extends React.Component {
+interface ContactDataProps {
+	ingredients: IngredientsType
+	price: number
+	history: RouteComponentProps['history']
+}
+
+class ContactData extends React.Component<ContactDataProps> {
 	state = {
 		name: 'Jean Espindola',
 		address: {
@@ -19,15 +27,13 @@ class ContactData extends React.Component {
 	}
 
 
-	orderHandler = (event: { preventDefault: () => void }) => {
-		event.preventDefault()
+	orderHandler = (event?: { preventDefault: () => void }) => {
+		event?.preventDefault()
 
 		this.setState({ loading: true })
 		const order = {
-			// @ts-ignore
 			ingredients: this.props.ingredients,
-			// @ts-ignore
-			price: this.props.totalPrice,
+			price: this.props.price,
 			customer: {
 				name: 'Jean Espindola',
 				address: {
@@ -43,7 +49,6 @@ class ContactData extends React.Component {
 		axios.post('/orders.json', order)
 				.then(response => {
 					this.setState({ loading: false })
-					// @ts-ignore
 					this.props.history.push('/')
 				})
 				.catch(error => {

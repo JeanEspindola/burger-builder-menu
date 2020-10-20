@@ -25,4 +25,5 @@ export default {
 	'contactData.street': 'Street',
 	'contactData.postal': 'Postal Code',
 	'contactData.order': 'ORDER',
+	'checkoutSummary.title': 'We hope it tastes well!!',
 };

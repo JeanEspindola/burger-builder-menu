@@ -1,28 +1,33 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, RouteProps, RouteComponentProps } from 'react-router-dom'
 import CheckoutSummary from '../../components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
+import { IngredientsType } from '../../utils/types'
 
-// @ts-ignore
-class Checkout extends React.Component {
+export interface CheckoutProps {
+	history: RouteComponentProps['history']
+	location: RouteProps['location']
+	match: {
+		path: RouteProps['path']
+	}
+}
+
+class Checkout extends React.Component<CheckoutProps> {
 	state = {
 		ingredients: {},
 		totalPrice: 0,
 	}
 
 	componentDidMount() {
-		// @ts-ignore
-		const query = new URLSearchParams(this.props.location.search)
-		const ingredients = {}
+		const query = new URLSearchParams(this.props.location?.search)
+		const ingredients: IngredientsType = {}
 		let price = 0
 
 		// @ts-ignore
 		for (let param of query.entries()) {
-			// @ts-ignore
 			if (param[0] === 'price') {
 					price = param[1]
 			} else {
-				// @ts-ignore
 				ingredients[param[0]] = Number(param[1])
 			}
 
@@ -32,12 +37,10 @@ class Checkout extends React.Component {
 	}
 
 	checkoutCancelledHandler = () => {
-		// @ts-ignore
 		this.props.history.goBack()
 	}
 
 	checkoutContinuedHandler = () => {
-		// @ts-ignore
 		this.props.history.replace('/checkout/contact-data')
 	}
 
@@ -49,8 +52,15 @@ class Checkout extends React.Component {
 							checkoutCancelled={this.checkoutCancelledHandler}
 							checkoutContinued={this.checkoutContinuedHandler}
 					/>
-					{ /* @ts-ignore */ }
-					<Route path={this.props.match.path + '/contact-data'} render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />)}/>
+					<Route
+							path={this.props.match.path + '/contact-data'}
+							render={(props) => (
+									<ContactData
+											ingredients={this.state.ingredients}
+											price={this.state.totalPrice}
+											{...props}/>
+									)}
+					/>
 				</div>
 		)
 	}

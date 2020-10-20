@@ -3,8 +3,7 @@ import classes from './Button.module.scss'
 
 export interface ButtonProps {
 	children: React.ReactNode
-	// TODO: type here
-	clicked: (arg?: any) => void
+	clicked: (event?: { preventDefault: () => void }) => void
 	btnType: string
 }
 
