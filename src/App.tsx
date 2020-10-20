@@ -2,7 +2,9 @@ import React from 'react';
 import Layout from './hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import { IntlProvider } from 'react-intl'
+import { Route, Switch } from 'react-router-dom'
 import translationMessages from './i18n/translationMessages'
+import Checkout from './containers/Checkout/Checkout'
 
 class App extends React.Component {
   render () {
@@ -15,7 +17,10 @@ class App extends React.Component {
               messages={translationMessages['en']}
           >
             <Layout>
-              <BurgerBuilder/>
+              <Switch>
+                <Route path="/checkout" component={Checkout} />
+                <Route path="/" exact component={BurgerBuilder} />
+              </Switch>
             </Layout>
           </IntlProvider>
         </div>

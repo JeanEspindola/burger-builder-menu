@@ -2,14 +2,14 @@ export default {
 	'loading': 'Loading...',
 	'menu.burgerBuilder': 'Burger Builder',
 	'menu.checkout': 'Checkout',
+	'menu.price': 'Current price:',
+	'menu.order': 'ORDER NOW',
 
 	'ingredients.salad': 'Salad',
 	'ingredients.bacon': 'Bacon',
 	'ingredients.meat': 'Meat',
 	'ingredients.cheese': 'Cheese',
 
-	'menu.price': 'Current price:',
-	'menu.order': 'ORDER NOW',
 	'burger.noIngredients': 'Please start adding ingredients!',
 	'button.cancel': 'CANCEL',
 	'button.continue': 'CONTINUE',
@@ -19,4 +19,10 @@ export default {
 	'orderSummary.description': 'A delicious Burger with the following ingredients:',
 	'orderSummary.price': 'Total Price:',
 	'orderSummary.continueCheckout': 'Continue to Checkout?',
+	'contactData.title': 'Enter your Contact Data:',
+	'contactData.name': 'Your Name',
+	'contactData.email': 'Your Email',
+	'contactData.street': 'Street',
+	'contactData.postal': 'Postal Code',
+	'contactData.order': 'ORDER',
 };
