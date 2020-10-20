@@ -63,49 +63,53 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 
 	purchaseContinueHandler = () => {
+		const { ingredients, totalPrice } = this.state
+		const { history } = this.props
 		const queryParams = []
-		for (let i in this.state.ingredients) {
-			queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+		for (let i in ingredients) {
+			queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(ingredients[i]))
 		}
-		queryParams.push('price=' + this.state.totalPrice)
+		queryParams.push('price=' + totalPrice)
 
 		const queryString = queryParams.join('&')
-		this.props.history.push({
+		history.push({
 			pathname: '/checkout',
 			search: '?' + queryString,
 		})
 	}
 
 	addIngredientHandler = (type: IngredientsEnum) => {
-		const oldCount = this.state.ingredients[type] || 0
+		const { ingredients, totalPrice } = this.state
+
+		const oldCount = ingredients[type] || 0
 		const updatedCount = oldCount + 1
 		const updatedIngredients = {
-				...this.state.ingredients
+				...ingredients
 		}
 
 		updatedIngredients[type] = updatedCount
 		const priceAddition = INGREDIENT_PRICES[type]
-		const oldPrice = this.state.totalPrice
-		const newPrice = oldPrice + priceAddition
+		const newPrice = totalPrice + priceAddition
 
 		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
 		this.updatePurchaseState(updatedIngredients)
 	}
 
 	removeIngredientHandler = (type: IngredientsEnum) => {
-		const oldCount = this.state.ingredients[type] || 0
+		const { ingredients, totalPrice } = this.state
+
+		const oldCount = ingredients[type] || 0
 		if (oldCount <= 0) {
 			return
 		}
 		const updatedCount = oldCount - 1
 		const updatedIngredients = {
-			...this.state.ingredients
+			...ingredients
 		}
 
 		updatedIngredients[type] = updatedCount
 		const priceDeduction = INGREDIENT_PRICES[type]
-		const oldPrice = this.state.totalPrice
-		const newPrice = oldPrice - priceDeduction
+		const newPrice = totalPrice - priceDeduction
 
 		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
 		this.updatePurchaseState(updatedIngredients)
