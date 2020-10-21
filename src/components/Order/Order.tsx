@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from './Order.module.scss'
 import { IngredientsType } from '../../utils/types'
+import { FormattedMessage } from 'react-intl'
 
 interface OrderProps {
 	price: string
@@ -27,8 +28,16 @@ const Order = (props: OrderProps) => {
 
 	return (
     <div className={classes.Order}>
-			<p>Ingredients: {ingredientOutput}</p>
-			<p>Price: <strong>USD {Number.parseFloat(props.price).toFixed(2)}</strong></p>
+			<p>
+				<FormattedMessage id="order.ingredients" />
+				{` `}{ingredientOutput}
+			</p>
+			<p>
+				<FormattedMessage id="order.price" />
+				<strong>
+					{` $ ${Number.parseFloat(props.price).toFixed(2)}`}
+				</strong>
+			</p>
 		</div>
 	)
 }

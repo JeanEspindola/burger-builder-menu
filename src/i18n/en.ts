@@ -5,6 +5,8 @@ export default {
 	'menu.orders': 'Orders',
 	'menu.price': 'Current price:',
 	'menu.order': 'ORDER NOW',
+	'order.price': 'Price:',
+	'order.ingredients': 'Ingredients:',
 
 	'ingredients.salad': 'Salad',
 	'ingredients.bacon': 'Bacon',
