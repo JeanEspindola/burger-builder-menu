@@ -3,9 +3,14 @@ import Order from '../../components/Order/Order'
 import axios from '../../axios-orders'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 
-// @ts-ignore
+// TODO: check types any
+interface OrdersStateType {
+	orders: any
+	loading: boolean,
+}
+
 class Orders extends React.Component {
-	state = {
+	state: OrdersStateType = {
 		orders: [],
 		loading: true,
 	}
@@ -29,7 +34,15 @@ class Orders extends React.Component {
 
 	render() {
 		return(
-			<Order />
+				<div>
+					{this.state.orders.map((order: any) => (
+							<Order
+									key={order.id}
+									ingredients={order.ingredients}
+									price={order.price}
+							/>
+					))}
+				</div>
 		)
 	}
 }

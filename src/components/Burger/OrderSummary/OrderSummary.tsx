@@ -4,6 +4,7 @@ import { ButtonsEnum } from '../../../utils/constants'
 import { IngredientsType } from '../../../utils/types'
 import { FormattedMessage } from 'react-intl'
 
+// TODO: reuse interfaces
 export interface OrderSummaryProps {
 	ingredients: IngredientsType
 	price: number
@@ -28,7 +29,6 @@ const OrderSummary = (props: OrderSummaryProps) => {
 						<FormattedMessage id="orderSummary.title" />
 					</h3>
 					<p>
-
 						<FormattedMessage id="orderSummary.description" />
 					</p>
 					<ul>
