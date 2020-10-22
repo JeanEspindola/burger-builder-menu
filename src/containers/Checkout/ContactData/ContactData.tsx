@@ -7,6 +7,7 @@ import classes from './ContactData.module.scss'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
 import { IngredientsType } from '../../../utils/types'
+import Input from '../../../components/UI/Input/Input'
 
 interface ContactDataProps {
 	ingredients: IngredientsType
@@ -16,16 +17,59 @@ interface ContactDataProps {
 
 class ContactData extends React.Component<ContactDataProps> {
 	state = {
-		name: 'Jean Espindola',
-		address: {
-			street: 'Teststrasse 1',
-			zipCode: '81735',
-			country: 'Germany',
+		orderForm: {
+			name: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Your Name'
+				},
+				value: 'Jean Espindola',
+			},
+			street: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Street'
+				},
+				value: 'Teststrasse 1',
+			},
+			zipCode: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Postal Code'
+				},
+				value: '81735',
+			},
+			country: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Country'
+				},
+				value: 'Germany',
+			},
+			email: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'email',
+					placeholder: 'Your Email'
+				},
+				value: 'test@test.com',
+			},
+			deliveryMethod: {
+				elementType: 'select',
+				elementConfig: {
+					options: [
+						{value: 'fastest', displayValue: 'Fastest'},
+						{value: 'cheapest', displayValue: 'Cheapest'},
+					],
+				}
+			},
 		},
-		email: 'test@test.com',
 		loading: false,
 	}
-
 
 	orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
@@ -34,16 +78,6 @@ class ContactData extends React.Component<ContactDataProps> {
 		const order = {
 			ingredients: this.props.ingredients,
 			price: this.props.price,
-			customer: {
-				name: 'Jean Espindola',
-				address: {
-					street: 'Teststrasse 1',
-					zipCode: '81735',
-					country: 'Germany',
-				},
-				email: 'test@test.com'
-			},
-			deliveryMethod: 'fastest',
 		}
 
 		axios.post('/orders.json', order)
@@ -56,14 +90,39 @@ class ContactData extends React.Component<ContactDataProps> {
 				})
 	}
 
+	// @ts-ignore
+	inputChangedHandler = (event, inputIdentifier) => {
+		const updatedForm = { ...this.state.orderForm }
+		// @ts-ignore
+		const updatedElement = { ...updatedForm[inputIdentifier] }
+		updatedElement.value = event.target.value
+
+		// @ts-ignore
+		updatedForm[inputIdentifier] = updatedElement
+		this.setState({ orderForm: updatedForm})
+	}
+
 	render() {
+		const formArray = []
+		for (let key in this.state.orderForm) {
+			formArray.push({
+				id: key,
+				// @ts-ignore
+				config: this.state.orderForm[key],
+			})
+		}
+
 		// TODO: Add hooks for react-intl
 		let form = (
 				<form>
-					<input className={classes.Input} type="text" name="name" placeholder="Your Name" />
-					<input className={classes.Input} type="email" name="email" placeholder="Your Email" />
-					<input className={classes.Input} type="text" name="street" placeholder="Street" />
-					<input className={classes.Input} type="text" name="postal" placeholder="Postal Code" />
+					{formArray.map(formElement => (
+							<Input key={formElement.id}
+										 changed={(event) => this.inputChangedHandler(event, formElement.id)}
+										 elementType={formElement.config.elementType}
+										 elementConfig={formElement.config.elementConfig}
+										 value={formElement.config.value}
+							/>
+					))}
 					<Button clicked={this.orderHandler} btnType={ButtonsEnum.success}>
 						<FormattedMessage id="contactData.order" />
 					</Button>
