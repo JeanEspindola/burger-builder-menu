@@ -1,22 +1,15 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import Button from '../../../components/UI/Button/Button'
 import { ButtonsEnum } from '../../../utils/constants'
 import axios from '../../../axios-orders'
 import classes from './ContactData.module.scss'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
-import { IngredientsType } from '../../../utils/types'
 import Input from '../../../components/UI/Input/Input'
-
-interface ContactDataProps {
-	ingredients: IngredientsType
-	price: number
-	history: RouteComponentProps['history']
-}
+import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
 
 class ContactData extends React.Component<ContactDataProps> {
-	state = {
+	state: ContactDataStateType = {
 		orderForm: {
 			name: {
 				elementType: 'input',
@@ -94,18 +87,17 @@ class ContactData extends React.Component<ContactDataProps> {
 		loading: false,
 	}
 
-	// @ts-ignore
-	checkValidity = (value, rules) => {
+	checkValidity = (value: string, rules?: FormInputValidation) => {
 		let isValid = true
-		if (rules.required) {
+		if (rules?.required) {
 			isValid = value.trim() !== '' && isValid
 		}
 
-		if (rules.minLength) {
+		if (rules?.minLength) {
 			isValid = value.length >= rules.minLength && isValid
 		}
 
-		if (rules.maxLengthminLength) {
+		if (rules?.maxLength) {
 			isValid = value.length <= rules.maxLength && isValid
 		}
 
@@ -115,52 +107,52 @@ class ContactData extends React.Component<ContactDataProps> {
 	orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
 
+		const { orderForm } = this.state
+		const { ingredients, price, history } = this.props
+
 		this.setState({ loading: true })
 
 		const formData = {}
-		for (let formElementId in this.state.orderForm) {
+
+		for (let formElementId in orderForm) {
 			// @ts-ignore
-			formData[formElementId] = this.state.orderForm[formElementId].value
+			formData[formElementId] = orderForm[formElementId].value
 		}
 
-		console.log(formData)
-
 		const order = {
-			ingredients: this.props.ingredients,
-			price: this.props.price,
+			ingredients,
+			price,
 			orderData: formData,
 		}
 
 		axios.post('/orders.json', order)
 				.then(response => {
 					this.setState({ loading: false })
-					this.props.history.push('/')
+					history.push('/')
 				})
 				.catch(error => {
 					this.setState({ loading: false })
 				})
 	}
 
-	// @ts-ignore
-	inputChangedHandler = (event, inputIdentifier) => {
+	inputChangedHandler = (event: { target: { value: string } }, inputIdentifier: string) => {
 		const updatedForm = { ...this.state.orderForm }
-		// @ts-ignore
+
 		const updatedElement = { ...updatedForm[inputIdentifier] }
 		updatedElement.value = event.target.value
 		updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validation)
 
-		// @ts-ignore
 		updatedForm[inputIdentifier] = updatedElement
 		this.setState({ orderForm: updatedForm})
 	}
 
 	render() {
+		const { orderForm } = this.state
 		const formArray = []
-		for (let key in this.state.orderForm) {
+		for (let key in orderForm) {
 			formArray.push({
 				id: key,
-				// @ts-ignore
-				config: this.state.orderForm[key],
+				config: orderForm[key],
 			})
 		}
 
