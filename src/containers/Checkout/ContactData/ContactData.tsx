@@ -17,11 +17,12 @@ class ContactData extends React.Component<ContactDataProps> {
 					type: 'text',
 					placeholder: 'Your Name'
 				},
-				value: 'Jean Espindola',
+				value: '',
 				validation: {
 					required: true,
 				},
 				valid: false,
+				touched: false,
 			},
 			street: {
 				elementType: 'input',
@@ -29,11 +30,12 @@ class ContactData extends React.Component<ContactDataProps> {
 					type: 'text',
 					placeholder: 'Street'
 				},
-				value: 'Teststrasse 1',
+				value: '',
 				validation: {
 					required: true,
 				},
 				valid: false,
+				touched: false,
 			},
 			zipCode: {
 				elementType: 'input',
@@ -41,13 +43,14 @@ class ContactData extends React.Component<ContactDataProps> {
 					type: 'text',
 					placeholder: 'Postal Code'
 				},
-				value: '81735',
+				value: '',
 				validation: {
 					required: true,
 					minLength: 5,
 					maxLength: 5,
 				},
 				valid: false,
+				touched: false,
 			},
 			country: {
 				elementType: 'input',
@@ -55,11 +58,12 @@ class ContactData extends React.Component<ContactDataProps> {
 					type: 'text',
 					placeholder: 'Country'
 				},
-				value: 'Germany',
+				value: '',
 				validation: {
 					required: true,
 				},
 				valid: false,
+				touched: false,
 			},
 			email: {
 				elementType: 'input',
@@ -67,11 +71,12 @@ class ContactData extends React.Component<ContactDataProps> {
 					type: 'email',
 					placeholder: 'Your Email'
 				},
-				value: 'test@test.com',
+				value: '',
 				validation: {
 					required: true,
 				},
 				valid: false,
+				touched: false,
 			},
 			deliveryMethod: {
 				elementType: 'select',
@@ -81,23 +86,28 @@ class ContactData extends React.Component<ContactDataProps> {
 						{value: 'cheapest', displayValue: 'Cheapest'},
 					],
 				},
-				value: '',
+				valid: true,
+				validation: {
+					required: false,
+				},
+				value: 'fastest',
 			},
 		},
+		formValid: false,
 		loading: false,
 	}
 
-	checkValidity = (value: string, rules?: FormInputValidation) => {
+	checkValidity = (value: string, rules: FormInputValidation) => {
 		let isValid = true
-		if (rules?.required) {
+		if (rules.required) {
 			isValid = value.trim() !== '' && isValid
 		}
 
-		if (rules?.minLength) {
+		if (rules.minLength) {
 			isValid = value.length >= rules.minLength && isValid
 		}
 
-		if (rules?.maxLength) {
+		if (rules.maxLength) {
 			isValid = value.length <= rules.maxLength && isValid
 		}
 
@@ -141,13 +151,19 @@ class ContactData extends React.Component<ContactDataProps> {
 		const updatedElement = { ...updatedForm[inputIdentifier] }
 		updatedElement.value = event.target.value
 		updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validation)
+		updatedElement.touched = true
+
+		let formIsValid = true
+		for (let inputIdentifier in updatedForm) {
+			formIsValid = updatedForm[inputIdentifier].valid && formIsValid
+		}
 
 		updatedForm[inputIdentifier] = updatedElement
-		this.setState({ orderForm: updatedForm})
+		this.setState({ orderForm: updatedForm, formValid: formIsValid})
 	}
 
 	render() {
-		const { orderForm } = this.state
+		const { orderForm, loading, formValid } = this.state
 		const formArray = []
 		for (let key in orderForm) {
 			formArray.push({
@@ -165,14 +181,21 @@ class ContactData extends React.Component<ContactDataProps> {
 										 elementType={formElement.config.elementType}
 										 elementConfig={formElement.config.elementConfig}
 										 value={formElement.config.value}
+										 invalid={!formElement.config.valid}
+										 shouldValidate={formElement.config.validation.required}
+										 touched={formElement.config.touched}
 							/>
 					))}
-					<Button clicked={this.orderHandler} btnType={ButtonsEnum.success}>
+					<Button
+							clicked={this.orderHandler}
+							btnType={ButtonsEnum.success}
+							disabled={!formValid}
+					>
 						<FormattedMessage id="contactData.order" />
 					</Button>
 				</form>
 		)
-		if (this.state.loading) {
+		if (loading) {
 			form = <Spinner />
 		}
 

@@ -35,8 +35,9 @@ interface OrderFormElementDesc {
 		options?: FormSelectionElement[]
 	},
 	value: string,
-	validation?: FormInputValidation
-	valid?: boolean
+	validation: FormInputValidation
+	valid: boolean
+	touched?: boolean
 }
 
 interface OrderFormElement {
@@ -45,5 +46,6 @@ interface OrderFormElement {
 
 export interface ContactDataStateType {
 	orderForm: OrderFormElement
+	formValid: boolean
 	loading: boolean
 }

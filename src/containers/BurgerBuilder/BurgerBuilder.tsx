@@ -9,6 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import { BurgerBuilderStateType, DisableInfoType, IngredientsType } from '../../utils/types'
 import { RouteComponentProps } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
 const INGREDIENT_PRICES = {
 	breadTop: 0,
@@ -124,7 +125,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 		}
 
 		let orderSummary = null
-		let burger = error ? <p>Ingredients can't be loaded!</p> : <Spinner />
+		let burger = error ? <p><FormattedMessage id="ingredients.error" /></p> : <Spinner />
 
 		if (Object.keys(ingredients).length > 0) {
 			burger = (

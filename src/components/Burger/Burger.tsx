@@ -5,7 +5,7 @@ import { IngredientsEnum } from '../../utils/constants'
 import { IngredientsType } from '../../utils/types'
 import { FormattedMessage } from 'react-intl'
 
-export interface BurgerProps {
+interface BurgerProps {
 	ingredients: IngredientsType
 }
 

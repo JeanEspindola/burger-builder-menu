@@ -3,9 +3,9 @@ import Order from '../../components/Order/Order'
 import axios from '../../axios-orders'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 
-// TODO: check types any
+// TODO: type orders from database
 interface OrdersStateType {
-	orders: any
+	orders: []
 	loading: boolean,
 }
 

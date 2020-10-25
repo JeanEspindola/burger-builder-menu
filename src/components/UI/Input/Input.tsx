@@ -2,6 +2,9 @@ import React from 'react'
 import classes from './Input.module.scss'
 
 interface InputProps {
+	shouldValidate: boolean
+	invalid: boolean
+	touched?: boolean
 	elementType: string
 	changed: (event: any) => void
 	value: string
@@ -11,11 +14,16 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
 	let inputElement = null
+	const inputClasses = [classes.InputElement]
+
+	if (props.invalid && props.shouldValidate && props.touched) {
+		inputClasses.push(classes.Invalid)
+	}
 
 	switch (props.elementType) {
 		case ('input'):
 			inputElement = <input
-					className={classes.InputElement}
+					className={inputClasses.join(' ')}
 					value={props.value}
 					{...props.elementConfig}
 					onChange={props.changed}
@@ -23,7 +31,7 @@ const Input = (props: InputProps) => {
 			break
 		case ('textarea'):
 			inputElement = <textarea
-					className={classes.InputElement}
+					className={inputClasses.join(' ')}
 					value={props.value}
 					{...props.elementConfig}
 					onChange={props.changed}
@@ -32,7 +40,7 @@ const Input = (props: InputProps) => {
 		case ('select'):
 			inputElement = (
 					<select
-						className={classes.InputElement}
+						className={inputClasses.join(' ')}
 						value={props.value}
 						{...props.elementConfig}
 						onChange={props.changed}
@@ -48,7 +56,7 @@ const Input = (props: InputProps) => {
 			break
 		default:
 			inputElement = <input
-					className={classes.InputElement}
+					className={inputClasses.join(' ')}
 					value={props.value}
 					{...props.elementConfig}
 					onChange={props.changed}
