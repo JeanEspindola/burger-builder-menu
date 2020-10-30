@@ -1,11 +1,11 @@
 import React from 'react'
-import Button from '../../../components/UI/Button/Button'
-import { ButtonsEnum } from '../../../utils/constants'
-import axios from '../../../axios-orders'
+import Button from 'components/UI/Button/Button'
+import { ButtonsEnum } from 'utils/constants'
+import axios from 'axios-orders'
 import classes from './ContactData.module.scss'
-import Spinner from '../../../components/UI/Spinner/Spinner'
+import Spinner from 'components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
-import Input from '../../../components/UI/Input/Input'
+import Input from 'components/UI/Input/Input'
 import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
 
 class ContactData extends React.Component<ContactDataProps> {

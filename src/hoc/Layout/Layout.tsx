@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './Layout.module.scss'
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
+import Toolbar from 'components/Navigation/Toolbar/Toolbar'
+import SideDrawer from 'components/Navigation/SideDrawer/SideDrawer'
 
 export interface LayoutProps {
 	children: React.ReactNode

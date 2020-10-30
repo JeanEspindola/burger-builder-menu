@@ -1,8 +1,8 @@
 import React from 'react'
 import classes from './BuildControls.module.scss'
 import BuildControl from './BuildControl/BuildControl'
-import { IngredientsLabel, IngredientsEnum } from '../../../utils/constants'
-import { DisableInfoType } from '../../../utils/types'
+import { IngredientsLabel, IngredientsEnum } from 'utils/constants'
+import { DisableInfoType } from 'utils/types'
 import { FormattedMessage } from 'react-intl'
 
 export interface BuildControlsProps {

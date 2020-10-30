@@ -2,9 +2,9 @@ import React from 'react'
 import classes from './CheckoutSummary.module.scss'
 import Burger from '../Burger/Burger'
 import Button from '../UI/Button/Button'
-import { ButtonsEnum } from '../../utils/constants'
+import { ButtonsEnum } from 'utils/constants'
 import { FormattedMessage } from 'react-intl'
-import { IngredientsType } from '../../utils/types'
+import { IngredientsType } from 'utils/types'
 
 interface CheckoutSummaryProps {
 	ingredients: IngredientsType

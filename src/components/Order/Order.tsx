@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Order.module.scss'
-import { IngredientsType } from '../../utils/types'
+import { IngredientsType } from 'utils/types'
 import { FormattedMessage } from 'react-intl'
 
 interface OrderProps {

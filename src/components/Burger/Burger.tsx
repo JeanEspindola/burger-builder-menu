@@ -1,8 +1,8 @@
 import React from 'react'
 import classes from './Burger.module.scss'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
-import { IngredientsEnum } from '../../utils/constants'
-import { IngredientsType } from '../../utils/types'
+import { IngredientsEnum } from 'utils/constants'
+import { IngredientsType } from 'utils/types'
 import { FormattedMessage } from 'react-intl'
 
 interface BurgerProps {

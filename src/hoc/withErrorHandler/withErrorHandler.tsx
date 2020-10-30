@@ -1,12 +1,12 @@
 import React from 'react'
-import Modal from '../../components/UI/Modal/Modal'
+import Modal from 'components/UI/Modal/Modal'
 import {
 	AxiosError,
 	AxiosInstance,
 	AxiosRequestConfig,
 	AxiosResponse,
 } from 'axios'
-import { withErrorHandlerStateType } from '../../utils/types'
+import { withErrorHandlerStateType } from 'utils/types'
 
 let reqInterceptor: number
 let resInterceptor: number

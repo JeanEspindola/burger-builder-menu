@@ -1,5 +1,5 @@
 import React from 'react'
-import BurgerLogo from '../../assets/images/burger-logo.png'
+import BurgerLogo from 'assets/images/burger-logo.png'
 import classes from './Logo.module.scss'
 
 const Logo = () => (

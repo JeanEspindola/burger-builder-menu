@@ -1,4 +1,4 @@
-import { IngredientsType } from '../../../utils/types'
+import { IngredientsType } from 'utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 
 export interface ContactDataProps {

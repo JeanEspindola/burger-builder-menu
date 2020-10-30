@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../UI/Button/Button'
-import { ButtonsEnum } from '../../../utils/constants'
-import { IngredientsType } from '../../../utils/types'
+import { ButtonsEnum } from 'utils/constants'
+import { IngredientsType } from 'utils/types'
 import { FormattedMessage } from 'react-intl'
 
 // TODO: reuse interfaces

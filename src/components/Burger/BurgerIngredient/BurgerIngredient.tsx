@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './BurgerIngredient.module.scss'
-import { IngredientsEnum } from '../../../utils/constants'
+import { IngredientsEnum } from 'utils/constants'
 
 export interface BurgerIngredientProps {
 	type: string,
