@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default  {
 	'loading': 'Carregando...',
 	'menu.burgerBuilder': 'Contrutor de hamburger',
