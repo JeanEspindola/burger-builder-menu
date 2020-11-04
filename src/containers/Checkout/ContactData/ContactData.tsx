@@ -7,6 +7,7 @@ import Spinner from 'components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
 import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
+import { connect } from 'react-redux'
 
 class ContactData extends React.Component<ContactDataProps> {
 	state: ContactDataStateType = {
@@ -210,4 +211,12 @@ class ContactData extends React.Component<ContactDataProps> {
 	}
 }
 
-export default ContactData
+// @ts-ignore
+const mapStateToProps = state => {
+	return {
+		ingredients: state.ingredients,
+		price: state.totalPrice,
+	}
+}
+
+export default connect(mapStateToProps, null)(ContactData)

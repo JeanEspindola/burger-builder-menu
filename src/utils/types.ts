@@ -9,9 +9,9 @@ export interface IngredientsType {
 }
 
 export interface BurgerBuilderStateType {
-	ingredients: IngredientsType,
-	totalPrice: number,
-	purchasable: boolean,
+	// ingredients: IngredientsType,
+	// totalPrice: number,
+	// purchasable: boolean,
 	purchasing: boolean,
 	loading: boolean,
 	error: AxiosError | null,

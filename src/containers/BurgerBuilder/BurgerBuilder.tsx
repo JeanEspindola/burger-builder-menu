@@ -2,7 +2,6 @@ import React  from 'react'
 import * as actionTypes from '../../store/actions'
 import Burger from 'components/Burger/Burger'
 import BuildControls from 'components/Burger/BuildControls/BuildControls'
-import { BASE_URL, INGREDIENTS_URL, IngredientsEnum } from 'utils/constants'
 import Modal from 'components/UI/Modal/Modal'
 import OrderSummary from 'components/Burger/OrderSummary/OrderSummary'
 import axios from 'axios-orders'
@@ -13,24 +12,12 @@ import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 
-const INGREDIENT_PRICES = {
-	breadTop: 0,
-	breadBottom: 0,
-	salad: 0.5,
-	cheese: 0.4,
-	meat: 1.3,
-	bacon: 0.7,
-}
-
 interface BurgerBuilderProps {
 	history: RouteComponentProps['history']
 }
 
 class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	state: BurgerBuilderStateType = {
-		ingredients: {},
-		totalPrice: 4,
-		purchasable: false,
 		purchasing: false,
 		loading: false,
 		error: null
@@ -52,8 +39,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 					return ingredients[igKey]
 				})
 				.reduce((sum, el) => sum + el, 0)
-
-		this.setState({ purchasable: sum > 0 })
+		return sum > 0
 	}
 
 	purchaseHandler = () => {
@@ -65,62 +51,14 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 
 	purchaseContinueHandler = () => {
-		const { ingredients, totalPrice } = this.state
 		const { history } = this.props
-		const queryParams = []
-		for (let i in ingredients) {
-			queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(ingredients[i]))
-		}
-		queryParams.push('price=' + totalPrice)
-
-		const queryString = queryParams.join('&')
-		history.push({
-			pathname: '/checkout',
-			search: '?' + queryString,
-		})
-	}
-
-	addIngredientHandler = (type: IngredientsEnum) => {
-		const { ingredients, totalPrice } = this.state
-
-		const oldCount = ingredients[type] || 0
-		const updatedCount = oldCount + 1
-		const updatedIngredients = {
-				...ingredients
-		}
-
-		updatedIngredients[type] = updatedCount
-		const priceAddition = INGREDIENT_PRICES[type]
-		const newPrice = totalPrice + priceAddition
-
-		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
-		this.updatePurchaseState(updatedIngredients)
-	}
-
-	removeIngredientHandler = (type: IngredientsEnum) => {
-		const { ingredients, totalPrice } = this.state
-
-		const oldCount = ingredients[type] || 0
-		if (oldCount <= 0) {
-			return
-		}
-		const updatedCount = oldCount - 1
-		const updatedIngredients = {
-			...ingredients
-		}
-
-		updatedIngredients[type] = updatedCount
-		const priceDeduction = INGREDIENT_PRICES[type]
-		const newPrice = totalPrice - priceDeduction
-
-		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients})
-		this.updatePurchaseState(updatedIngredients)
+		history.push('/checkout')
 	}
 
 	render () {
-		const { totalPrice, purchasing, purchasable, loading, error } = this.state
+		const { purchasing, loading, error } = this.state
 		// @ts-ignore
-		const { ingredients, onIngredientAdded, onIngredientRemoved } = this.props
+		const { ingredients, onIngredientAdded, onIngredientRemoved, price } = this.props
 
 		const disableInfo: DisableInfoType = {}
 
@@ -139,16 +77,16 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 								ingredientAdded={onIngredientAdded}
 								ingredientRemoved={onIngredientRemoved}
 								disabled={disableInfo}
-								price={totalPrice}
+								price={price}
 								ordered={this.purchaseHandler}
-								purchasable={purchasable}
+								purchasable={this.updatePurchaseState(ingredients)}
 						/>
 					</React.Fragment>
 			)
 
 			orderSummary = <OrderSummary
 					ingredients={ingredients}
-					price={totalPrice}
+					price={price}
 					purchaseCanceled={this.purchaseCancelHandler}
 					purchaseContinued={this.purchaseContinueHandler}
 			/>
@@ -172,7 +110,8 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 // @ts-ignore
 const mapStateToProps = state => {
 	return {
-		ingredients: state.ingredients
+		ingredients: state.ingredients,
+		price: state.totalPrice,
 	}
 }
 

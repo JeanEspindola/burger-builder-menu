@@ -1,6 +1,15 @@
 import * as actionTypes from './actions'
 import { AnyAction } from 'redux'
 
+const INGREDIENT_PRICES = {
+	breadTop: 0,
+	breadBottom: 0,
+	salad: 0.5,
+	cheese: 0.4,
+	meat: 1.3,
+	bacon: 0.7,
+}
+
 const initialState = {
 	// TODO: temp
 	ingredients: {
@@ -21,7 +30,9 @@ const reducer = (state = initialState, action: AnyAction) => {
 					...state.ingredients,
 					// @ts-ignore
 					[action.ingredientName]: state.ingredients[action.ingredientName] + 1,
-				}
+				},
+				// @ts-ignore
+				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
 			}
 		case actionTypes.REMOVE_INGREDIENT:
 			return {
@@ -30,7 +41,9 @@ const reducer = (state = initialState, action: AnyAction) => {
 					...state.ingredients,
 					// @ts-ignore
 					[action.ingredientName]: state.ingredients[action.ingredientName] - 1,
-				}
+				},
+				// @ts-ignore
+				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
 			}
 		default:
 			return state
