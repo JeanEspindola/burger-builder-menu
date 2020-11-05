@@ -1,5 +1,12 @@
 import * as actionTypes from './actions'
 import { AnyAction } from 'redux'
+import { IngredientsType } from '../utils/types'
+
+export interface InitialStateType {
+	ingredients: IngredientsType,
+	totalPrice: number,
+	// purchasable: boolean,
+}
 
 const INGREDIENT_PRICES = {
 	breadTop: 0,
@@ -10,8 +17,7 @@ const INGREDIENT_PRICES = {
 	bacon: 0.7,
 }
 
-const initialState = {
-	// TODO: temp
+const initialState: InitialStateType = {
 	ingredients: {
 		salad: 0,
 		meat: 0,
@@ -28,7 +34,6 @@ const reducer = (state = initialState, action: AnyAction) => {
 				...state,
 				ingredients: {
 					...state.ingredients,
-					// @ts-ignore
 					[action.ingredientName]: state.ingredients[action.ingredientName] + 1,
 				},
 				// @ts-ignore
@@ -39,7 +44,6 @@ const reducer = (state = initialState, action: AnyAction) => {
 				...state,
 				ingredients: {
 					...state.ingredients,
-					// @ts-ignore
 					[action.ingredientName]: state.ingredients[action.ingredientName] - 1,
 				},
 				// @ts-ignore

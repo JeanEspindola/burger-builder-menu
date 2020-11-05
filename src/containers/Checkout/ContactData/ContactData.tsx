@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
 import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
 import { connect } from 'react-redux'
+import { InitialStateType } from '../../../store/reducer'
 
 class ContactData extends React.Component<ContactDataProps> {
 	state: ContactDataStateType = {
@@ -211,8 +212,7 @@ class ContactData extends React.Component<ContactDataProps> {
 	}
 }
 
-// @ts-ignore
-const mapStateToProps = state => {
+const mapStateToProps = (state: InitialStateType) => {
 	return {
 		ingredients: state.ingredients,
 		price: state.totalPrice,

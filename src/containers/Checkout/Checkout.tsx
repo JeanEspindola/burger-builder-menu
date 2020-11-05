@@ -3,13 +3,16 @@ import { Route, RouteProps, RouteComponentProps } from 'react-router-dom'
 import CheckoutSummary from 'components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { connect } from 'react-redux'
+import { InitialStateType } from '../../store/reducer'
+import { IngredientsType } from '../../utils/types'
 
 export interface CheckoutProps {
 	history: RouteComponentProps['history']
 	location: RouteProps['location']
 	match: {
 		path: RouteProps['path']
-	}
+	},
+	ingredients: IngredientsType,
 }
 
 class Checkout extends React.Component<CheckoutProps> {
@@ -22,8 +25,7 @@ class Checkout extends React.Component<CheckoutProps> {
 	}
 
 	render() {
-		// @ts-ignore
-		const { ingredients} = this.props
+		const { ingredients, match } = this.props
 		return(
 				<div>
 					<CheckoutSummary
@@ -32,7 +34,7 @@ class Checkout extends React.Component<CheckoutProps> {
 							checkoutContinued={this.checkoutContinuedHandler}
 					/>
 					<Route
-							path={this.props.match.path + '/contact-data'}
+							path={match.path + '/contact-data'}
 							component={ContactData}
 					/>
 				</div>
@@ -40,8 +42,7 @@ class Checkout extends React.Component<CheckoutProps> {
 	}
 }
 
-// @ts-ignore
-const mapStateToProps = state => {
+const mapStateToProps = (state: InitialStateType) => {
 	return {
 		ingredients: state.ingredients,
 	}

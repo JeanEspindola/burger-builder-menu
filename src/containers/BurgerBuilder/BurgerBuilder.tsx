@@ -7,13 +7,26 @@ import OrderSummary from 'components/Burger/OrderSummary/OrderSummary'
 import axios from 'axios-orders'
 import Spinner from 'components/UI/Spinner/Spinner'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
-import { BurgerBuilderStateType, DisableInfoType, IngredientsType } from 'utils/types'
+import { DisableInfoType, Dispatch, IngredientsType } from 'utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { AxiosError } from 'axios'
+import { InitialStateType } from '../../store/reducer'
+import { IngredientsEnum } from '../../utils/constants'
 
 interface BurgerBuilderProps {
 	history: RouteComponentProps['history']
+	ingredients: IngredientsType
+	onIngredientAdded: (type: IngredientsEnum) => void
+	onIngredientRemoved: (type: IngredientsEnum) => void
+	price: number
+}
+
+interface BurgerBuilderStateType {
+	purchasing: boolean,
+	loading: boolean,
+	error: AxiosError | null,
 }
 
 class BurgerBuilder extends React.Component<BurgerBuilderProps> {
@@ -57,7 +70,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 
 	render () {
 		const { purchasing, loading, error } = this.state
-		// @ts-ignore
+
 		const { ingredients, onIngredientAdded, onIngredientRemoved, price } = this.props
 
 		const disableInfo: DisableInfoType = {}
@@ -107,21 +120,17 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 }
 
-// @ts-ignore
-const mapStateToProps = state => {
+const mapStateToProps = (state: InitialStateType) => {
 	return {
 		ingredients: state.ingredients,
 		price: state.totalPrice,
 	}
 }
 
-// @ts-ignore
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
 	return {
-		// @ts-ignore
-		onIngredientAdded: (ingredientName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingredientName}),
-		// @ts-ignore
-		onIngredientRemoved: (ingredientName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingredientName}),
+		onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingredientName}),
+		onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingredientName}),
 	}
 }
 

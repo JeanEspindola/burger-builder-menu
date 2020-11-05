@@ -1,3 +1,4 @@
+import { Action, Dispatch as ReduxDispatch } from 'redux';
 import { AxiosError } from 'axios'
 
 export interface DisableInfoType {
@@ -8,15 +9,8 @@ export interface IngredientsType {
 	[key: string]: number,
 }
 
-export interface BurgerBuilderStateType {
-	// ingredients: IngredientsType,
-	// totalPrice: number,
-	// purchasable: boolean,
-	purchasing: boolean,
-	loading: boolean,
-	error: AxiosError | null,
-}
-
 export interface withErrorHandlerStateType {
 	error: AxiosError | null
 }
+
+export type Dispatch = ReduxDispatch<Action>
