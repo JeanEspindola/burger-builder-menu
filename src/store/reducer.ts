@@ -1,6 +1,6 @@
-import * as actionTypes from './actions'
 import { AnyAction } from 'redux'
 import { IngredientsType } from '../utils/types'
+import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../redux/actionTypes'
 
 export interface InitialStateType {
 	ingredients: IngredientsType,
@@ -29,25 +29,25 @@ const initialState: InitialStateType = {
 
 const reducer = (state = initialState, action: AnyAction) => {
 	switch (action.type) {
-		case actionTypes.ADD_INGREDIENT:
+		case ADD_INGREDIENT:
 			return {
 				...state,
 				ingredients: {
 					...state.ingredients,
-					[action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+					[action.ingredient]: state.ingredients[action.ingredient] + 1,
 				},
 				// @ts-ignore
-				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredient],
 			}
-		case actionTypes.REMOVE_INGREDIENT:
+		case REMOVE_INGREDIENT:
 			return {
 				...state,
 				ingredients: {
 					...state.ingredients,
-					[action.ingredientName]: state.ingredients[action.ingredientName] - 1,
+					[action.ingredient]: state.ingredients[action.ingredient] - 1,
 				},
 				// @ts-ignore
-				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredient],
 			}
 		default:
 			return state

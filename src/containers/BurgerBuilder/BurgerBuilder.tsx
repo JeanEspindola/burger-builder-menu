@@ -1,5 +1,4 @@
 import React  from 'react'
-import * as actionTypes from '../../store/actions'
 import Burger from 'components/Burger/Burger'
 import BuildControls from 'components/Burger/BuildControls/BuildControls'
 import Modal from 'components/UI/Modal/Modal'
@@ -14,6 +13,7 @@ import { connect } from 'react-redux'
 import { AxiosError } from 'axios'
 import { InitialStateType } from '../../store/reducer'
 import { IngredientsEnum } from '../../utils/constants'
+import { addIngredient, removeIngredient } from '../../redux/actions'
 
 interface BurgerBuilderProps {
 	history: RouteComponentProps['history']
@@ -129,8 +129,8 @@ const mapStateToProps = (state: InitialStateType) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 	return {
-		onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingredientName}),
-		onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingredientName}),
+		onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch(addIngredient(ingredientName)),
+		onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch(removeIngredient(ingredientName)),
 	}
 }
 
