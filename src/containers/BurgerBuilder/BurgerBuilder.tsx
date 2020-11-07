@@ -11,9 +11,9 @@ import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { AxiosError } from 'axios'
-import { InitialStateType } from '../../store/reducer'
 import { IngredientsEnum } from '../../utils/constants'
-import { addIngredient, removeIngredient } from '../../redux/actions'
+import { addIngredient, removeIngredient } from '../../redux/actions/actions'
+import { InitialStateType } from '../../store/store'
 
 interface BurgerBuilderProps {
 	history: RouteComponentProps['history']

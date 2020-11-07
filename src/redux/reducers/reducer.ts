@@ -1,30 +1,15 @@
 import { AnyAction } from 'redux'
-import { IngredientsType } from '../utils/types'
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../redux/actionTypes'
+import { IngredientsType } from '../../utils/types'
+import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../actions/actionTypes'
+import { initialState } from '../../store/store'
 
-export interface InitialStateType {
-	ingredients: IngredientsType,
-	totalPrice: number,
-	// purchasable: boolean,
-}
-
-const INGREDIENT_PRICES = {
+const INGREDIENT_PRICES: IngredientsType = {
 	breadTop: 0,
 	breadBottom: 0,
 	salad: 0.5,
 	cheese: 0.4,
 	meat: 1.3,
 	bacon: 0.7,
-}
-
-const initialState: InitialStateType = {
-	ingredients: {
-		salad: 0,
-		meat: 0,
-		cheese: 0,
-		bacon: 0,
-	},
-	totalPrice: 4,
 }
 
 const reducer = (state = initialState, action: AnyAction) => {
@@ -36,7 +21,6 @@ const reducer = (state = initialState, action: AnyAction) => {
 					...state.ingredients,
 					[action.ingredient]: state.ingredients[action.ingredient] + 1,
 				},
-				// @ts-ignore
 				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredient],
 			}
 		case REMOVE_INGREDIENT:
@@ -46,7 +30,6 @@ const reducer = (state = initialState, action: AnyAction) => {
 					...state.ingredients,
 					[action.ingredient]: state.ingredients[action.ingredient] - 1,
 				},
-				// @ts-ignore
 				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredient],
 			}
 		default:

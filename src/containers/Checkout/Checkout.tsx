@@ -3,8 +3,8 @@ import { Route, RouteProps, RouteComponentProps } from 'react-router-dom'
 import CheckoutSummary from 'components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { connect } from 'react-redux'
-import { InitialStateType } from '../../store/reducer'
 import { IngredientsType } from '../../utils/types'
+import { InitialStateType } from '../../store/store'
 
 export interface CheckoutProps {
 	history: RouteComponentProps['history']

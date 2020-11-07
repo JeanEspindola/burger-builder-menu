@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
 import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
 import { connect } from 'react-redux'
-import { InitialStateType } from '../../../store/reducer'
+import { InitialStateType } from '../../../store/store'
 
 class ContactData extends React.Component<ContactDataProps> {
 	state: ContactDataStateType = {

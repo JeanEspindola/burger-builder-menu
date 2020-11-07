@@ -1,4 +1,4 @@
-import { IngredientsEnum } from '../utils/constants'
+import { IngredientsEnum } from '../../utils/constants'
 import { ADD_INGREDIENT, REMOVE_INGREDIENT } from './actionTypes'
 
 export const addIngredient = (ingredientName: IngredientsEnum) => {
