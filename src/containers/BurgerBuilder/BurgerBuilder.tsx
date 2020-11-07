@@ -10,9 +10,8 @@ import { DisableInfoType, Dispatch, IngredientsType } from 'utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { AxiosError } from 'axios'
 import { IngredientsEnum } from '../../utils/constants'
-import { addIngredient, removeIngredient } from '../../redux/actions/actions'
+import { addIngredient, removeIngredient, fetchIngredients } from '../../redux/actions/burgerBuilderActions'
 import { InitialStateType } from '../../store/store'
 
 interface BurgerBuilderProps {
@@ -20,30 +19,22 @@ interface BurgerBuilderProps {
 	ingredients: IngredientsType
 	onIngredientAdded: (type: IngredientsEnum) => void
 	onIngredientRemoved: (type: IngredientsEnum) => void
+	onInitIngredients: () => void
 	price: number
+	error: boolean
 }
 
 interface BurgerBuilderStateType {
 	purchasing: boolean,
-	loading: boolean,
-	error: AxiosError | null,
 }
 
 class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	state: BurgerBuilderStateType = {
 		purchasing: false,
-		loading: false,
-		error: null
 	}
 
 	componentDidMount() {
-		// axios.get(`${BASE_URL}${INGREDIENTS_URL}`)
-		// 		.then(response => {
-		// 			this.setState({ ingredients: response.data })
-		// 		})
-		// 		.catch(error => {
-		// 			this.setState({ error: error })
-		// 		})
+		this.props.onInitIngredients()
 	}
 
 	updatePurchaseState = (ingredients: IngredientsType) => {
@@ -69,9 +60,9 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 
 	render () {
-		const { purchasing, loading, error } = this.state
+		const { purchasing } = this.state
 
-		const { ingredients, onIngredientAdded, onIngredientRemoved, price } = this.props
+		const { ingredients, onIngredientAdded, onIngredientRemoved, price , error } = this.props
 
 		const disableInfo: DisableInfoType = {}
 
@@ -105,10 +96,6 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 			/>
 		}
 
-		if (loading) {
-			orderSummary = <Spinner />
-		}
-
 		return (
 				<React.Fragment>
 					<Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
@@ -120,19 +107,18 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 }
 
-const mapStateToProps = (state: InitialStateType) => {
-	return {
-		ingredients: state.ingredients,
-		price: state.totalPrice,
-	}
-}
+const mapStateToProps = (state: InitialStateType) => ({
+	ingredients: state.ingredients,
+	price: state.totalPrice,
+	error: state.error,
+})
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-	return {
-		onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch(addIngredient(ingredientName)),
-		onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch(removeIngredient(ingredientName)),
-	}
-}
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch(addIngredient(ingredientName)),
+	onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch(removeIngredient(ingredientName)),
+	// @ts-ignore
+	onInitIngredients: () => dispatch(fetchIngredients()),
+})
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))

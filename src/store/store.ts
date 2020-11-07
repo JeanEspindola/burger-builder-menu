@@ -3,14 +3,11 @@ import { IngredientsType } from '../utils/types'
 export interface InitialStateType {
 	ingredients: IngredientsType,
 	totalPrice: number,
+	error: boolean,
 }
 
 export const initialState: InitialStateType = {
-	ingredients: {
-		salad: 0,
-		meat: 0,
-		cheese: 0,
-		bacon: 0,
-	},
+	ingredients: {},
 	totalPrice: 4,
+	error: false,
 }

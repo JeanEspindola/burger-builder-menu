@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import { IngredientsType } from '../../utils/types'
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../actions/actionTypes'
+import { ADD_INGREDIENT, FETCH_INGREDIENTS_FAILED, REMOVE_INGREDIENT, SET_INGREDIENTS } from '../actions/actionTypes'
 import { initialState } from '../../store/store'
 
 const INGREDIENT_PRICES: IngredientsType = {
@@ -12,7 +12,7 @@ const INGREDIENT_PRICES: IngredientsType = {
 	bacon: 0.7,
 }
 
-const reducer = (state = initialState, action: AnyAction) => {
+const burgerBuilderReducer = (state = initialState, action: AnyAction) => {
 	switch (action.type) {
 		case ADD_INGREDIENT:
 			return {
@@ -32,9 +32,25 @@ const reducer = (state = initialState, action: AnyAction) => {
 				},
 				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredient],
 			}
+		case SET_INGREDIENTS:
+			return {
+				...state,
+				ingredients: {
+					salad: action.ingredients.salad,
+					bacon: action.ingredients.bacon,
+					cheese: action.ingredients.cheese,
+					meat: action.ingredients.meat,
+				},
+				error: false,
+			}
+		case FETCH_INGREDIENTS_FAILED:
+			return {
+				...state,
+				error: true,
+			}
 		default:
 			return state
 	}
 }
 
-export default reducer
+export default burgerBuilderReducer

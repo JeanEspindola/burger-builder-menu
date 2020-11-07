@@ -5,10 +5,16 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import reducer from './redux/reducers/reducer'
+import { createStore,applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import burgerBuilderReducer from './redux/reducers/burgerBuilderReducer'
 
-const store = createStore(reducer);
+// @ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(burgerBuilderReducer,composeEnhancers(
+    applyMiddleware(thunk),
+));
 
 ReactDOM.render(
   <React.StrictMode>
