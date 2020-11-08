@@ -6,8 +6,4 @@ export interface InitialStateType {
 	error: boolean,
 }
 
-export const initialState: InitialStateType = {
-	ingredients: {},
-	totalPrice: 4,
-	error: false,
-}
+

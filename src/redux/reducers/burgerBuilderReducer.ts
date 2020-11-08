@@ -1,7 +1,6 @@
 import { AnyAction } from 'redux'
 import { IngredientsType } from '../../utils/types'
 import { ADD_INGREDIENT, FETCH_INGREDIENTS_FAILED, REMOVE_INGREDIENT, SET_INGREDIENTS } from '../actions/actionTypes'
-import { initialState } from '../../store/store'
 
 const INGREDIENT_PRICES: IngredientsType = {
 	breadTop: 0,
@@ -10,6 +9,18 @@ const INGREDIENT_PRICES: IngredientsType = {
 	cheese: 0.4,
 	meat: 1.3,
 	bacon: 0.7,
+}
+
+export interface BurgerBuilderState {
+	error: boolean
+	totalPrice: number
+	ingredients: IngredientsType
+}
+
+export const initialState: BurgerBuilderState = {
+	ingredients: {},
+	totalPrice: 4,
+	error: false,
 }
 
 const burgerBuilderReducer = (state = initialState, action: AnyAction) => {

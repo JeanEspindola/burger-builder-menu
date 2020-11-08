@@ -5,6 +5,8 @@ export interface ContactDataProps {
 	ingredients: IngredientsType
 	price: number
 	history: RouteComponentProps['history']
+	loading: boolean
+	onPurchaseBurgerStart: (order: any) => void
 }
 
 export enum OrderFormElementEnum {
@@ -47,5 +49,4 @@ interface OrderFormElement {
 export interface ContactDataStateType {
 	orderForm: OrderFormElement
 	formValid: boolean
-	loading: boolean
 }

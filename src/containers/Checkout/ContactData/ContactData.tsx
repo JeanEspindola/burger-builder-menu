@@ -8,7 +8,10 @@ import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
 import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
 import { connect } from 'react-redux'
-import { InitialStateType } from '../../../store/store'
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+import { Dispatch } from 'redux'
+import { purchaseBurger } from '../../../redux/actions/orderActions'
+import { RootStateTypes } from '../../../redux/rootTypes'
 
 class ContactData extends React.Component<ContactDataProps> {
 	state: ContactDataStateType = {
@@ -96,7 +99,6 @@ class ContactData extends React.Component<ContactDataProps> {
 			},
 		},
 		formValid: false,
-		loading: false,
 	}
 
 	checkValidity = (value: string, rules: FormInputValidation) => {
@@ -120,9 +122,7 @@ class ContactData extends React.Component<ContactDataProps> {
 		event?.preventDefault()
 
 		const { orderForm } = this.state
-		const { ingredients, price, history } = this.props
-
-		this.setState({ loading: true })
+		const { ingredients, price, onPurchaseBurgerStart } = this.props
 
 		const formData = {}
 
@@ -137,14 +137,7 @@ class ContactData extends React.Component<ContactDataProps> {
 			orderData: formData,
 		}
 
-		axios.post('/orders.json', order)
-				.then(response => {
-					this.setState({ loading: false })
-					history.push('/')
-				})
-				.catch(error => {
-					this.setState({ loading: false })
-				})
+		onPurchaseBurgerStart(order)
 	}
 
 	inputChangedHandler = (event: { target: { value: string } }, inputIdentifier: string) => {
@@ -165,7 +158,8 @@ class ContactData extends React.Component<ContactDataProps> {
 	}
 
 	render() {
-		const { orderForm, loading, formValid } = this.state
+		const { orderForm, formValid } = this.state
+		const { loading } = this.props
 		const formArray = []
 		for (let key in orderForm) {
 			formArray.push({
@@ -212,11 +206,15 @@ class ContactData extends React.Component<ContactDataProps> {
 	}
 }
 
-const mapStateToProps = (state: InitialStateType) => {
-	return {
-		ingredients: state.ingredients,
-		price: state.totalPrice,
-	}
-}
+const mapStateToProps = (state: RootStateTypes) => ({
+	ingredients: state.burgerBuilder.ingredients,
+	price: state.burgerBuilder.totalPrice,
+	loading: state.order.loading,
+})
 
-export default connect(mapStateToProps, null)(ContactData)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	// @ts-ignore
+	onPurchaseBurgerStart: (orderData) => dispatch(purchaseBurger(orderData)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))

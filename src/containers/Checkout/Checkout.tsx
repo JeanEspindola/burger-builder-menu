@@ -1,10 +1,10 @@
 import React from 'react'
-import { Route, RouteProps, RouteComponentProps } from 'react-router-dom'
+import { Route, RouteProps, RouteComponentProps, Redirect } from 'react-router-dom'
 import CheckoutSummary from 'components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { connect } from 'react-redux'
 import { IngredientsType } from '../../utils/types'
-import { InitialStateType } from '../../store/store'
+import { RootStateTypes } from '../../redux/rootTypes'
 
 export interface CheckoutProps {
 	history: RouteComponentProps['history']
@@ -26,25 +26,32 @@ class Checkout extends React.Component<CheckoutProps> {
 
 	render() {
 		const { ingredients, match } = this.props
-		return(
-				<div>
-					<CheckoutSummary
-							ingredients={ingredients}
-							checkoutCancelled={this.checkoutCancelledHandler}
-							checkoutContinued={this.checkoutContinuedHandler}
-					/>
-					<Route
-							path={match.path + '/contact-data'}
-							component={ContactData}
-					/>
-				</div>
-		)
+
+		let summary = <Redirect to="/" />
+
+		if (Object.keys(ingredients).length > 0) {
+			summary = (
+					<div>
+						<CheckoutSummary
+								ingredients={ingredients}
+								checkoutCancelled={this.checkoutCancelledHandler}
+								checkoutContinued={this.checkoutContinuedHandler}
+						/>
+						<Route
+								path={match.path + '/contact-data'}
+								component={ContactData}
+						/>
+					</div>
+			)
+		}
+
+		return summary
 	}
 }
 
-const mapStateToProps = (state: InitialStateType) => {
+const mapStateToProps = (state: RootStateTypes) => {
 	return {
-		ingredients: state.ingredients,
+		ingredients: state.burgerBuilder.ingredients,
 	}
 }
 
