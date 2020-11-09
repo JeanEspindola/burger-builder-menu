@@ -1,4 +1,4 @@
-import { PURCHASE_BURGER_START, PURCHASE_BURGER_SUCCESS } from './actionTypes'
+import { PURCHASE_BURGER_START, PURCHASE_BURGER_SUCCESS, PURCHASE_INIT } from './actionTypes'
 import axios from '../../axios-orders'
 import { Dispatch } from 'redux'
 
@@ -32,3 +32,7 @@ export const purchaseBurger = (orderData) => {
 			})
 	}
 }
+
+export const purchaseInit = () => ({
+	type: PURCHASE_INIT,
+})

@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import { IngredientsEnum } from '../../utils/constants'
 import { addIngredient, removeIngredient, fetchIngredients } from '../../redux/actions/burgerBuilderActions'
 import { RootStateTypes } from '../../redux/rootTypes'
+import { purchaseInit } from '../../redux/actions/orderActions'
 
 interface BurgerBuilderProps {
 	history: RouteComponentProps['history']
@@ -20,6 +21,7 @@ interface BurgerBuilderProps {
 	onIngredientAdded: (type: IngredientsEnum) => void
 	onIngredientRemoved: (type: IngredientsEnum) => void
 	onInitIngredients: () => void
+	onInitPurchase: () => void
 	price: number
 	error: boolean
 }
@@ -55,7 +57,8 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 
 	purchaseContinueHandler = () => {
-		const { history } = this.props
+		const { history, onInitPurchase } = this.props
+		onInitPurchase()
 		history.push('/checkout')
 	}
 
@@ -118,7 +121,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 	onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch(removeIngredient(ingredientName)),
 	// @ts-ignore
 	onInitIngredients: () => dispatch(fetchIngredients()),
+	onInitPurchase: () => dispatch(purchaseInit())
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))

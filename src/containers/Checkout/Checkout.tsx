@@ -13,6 +13,7 @@ export interface CheckoutProps {
 		path: RouteProps['path']
 	},
 	ingredients: IngredientsType,
+	purchased: boolean
 }
 
 class Checkout extends React.Component<CheckoutProps> {
@@ -25,13 +26,15 @@ class Checkout extends React.Component<CheckoutProps> {
 	}
 
 	render() {
-		const { ingredients, match } = this.props
+		const { ingredients, match, purchased } = this.props
 
 		let summary = <Redirect to="/" />
 
 		if (Object.keys(ingredients).length > 0) {
+			const purchasedRedirect = purchased ? <Redirect to="/" /> : null
 			summary = (
 					<div>
+						{purchasedRedirect}
 						<CheckoutSummary
 								ingredients={ingredients}
 								checkoutCancelled={this.checkoutCancelledHandler}
@@ -49,10 +52,9 @@ class Checkout extends React.Component<CheckoutProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes) => {
-	return {
-		ingredients: state.burgerBuilder.ingredients,
-	}
-}
+const mapStateToProps = (state: RootStateTypes) => ({
+	ingredients: state.burgerBuilder.ingredients,
+	purchased: state.order.purchased
+})
 
 export default connect(mapStateToProps, null)(Checkout)
