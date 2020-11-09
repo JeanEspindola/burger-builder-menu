@@ -2,49 +2,55 @@ import React from 'react'
 import Order from 'components/Order/Order'
 import axios from 'axios-orders'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
+import { Dispatch } from 'redux'
+import { fetchOrders } from '../../redux/actions/orderActions'
+import { connect } from 'react-redux'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import { RootStateTypes } from '../../redux/rootTypes'
 
 // TODO: type orders from database
-interface OrdersStateType {
+interface OrdersPropsType {
 	orders: []
 	loading: boolean,
+	onFetchOrders: () => void
 }
 
-class Orders extends React.Component {
-	state: OrdersStateType = {
-		orders: [],
-		loading: true,
-	}
-
+class Orders extends React.Component<OrdersPropsType> {
 	componentDidMount() {
-		axios.get('/orders.json')
-				.then(res => {
-					const fetchedOrders = []
-					for (let key in res.data) {
-						fetchedOrders.push({
-							...res.data[key],
-							id: key,
-						})
-					}
-					this.setState({ loading: false, orders: fetchedOrders })
-				})
-				.catch(err => {
-					this.setState({ loading: false })
-				})
+		this.props.onFetchOrders()
 	}
 
 	render() {
+		let orders = <Spinner />
+
+		if (!this.props.loading) {
+			// @ts-ignore
+			orders = this.props.orders.map((order: any) => (
+						<Order
+								key={order.id}
+								ingredients={order.ingredients}
+								price={order.price}
+						/>
+				))
+		}
+
 		return(
 				<div>
-					{this.state.orders.map((order: any) => (
-							<Order
-									key={order.id}
-									ingredients={order.ingredients}
-									price={order.price}
-							/>
-					))}
+					{orders}
 				</div>
 		)
 	}
 }
 
-export default withErrorHandler(Orders, axios)
+const mapStateToProps = (state: RootStateTypes) => ({
+	orders: state.order.orders,
+	loading: state.order.loading,
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	// @ts-ignore
+	onFetchOrders: () => dispatch(fetchOrders())
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios))
