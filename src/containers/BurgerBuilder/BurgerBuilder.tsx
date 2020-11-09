@@ -15,15 +15,21 @@ import { addIngredient, removeIngredient, fetchIngredients } from '../../redux/a
 import { RootStateTypes } from '../../redux/rootTypes'
 import { purchaseInit } from '../../redux/actions/orderActions'
 
-interface BurgerBuilderProps {
-	history: RouteComponentProps['history']
+interface Props {
 	ingredients: IngredientsType
+	price: number
+	error: boolean
+}
+
+interface DispatchProps {
 	onIngredientAdded: (type: IngredientsEnum) => void
 	onIngredientRemoved: (type: IngredientsEnum) => void
 	onInitIngredients: () => void
 	onInitPurchase: () => void
-	price: number
-	error: boolean
+}
+
+interface BurgerBuilderProps extends Props, DispatchProps {
+	history: RouteComponentProps['history']
 }
 
 interface BurgerBuilderStateType {
@@ -110,13 +116,13 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes) => ({
+const mapStateToProps = (state: RootStateTypes): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	price: state.burgerBuilder.totalPrice,
 	error: state.burgerBuilder.error,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch(addIngredient(ingredientName)),
 	onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch(removeIngredient(ingredientName)),
 	// @ts-ignore

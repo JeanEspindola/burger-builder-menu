@@ -9,11 +9,16 @@ import Spinner from '../../components/UI/Spinner/Spinner'
 import { RootStateTypes } from '../../redux/rootTypes'
 
 // TODO: type orders from database
-interface OrdersPropsType {
+interface Props {
 	orders: []
-	loading: boolean,
+	loading: boolean
+}
+
+interface DispatchProps {
 	onFetchOrders: () => void
 }
+
+interface OrdersPropsType extends Props, DispatchProps {}
 
 class Orders extends React.Component<OrdersPropsType> {
 	componentDidMount() {
@@ -42,12 +47,12 @@ class Orders extends React.Component<OrdersPropsType> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes) => ({
+const mapStateToProps = (state: RootStateTypes): Props => ({
 	orders: state.order.orders,
 	loading: state.order.loading,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	// @ts-ignore
 	onFetchOrders: () => dispatch(fetchOrders())
 })

@@ -6,14 +6,17 @@ import { connect } from 'react-redux'
 import { IngredientsType } from '../../utils/types'
 import { RootStateTypes } from '../../redux/rootTypes'
 
-export interface CheckoutProps {
+interface Props {
+	ingredients: IngredientsType,
+	purchased: boolean
+}
+
+export interface CheckoutProps extends Props {
 	history: RouteComponentProps['history']
 	location: RouteProps['location']
 	match: {
 		path: RouteProps['path']
 	},
-	ingredients: IngredientsType,
-	purchased: boolean
 }
 
 class Checkout extends React.Component<CheckoutProps> {
@@ -52,7 +55,7 @@ class Checkout extends React.Component<CheckoutProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes) => ({
+const mapStateToProps = (state: RootStateTypes): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	purchased: state.order.purchased
 })

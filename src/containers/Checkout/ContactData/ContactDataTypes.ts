@@ -1,14 +1,3 @@
-import { IngredientsType } from 'utils/types'
-import { RouteComponentProps } from 'react-router-dom'
-
-export interface ContactDataProps {
-	ingredients: IngredientsType
-	price: number
-	history: RouteComponentProps['history']
-	loading: boolean
-	onPurchaseBurgerStart: (order: any) => void
-}
-
 export enum OrderFormElementEnum {
 	name = 'name',
 	street = 'street',

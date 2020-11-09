@@ -6,12 +6,28 @@ import classes from './ContactData.module.scss'
 import Spinner from 'components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
-import { ContactDataProps, ContactDataStateType, FormInputValidation } from './ContactDataTypes'
+import { ContactDataStateType, FormInputValidation } from './ContactDataTypes'
 import { connect } from 'react-redux'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import { Dispatch } from 'redux'
 import { purchaseBurger } from '../../../redux/actions/orderActions'
 import { RootStateTypes } from '../../../redux/rootTypes'
+import { IngredientsType } from '../../../utils/types'
+import { RouteComponentProps } from 'react-router-dom'
+
+interface Props {
+	ingredients: IngredientsType
+	price: number
+	loading: boolean
+}
+
+interface DispatchProps {
+	onPurchaseBurgerStart: (order: any) => void
+}
+
+interface ContactDataProps extends Props, DispatchProps{
+	history: RouteComponentProps['history']
+}
 
 class ContactData extends React.Component<ContactDataProps> {
 	state: ContactDataStateType = {
@@ -206,13 +222,13 @@ class ContactData extends React.Component<ContactDataProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes) => ({
+const mapStateToProps = (state: RootStateTypes): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	price: state.burgerBuilder.totalPrice,
 	loading: state.order.loading,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	// @ts-ignore
 	onPurchaseBurgerStart: (orderData) => dispatch(purchaseBurger(orderData)),
 })
