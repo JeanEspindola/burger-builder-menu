@@ -1,13 +1,14 @@
 import React from 'react'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
-import { ButtonsEnum, EMAIL_REGEX } from '../../utils/constants'
+import { ButtonsEnum } from '../../utils/constants'
 import classes from './Auth.module.scss'
-import { FormInputValidation, OrderFormElement } from '../Checkout/ContactData/ContactDataTypes'
+import { OrderFormElement } from '../Checkout/ContactData/ContactDataTypes'
 import { Dispatch } from 'redux'
 import { auth } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { checkValidity, createFormArray } from '../../utils/helper'
 
 interface AuthStateType {
 	controls: OrderFormElement
@@ -53,27 +54,6 @@ class Auth extends React.Component<AuthProps> {
 		}
 	}
 
-	checkValidity = (value: string, rules: FormInputValidation) => {
-		let isValid = true
-		if (rules.required) {
-			isValid = value.trim() !== '' && isValid
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid
-		}
-
-		if (rules.isEmail) {
-			isValid = EMAIL_REGEX.test(value) && isValid
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid
-		}
-
-		return isValid
-	}
-
 	inputChangedHandler = (event: { target: { value: string } }, controlName: string) => {
 		const newValue = event.target.value
 		const updatedControls = {
@@ -81,7 +61,7 @@ class Auth extends React.Component<AuthProps> {
 			[controlName]: {
 				...this.state.controls[controlName],
 				value: newValue,
-				valid: this.checkValidity(newValue, this.state.controls[controlName].validation),
+				valid: checkValidity(newValue, this.state.controls[controlName].validation),
 				touched: true,
 			}
 		}
@@ -100,13 +80,7 @@ class Auth extends React.Component<AuthProps> {
 
 	render() {
 		const { controls } = this.state
-		const formArray = []
-		for (let key in controls) {
-			formArray.push({
-				id: key,
-				config: controls[key],
-			})
-		}
+		const formArray = createFormArray(controls)
 
 		const form = formArray.map(formElement => (
 				<Input key={formElement.id}

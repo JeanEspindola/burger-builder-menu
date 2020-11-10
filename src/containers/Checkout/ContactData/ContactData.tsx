@@ -6,7 +6,7 @@ import classes from './ContactData.module.scss'
 import Spinner from 'components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
-import { ContactDataStateType, FormInputValidation } from './ContactDataTypes'
+import { ContactDataStateType } from './ContactDataTypes'
 import { connect } from 'react-redux'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import { Dispatch } from 'redux'
@@ -14,6 +14,7 @@ import { purchaseBurger } from '../../../redux/actions/orderActions'
 import { RootStateTypes } from '../../../redux/rootTypes'
 import { IngredientsType } from '../../../utils/types'
 import { RouteComponentProps } from 'react-router-dom'
+import { checkValidity, createFormArray } from '../../../utils/helper'
 
 interface Props {
 	ingredients: IngredientsType
@@ -117,23 +118,6 @@ class ContactData extends React.Component<ContactDataProps> {
 		formValid: false,
 	}
 
-	checkValidity = (value: string, rules: FormInputValidation) => {
-		let isValid = true
-		if (rules.required) {
-			isValid = value.trim() !== '' && isValid
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid
-		}
-
-		return isValid
-	}
-
 	orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
 
@@ -161,7 +145,7 @@ class ContactData extends React.Component<ContactDataProps> {
 
 		const updatedElement = { ...updatedForm[inputIdentifier] }
 		updatedElement.value = event.target.value
-		updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validation)
+		updatedElement.valid = checkValidity(updatedElement.value, updatedElement.validation)
 		updatedElement.touched = true
 
 		let formIsValid = true
@@ -177,14 +161,7 @@ class ContactData extends React.Component<ContactDataProps> {
 		const { orderForm, formValid } = this.state
 		const { loading } = this.props
 
-		//TODO: add to utility
-		const formArray = []
-		for (let key in orderForm) {
-			formArray.push({
-				id: key,
-				config: orderForm[key],
-			})
-		}
+		const formArray = createFormArray(orderForm)
 
 		// TODO: Add hooks for react-intl
 		let form = (
