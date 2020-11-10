@@ -1,20 +1,20 @@
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS } from './actionTypes'
+import { AuthActionTypes } from './actionTypes'
 import axios from 'axios'
 import { Dispatch } from 'redux'
 import { API_KEY, AUTH_URL } from '../../utils/constants'
 
 export const authStart = () => ({
-	type: AUTH_START,
+	type: AuthActionTypes.AUTH_START,
 })
 
 // @ts-ignore
 export const authSuccess = (authData) => ({
-	type: AUTH_SUCCESS,
+	type: AuthActionTypes.AUTH_SUCCESS,
 	authData: authData,
 })
 
 export const authFail = (error: string) => ({
-	type: AUTH_FAIL,
+	type: AuthActionTypes.AUTH_FAIL,
 	error: error,
 })
 

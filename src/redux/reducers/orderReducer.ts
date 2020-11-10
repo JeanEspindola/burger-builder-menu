@@ -1,12 +1,5 @@
 import { AnyAction } from 'redux'
-import {
-	FETCH_ORDERS_FAIL,
-	FETCH_ORDERS_START, FETCH_ORDERS_SUCCESS,
-	PURCHASE_BURGER_FAIL,
-	PURCHASE_BURGER_START,
-	PURCHASE_BURGER_SUCCESS,
-	PURCHASE_INIT
-} from '../actions/actionTypes'
+import { PurchaseActionTypes, OrdersActionTypes } from '../actions/actionTypes'
 
 export interface OrderState {
 	loading: boolean
@@ -22,17 +15,17 @@ const initialState: OrderState = {
 
 export const orderReducer = (state = initialState, action: AnyAction) => {
 	switch (action.type) {
-		case PURCHASE_INIT:
+		case PurchaseActionTypes.PURCHASE_INIT:
 			return {
 				...state,
 				purchased: false,
 			}
-		case PURCHASE_BURGER_START:
+		case PurchaseActionTypes.PURCHASE_BURGER_START:
 			return {
 				...state,
 				loading: true,
 			}
-		case PURCHASE_BURGER_SUCCESS:
+		case PurchaseActionTypes.PURCHASE_BURGER_SUCCESS:
 			const newOrder = {
 				...action.orderData,
 				id: action.orderId,
@@ -43,23 +36,23 @@ export const orderReducer = (state = initialState, action: AnyAction) => {
 				orders: state.orders.concat(newOrder),
 				purchased: true,
 			};
-		case PURCHASE_BURGER_FAIL:
+		case PurchaseActionTypes.PURCHASE_BURGER_FAIL:
 			return {
 				...state,
 				loading: false,
 			};
-		case FETCH_ORDERS_START:
+		case OrdersActionTypes.FETCH_ORDERS_START:
 			return {
 				...state,
 				loading: true,
 			}
-		case FETCH_ORDERS_SUCCESS:
+		case OrdersActionTypes.FETCH_ORDERS_SUCCESS:
 			return {
 				...state,
 				orders: action.orders,
 				loading: false,
 			}
-		case FETCH_ORDERS_FAIL:
+		case OrdersActionTypes.FETCH_ORDERS_FAIL:
 			return {
 				...state,
 				loading: false,
