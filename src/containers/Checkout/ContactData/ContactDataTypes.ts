@@ -32,7 +32,7 @@ interface OrderFormElementDesc {
 	touched?: boolean
 }
 
-interface OrderFormElement {
+export interface OrderFormElement {
 	[key: string]: OrderFormElementDesc,
 }
 
