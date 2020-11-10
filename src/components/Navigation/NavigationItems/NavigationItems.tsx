@@ -13,6 +13,9 @@ const NavigationItems = (props: NavigationItemsProps) => (
 			<NavigationItem link="/orders">
 				<FormattedMessage id="menu.orders" />
 			</NavigationItem>
+			<NavigationItem link="/auth">
+				<FormattedMessage id="menu.authenticate" />
+			</NavigationItem>
 		</ul>
 )
 

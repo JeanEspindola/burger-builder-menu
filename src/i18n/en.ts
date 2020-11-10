@@ -4,6 +4,7 @@ export default {
 	'menu.burgerBuilder': 'Burger Builder',
 	'menu.checkout': 'Checkout',
 	'menu.orders': 'Orders',
+	'menu.authenticate': 'Authenticate',
 	'menu.price': 'Current price:',
 	'menu.order': 'ORDER NOW',
 	'order.price': 'Price:',
@@ -31,4 +32,6 @@ export default {
 	'contactData.postal': 'Postal Code',
 	'contactData.order': 'ORDER',
 	'checkoutSummary.title': 'We hope it tastes well!!',
+
+	'auth.submit': 'SUBMIT'
 };

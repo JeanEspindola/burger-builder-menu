@@ -11,6 +11,7 @@ export interface FormInputValidation {
 	required: boolean
 	minLength?: number
 	maxLength?: number
+	isEmail?: boolean
 }
 
 interface FormSelectionElement {

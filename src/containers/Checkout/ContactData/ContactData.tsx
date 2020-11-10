@@ -176,6 +176,8 @@ class ContactData extends React.Component<ContactDataProps> {
 	render() {
 		const { orderForm, formValid } = this.state
 		const { loading } = this.props
+
+		//TODO: add to utility
 		const formArray = []
 		for (let key in orderForm) {
 			formArray.push({
