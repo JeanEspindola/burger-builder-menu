@@ -9,7 +9,7 @@ const initialState: AuthState = {
 	loading: false,
 }
 
-export const authReducer = (state = initialState, action: AnyAction) => {
+export const authReducer = (state = initialState, action: AnyAction): AuthState => {
 	switch (action.type) {
 		case AuthActionTypes.AUTH_START:
 			return {

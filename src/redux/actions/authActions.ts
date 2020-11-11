@@ -7,7 +7,6 @@ export const authStart = () => ({
 	type: AuthActionTypes.AUTH_START,
 })
 
-// @ts-ignore
 export const authSuccess = (idToken: string, userId: string) => ({
 	type: AuthActionTypes.AUTH_SUCCESS,
 	idToken,

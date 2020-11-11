@@ -1,11 +1,6 @@
 import { AnyAction } from 'redux'
-import { PurchaseActionTypes, OrdersActionTypes } from '../actions/actionTypes'
-
-export interface OrderState {
-	loading: boolean
-	orders: []
-	purchased: boolean
-}
+import { OrdersActionTypes, PurchaseActionTypes } from '../actions/actionTypes'
+import { OrderState } from '../rootTypes'
 
 const initialState: OrderState = {
 	orders: [],
@@ -13,7 +8,7 @@ const initialState: OrderState = {
 	purchased: false
 }
 
-export const orderReducer = (state = initialState, action: AnyAction) => {
+export const orderReducer = (state = initialState, action: AnyAction): OrderState => {
 	switch (action.type) {
 		case PurchaseActionTypes.PURCHASE_INIT:
 			return {
@@ -33,6 +28,7 @@ export const orderReducer = (state = initialState, action: AnyAction) => {
 			return {
 				...state,
 				loading: false,
+				// @ts-ignore
 				orders: state.orders.concat(newOrder),
 				purchased: true,
 			};

@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux'
 import { IngredientsType } from '../../utils/types'
 import { BurgerActionTypes } from '../actions/actionTypes'
+import { BurgerBuilderState } from '../rootTypes'
 
 const INGREDIENT_PRICES: IngredientsType = {
 	breadTop: 0,
@@ -11,19 +12,13 @@ const INGREDIENT_PRICES: IngredientsType = {
 	bacon: 0.7,
 }
 
-export interface BurgerBuilderState {
-	error: boolean
-	totalPrice: number
-	ingredients: IngredientsType
-}
-
 export const initialState: BurgerBuilderState = {
 	ingredients: {},
 	totalPrice: 4,
 	error: false,
 }
 
-const burgerBuilderReducer = (state = initialState, action: AnyAction) => {
+const burgerBuilderReducer = (state = initialState, action: AnyAction): BurgerBuilderState => {
 	switch (action.type) {
 		case BurgerActionTypes.ADD_INGREDIENT:
 			return {
