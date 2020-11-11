@@ -9,16 +9,24 @@ import { auth } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { checkValidity, createFormArray } from '../../utils/helper'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import { RootStateTypes } from '../../redux/rootTypes'
 
 interface AuthStateType {
 	controls: OrderFormElement
+	isSignup: boolean
+}
+
+interface Props {
+	loading: boolean
+	error: string
 }
 
 interface DispatchProps {
-	onAuth: (email: string, password: string) => void
+	onAuth: (email: string, password: string, isSignup: boolean) => void
 }
 
-interface AuthProps extends DispatchProps {}
+interface AuthProps extends DispatchProps, Props {}
 
 class Auth extends React.Component<AuthProps> {
 	state: AuthStateType = {
@@ -51,7 +59,8 @@ class Auth extends React.Component<AuthProps> {
 				valid: false,
 				touched: false,
 			},
-		}
+		},
+		isSignup: true,
 	}
 
 	inputChangedHandler = (event: { target: { value: string } }, controlName: string) => {
@@ -72,17 +81,24 @@ class Auth extends React.Component<AuthProps> {
 	submitHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
 
-		const { controls: {  email, password} } = this.state
+		const { controls: {  email, password}, isSignup } = this.state
 		const { onAuth } = this.props
 
-		onAuth(email.value, password.value)
+		onAuth(email.value, password.value, isSignup)
+	}
+
+	switchAuthModeHandler = () => {
+		this.setState((prevState: AuthStateType) => {
+			return {isSignup: !prevState.isSignup}
+		})
 	}
 
 	render() {
-		const { controls } = this.state
+		const { controls, isSignup } = this.state
+		const { loading, error } = this.props
 		const formArray = createFormArray(controls)
 
-		const form = formArray.map(formElement => (
+		let form = formArray.map(formElement => (
 				<Input key={formElement.id}
 							 changed={(event) => this.inputChangedHandler(event, formElement.id)}
 							 elementType={formElement.config.elementType}
@@ -94,22 +110,47 @@ class Auth extends React.Component<AuthProps> {
 				/>
 		))
 
+		if (loading) {
+			// @ts-ignore
+			form = <Spinner />
+		}
+
+		// @ts-ignore
+		let errorMessage: JSX.Element = null
+		if (error !== '') {
+			errorMessage = (
+					<p>{error}</p>
+			)
+		}
+
 		return (
 				<div className={classes.Auth}>
+					{errorMessage}
 					<form onSubmit={this.submitHandler}>
 						{form}
 						<Button btnType={ButtonsEnum.success}>
 							<FormattedMessage id="auth.submit" />
 						</Button>
 					</form>
+					<Button
+							btnType={ButtonsEnum.danger}
+							clicked={this.switchAuthModeHandler}
+					>
+						Switch to {isSignup ? 'Signin' : 'Signup'}
+					</Button>
 				</div>
 		)
 	}
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-	// @ts-ignore
-	onAuth: (email: string, password: string) => dispatch(auth(email, password))
+const mapStateToProps = (state: RootStateTypes): Props => ({
+	loading: state.auth.loading,
+	error: state.auth.error,
 })
 
-export default connect(null, mapDispatchToProps)(Auth)
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+	// @ts-ignore
+	onAuth: (email: string, password: string, isSignup: boolean) => dispatch(auth(email, password, isSignup))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

@@ -1,16 +1,17 @@
 import { AuthActionTypes } from './actionTypes'
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { API_KEY, AUTH_URL } from '../../utils/constants'
+import { API_KEY, AUTH_BASE_URL, SIGN_IN_URL, SING_UP_URL } from '../../utils/constants'
 
 export const authStart = () => ({
 	type: AuthActionTypes.AUTH_START,
 })
 
 // @ts-ignore
-export const authSuccess = (authData) => ({
+export const authSuccess = (idToken: string, userId: string) => ({
 	type: AuthActionTypes.AUTH_SUCCESS,
-	authData: authData,
+	idToken,
+	userId,
 })
 
 export const authFail = (error: string) => ({
@@ -18,7 +19,7 @@ export const authFail = (error: string) => ({
 	error: error,
 })
 
-export const auth = (email: string, password: string) => {
+export const auth = (email: string, password: string, isSignup: boolean) => {
 	return (dispatch: Dispatch) => {
 		dispatch(authStart())
 		const authData = {
@@ -27,12 +28,19 @@ export const auth = (email: string, password: string) => {
 			returnSecureToken: true,
 		}
 
-		axios.post(`${AUTH_URL}${API_KEY}`, authData)
+		let postType = SING_UP_URL
+
+		if (!isSignup) {
+			postType = SIGN_IN_URL
+		}
+
+		const url = `${AUTH_BASE_URL}${postType}${API_KEY}`
+		axios.post(url, authData)
 				.then(response => {
-					dispatch(authSuccess(response.data))
+					dispatch(authSuccess(response.data.idToken, response.data.localId))
 				})
 				.catch(err => {
-					dispatch(authFail(err.message))
+					dispatch(authFail(err.response.data.error.message))
 				})
 	}
 }
