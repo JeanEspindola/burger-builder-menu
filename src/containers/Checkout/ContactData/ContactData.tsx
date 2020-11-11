@@ -20,10 +20,11 @@ interface Props {
 	ingredients: IngredientsType
 	price: number
 	loading: boolean
+	token: string
 }
 
 interface DispatchProps {
-	onPurchaseBurgerStart: (order: any) => void
+	onPurchaseBurgerStart: (order: any, token: string) => void
 }
 
 interface ContactDataProps extends Props, DispatchProps{
@@ -122,7 +123,7 @@ class ContactData extends React.Component<ContactDataProps> {
 		event?.preventDefault()
 
 		const { orderForm } = this.state
-		const { ingredients, price, onPurchaseBurgerStart } = this.props
+		const { ingredients, price, onPurchaseBurgerStart, token } = this.props
 
 		const formData = {}
 
@@ -137,7 +138,7 @@ class ContactData extends React.Component<ContactDataProps> {
 			orderData: formData,
 		}
 
-		onPurchaseBurgerStart(order)
+		onPurchaseBurgerStart(order, token)
 	}
 
 	inputChangedHandler = (event: { target: { value: string } }, inputIdentifier: string) => {
@@ -205,11 +206,12 @@ const mapStateToProps = (state: RootStateTypes): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	price: state.burgerBuilder.totalPrice,
 	loading: state.order.loading,
+	token: state.auth.token,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	// @ts-ignore
-	onPurchaseBurgerStart: (orderData) => dispatch(purchaseBurger(orderData)),
+	onPurchaseBurgerStart: (orderData, token: string) => dispatch(purchaseBurger(orderData, token)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))

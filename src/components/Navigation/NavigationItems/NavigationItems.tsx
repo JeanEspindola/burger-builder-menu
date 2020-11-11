@@ -3,7 +3,9 @@ import classes from './NavigationItems.module.scss'
 import NavigationItem from './NavigationItem/NavigationItem'
 import { FormattedMessage } from 'react-intl'
 
-export interface NavigationItemsProps {}
+export interface NavigationItemsProps {
+	isAuthenticated: boolean
+}
 
 const NavigationItems = (props: NavigationItemsProps) => (
     <ul className={classes.NavigationItems}>
@@ -13,9 +15,14 @@ const NavigationItems = (props: NavigationItemsProps) => (
 			<NavigationItem link="/orders">
 				<FormattedMessage id="menu.orders" />
 			</NavigationItem>
-			<NavigationItem link="/auth">
-				<FormattedMessage id="menu.authenticate" />
-			</NavigationItem>
+			{!props.isAuthenticated
+					? <NavigationItem link="/auth">
+						<FormattedMessage id="menu.authenticate"/>
+					</NavigationItem>
+					:<NavigationItem link="/logout">
+						<FormattedMessage id="menu.logout"/>
+					</NavigationItem>
+			}
 		</ul>
 )
 

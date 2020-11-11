@@ -12,17 +12,19 @@ import { RootStateTypes } from '../../redux/rootTypes'
 interface Props {
 	orders: []
 	loading: boolean
+	token: string
 }
 
 interface DispatchProps {
-	onFetchOrders: () => void
+	onFetchOrders: (token: string) => void
 }
 
 interface OrdersPropsType extends Props, DispatchProps {}
 
 class Orders extends React.Component<OrdersPropsType> {
 	componentDidMount() {
-		this.props.onFetchOrders()
+		const { onFetchOrders, token } = this.props
+		onFetchOrders(token)
 	}
 
 	render() {
@@ -50,11 +52,12 @@ class Orders extends React.Component<OrdersPropsType> {
 const mapStateToProps = (state: RootStateTypes): Props => ({
 	orders: state.order.orders,
 	loading: state.order.loading,
+	token: state.auth.token,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	// @ts-ignore
-	onFetchOrders: () => dispatch(fetchOrders())
+	onFetchOrders: (token: string) => dispatch(fetchOrders(token))
 })
 
 

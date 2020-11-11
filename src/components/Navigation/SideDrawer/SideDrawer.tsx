@@ -7,6 +7,7 @@ import Backdrop from '../../UI/Backdrop/Backdrop'
 export interface SideDrawerProps {
 	open: boolean
 	closed: () => void
+	isAuth: boolean
 }
 
 const SideDrawer = (props: SideDrawerProps) => {
@@ -23,7 +24,7 @@ const SideDrawer = (props: SideDrawerProps) => {
 						<Logo />
 					</div>
 					<nav>
-						<NavigationItems />
+						<NavigationItems isAuthenticated={props.isAuth}/>
 					</nav>
 				</div>
 			</React.Fragment>

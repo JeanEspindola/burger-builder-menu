@@ -5,6 +5,7 @@ export default {
 	'menu.checkout': 'Checkout',
 	'menu.orders': 'Orders',
 	'menu.authenticate': 'Authenticate',
+	'menu.logout': 'Logout',
 	'menu.price': 'Current price:',
 	'menu.order': 'ORDER NOW',
 	'order.price': 'Price:',
