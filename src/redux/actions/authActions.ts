@@ -57,3 +57,8 @@ export const auth = (email: string, password: string, isSignup: boolean) => {
 				})
 	}
 }
+
+export const setAuthRedirectPath = (path: string) => ({
+	type: AuthActionTypes.SET_AUTH_REDIRECT,
+	path,
+})

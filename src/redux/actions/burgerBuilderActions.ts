@@ -1,7 +1,8 @@
 import { BASE_URL, INGREDIENTS_URL, IngredientsEnum } from '../../utils/constants'
 import axios from '../../axios-orders'
 import { BurgerActionTypes } from './actionTypes'
-import { Dispatch, IngredientsType } from '../../utils/types'
+import { IngredientsType } from '../../utils/types'
+import { Dispatch } from '../rootTypes'
 
 export const addIngredient = (ingredientName: IngredientsEnum) => ({
 	type: BurgerActionTypes.ADD_INGREDIENT,

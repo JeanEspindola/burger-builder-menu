@@ -16,6 +16,7 @@ export const initialState: BurgerBuilderState = {
 	ingredients: {},
 	totalPrice: 4,
 	error: false,
+	building: false,
 }
 
 const burgerBuilderReducer = (state = initialState, action: AnyAction): BurgerBuilderState => {
@@ -28,6 +29,7 @@ const burgerBuilderReducer = (state = initialState, action: AnyAction): BurgerBu
 					[action.ingredient]: state.ingredients[action.ingredient] + 1,
 				},
 				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredient],
+				building: true,
 			}
 		case BurgerActionTypes.REMOVE_INGREDIENT:
 			return {
@@ -37,6 +39,7 @@ const burgerBuilderReducer = (state = initialState, action: AnyAction): BurgerBu
 					[action.ingredient]: state.ingredients[action.ingredient] - 1,
 				},
 				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredient],
+				building: true,
 			}
 		case BurgerActionTypes.SET_INGREDIENTS:
 			return {
@@ -49,6 +52,7 @@ const burgerBuilderReducer = (state = initialState, action: AnyAction): BurgerBu
 				},
 				totalPrice: 4,
 				error: false,
+				building: false,
 			}
 		case BurgerActionTypes.FETCH_INGREDIENTS_FAILED:
 			return {

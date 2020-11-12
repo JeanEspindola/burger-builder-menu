@@ -4,7 +4,7 @@ import { IngredientsType } from 'utils/types'
 import { FormattedMessage } from 'react-intl'
 
 interface OrderProps {
-	price: string
+	price: number
 	ingredients: IngredientsType
 }
 
@@ -35,7 +35,7 @@ const Order = (props: OrderProps) => {
 			<p>
 				<FormattedMessage id="order.price" />
 				<strong>
-					{` $ ${Number.parseFloat(props.price).toFixed(2)}`}
+					{` $ ${Number.parseFloat(String(props.price)).toFixed(2)}`}
 				</strong>
 			</p>
 		</div>

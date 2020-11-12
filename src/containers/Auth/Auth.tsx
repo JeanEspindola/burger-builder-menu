@@ -5,7 +5,8 @@ import { ButtonsEnum } from '../../utils/constants'
 import classes from './Auth.module.scss'
 import { OrderFormElement } from '../Checkout/ContactData/ContactDataTypes'
 import { Dispatch } from 'redux'
-import { auth } from '../../redux/actions/authActions'
+import { Redirect } from 'react-router-dom'
+import { auth, setAuthRedirectPath } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { checkValidity, createFormArray } from '../../utils/helper'
@@ -20,10 +21,14 @@ interface AuthStateType {
 interface Props {
 	loading: boolean
 	error: string
+	isAuthenticated: boolean
+	building: boolean
+	authRedirectPath: string,
 }
 
 interface DispatchProps {
 	onAuth: (email: string, password: string, isSignup: boolean) => void
+	onSetAuthRedirectPath: () => void
 }
 
 interface AuthProps extends DispatchProps, Props {}
@@ -63,6 +68,14 @@ class Auth extends React.Component<AuthProps> {
 		isSignup: true,
 	}
 
+	componentDidMount() {
+		const { building, authRedirectPath, onSetAuthRedirectPath } = this.props
+
+		if (!building && authRedirectPath !== '/') {
+			onSetAuthRedirectPath()
+		}
+	}
+
 	inputChangedHandler = (event: { target: { value: string } }, controlName: string) => {
 		const newValue = event.target.value
 		const updatedControls = {
@@ -95,10 +108,10 @@ class Auth extends React.Component<AuthProps> {
 
 	render() {
 		const { controls, isSignup } = this.state
-		const { loading, error } = this.props
+		const { loading, error, isAuthenticated, authRedirectPath } = this.props
 		const formArray = createFormArray(controls)
 
-		let form = formArray.map(formElement => (
+		let form: React.ReactNode = formArray.map(formElement => (
 				<Input key={formElement.id}
 							 changed={(event) => this.inputChangedHandler(event, formElement.id)}
 							 elementType={formElement.config.elementType}
@@ -111,20 +124,24 @@ class Auth extends React.Component<AuthProps> {
 		))
 
 		if (loading) {
-			// @ts-ignore
 			form = <Spinner />
 		}
 
-		// @ts-ignore
-		let errorMessage: JSX.Element = null
+		let errorMessage: React.ReactNode
 		if (error !== '') {
 			errorMessage = (
 					<p>{error}</p>
 			)
 		}
 
+		let authRedirect: React.ReactNode
+		if (isAuthenticated) {
+			authRedirect = <Redirect to={authRedirectPath} />
+		}
+
 		return (
 				<div className={classes.Auth}>
+					{authRedirect}
 					{errorMessage}
 					<form onSubmit={this.submitHandler}>
 						{form}
@@ -146,11 +163,15 @@ class Auth extends React.Component<AuthProps> {
 const mapStateToProps = (state: RootStateTypes): Props => ({
 	loading: state.auth.loading,
 	error: state.auth.error,
+	isAuthenticated: state.auth.token !== '',
+	building: state.burgerBuilder.building,
+	authRedirectPath: state.auth.authRedirectPath,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+	onSetAuthRedirectPath: () => dispatch(setAuthRedirectPath('/')),
 	// @ts-ignore
-	onAuth: (email: string, password: string, isSignup: boolean) => dispatch(auth(email, password, isSignup))
+	onAuth: (email: string, password: string, isSignup: boolean) => dispatch(auth(email, password, isSignup)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth)

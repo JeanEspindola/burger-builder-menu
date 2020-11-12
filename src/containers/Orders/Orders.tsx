@@ -7,10 +7,10 @@ import { fetchOrders } from '../../redux/actions/orderActions'
 import { connect } from 'react-redux'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { RootStateTypes } from '../../redux/rootTypes'
+import { OrderType } from './ordersType'
 
-// TODO: type orders from database
 interface Props {
-	orders: []
+	orders: OrderType[]
 	loading: boolean
 	token: string
 }
@@ -32,7 +32,7 @@ class Orders extends React.Component<OrdersPropsType> {
 
 		if (!this.props.loading) {
 			// @ts-ignore
-			orders = this.props.orders.map((order: any) => (
+			orders = this.props.orders.map((order: OrderType) => (
 						<Order
 								key={order.id}
 								ingredients={order.ingredients}

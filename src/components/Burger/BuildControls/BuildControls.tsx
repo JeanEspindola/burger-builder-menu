@@ -12,6 +12,7 @@ export interface BuildControlsProps {
 	ordered: () => void
 	price: number
 	purchasable: boolean
+	isAuth: boolean
 }
 
 const controls = [
@@ -43,7 +44,10 @@ const BuildControls = (props: BuildControlsProps) => (
 				disabled={!props.purchasable}
 				onClick={props.ordered}
 		>
-			<FormattedMessage id="menu.order" />
+			{props.isAuth
+					? <FormattedMessage id="menu.order" />
+					: <FormattedMessage id="menu.signupToOrder" />
+			}
 		</button>
 	</div>
 )

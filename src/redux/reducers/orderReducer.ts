@@ -28,7 +28,6 @@ export const orderReducer = (state = initialState, action: AnyAction): OrderStat
 			return {
 				...state,
 				loading: false,
-				// @ts-ignore
 				orders: state.orders.concat(newOrder),
 				purchased: true,
 			};

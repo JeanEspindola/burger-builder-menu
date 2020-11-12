@@ -12,16 +12,19 @@ const NavigationItems = (props: NavigationItemsProps) => (
 			<NavigationItem link="/" exact>
 				<FormattedMessage id="menu.burgerBuilder" />
 			</NavigationItem>
-			<NavigationItem link="/orders">
-				<FormattedMessage id="menu.orders" />
-			</NavigationItem>
+			{props.isAuthenticated
+				? <NavigationItem link="/orders">
+						<FormattedMessage id="menu.orders"/>
+					</NavigationItem>
+				: null
+			}
 			{!props.isAuthenticated
 					? <NavigationItem link="/auth">
-						<FormattedMessage id="menu.authenticate"/>
-					</NavigationItem>
-					:<NavigationItem link="/logout">
-						<FormattedMessage id="menu.logout"/>
-					</NavigationItem>
+							<FormattedMessage id="menu.authenticate"/>
+						</NavigationItem>
+					: <NavigationItem link="/logout">
+							<FormattedMessage id="menu.logout"/>
+						</NavigationItem>
 			}
 		</ul>
 )

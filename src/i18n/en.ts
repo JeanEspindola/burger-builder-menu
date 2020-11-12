@@ -8,6 +8,7 @@ export default {
 	'menu.logout': 'Logout',
 	'menu.price': 'Current price:',
 	'menu.order': 'ORDER NOW',
+	'menu.signupToOrder': 'SIGN UP TO ORDER',
 	'order.price': 'Price:',
 	'order.ingredients': 'Ingredients:',
 

@@ -1,9 +1,9 @@
 import { PurchaseActionTypes, OrdersActionTypes } from './actionTypes'
 import axios from '../../axios-orders'
 import { Dispatch } from 'redux'
+import { OrderType } from '../../containers/Orders/ordersType'
 
-// @ts-ignore
-export const purchaseBurgerSuccess = (id, orderData) => ({
+export const purchaseBurgerSuccess = (id: string, orderData: OrderType) => ({
 	type: PurchaseActionTypes.PURCHASE_BURGER_SUCCESS,
 	orderId: id,
 	orderData: orderData,
@@ -18,8 +18,7 @@ export const purchaseBurgerStart = () => ({
 	type: PurchaseActionTypes.PURCHASE_BURGER_START
 })
 
-// @ts-ignore
-export const purchaseBurger = (orderData, token: string) => {
+export const purchaseBurger = (orderData: OrderType, token: string) => {
 	return (dispatch: Dispatch) => {
 		dispatch(purchaseBurgerStart())
 		axios.post(`/orders.json?auth=${token}`, orderData)
@@ -36,8 +35,7 @@ export const purchaseInit = () => ({
 	type: PurchaseActionTypes.PURCHASE_INIT,
 })
 
-// @ts-ignore
-export const fetchOrdersSuccess = (orders) => ({
+export const fetchOrdersSuccess = (orders: OrderType[]) => ({
 	type: OrdersActionTypes.FETCH_ORDERS_SUCCESS,
 	orders: orders,
 })

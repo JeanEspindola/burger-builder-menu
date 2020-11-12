@@ -6,19 +6,21 @@ import OrderSummary from 'components/Burger/OrderSummary/OrderSummary'
 import axios from 'axios-orders'
 import Spinner from 'components/UI/Spinner/Spinner'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
-import { DisableInfoType, Dispatch, IngredientsType } from 'utils/types'
+import { DisableInfoType, IngredientsType } from 'utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { IngredientsEnum } from '../../utils/constants'
 import { addIngredient, removeIngredient, fetchIngredients } from '../../redux/actions/burgerBuilderActions'
-import { RootStateTypes } from '../../redux/rootTypes'
+import { Dispatch, RootStateTypes } from '../../redux/rootTypes'
 import { purchaseInit } from '../../redux/actions/orderActions'
+import { setAuthRedirectPath } from '../../redux/actions/authActions'
 
 interface Props {
 	ingredients: IngredientsType
 	price: number
 	error: boolean
+	isAuthenticated: boolean
 }
 
 interface DispatchProps {
@@ -26,6 +28,7 @@ interface DispatchProps {
 	onIngredientRemoved: (type: IngredientsEnum) => void
 	onInitIngredients: () => void
 	onInitPurchase: () => void
+	onSetAuthRedirectPath: (path: string) => void
 }
 
 interface BurgerBuilderProps extends Props, DispatchProps {
@@ -55,7 +58,13 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 
 	purchaseHandler = () => {
-		this.setState({ purchasing: true })
+		const { isAuthenticated, history, onSetAuthRedirectPath } = this.props
+		if (isAuthenticated) {
+			this.setState({ purchasing: true })
+		} else {
+			onSetAuthRedirectPath('/checkout')
+			history.push('/auth')
+		}
 	}
 
 	purchaseCancelHandler = () => {
@@ -71,7 +80,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	render () {
 		const { purchasing } = this.state
 
-		const { ingredients, onIngredientAdded, onIngredientRemoved, price , error } = this.props
+		const { ingredients, onIngredientAdded, onIngredientRemoved, price , error, isAuthenticated } = this.props
 
 		const disableInfo: DisableInfoType = {}
 
@@ -93,6 +102,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 								price={price}
 								ordered={this.purchaseHandler}
 								purchasable={this.updatePurchaseState(ingredients)}
+								isAuth={isAuthenticated}
 						/>
 					</React.Fragment>
 			)
@@ -120,14 +130,16 @@ const mapStateToProps = (state: RootStateTypes): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	price: state.burgerBuilder.totalPrice,
 	error: state.burgerBuilder.error,
+	isAuthenticated: state.auth.token !== '',
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	onIngredientAdded: (ingredientName: IngredientsEnum) => dispatch(addIngredient(ingredientName)),
 	onIngredientRemoved: (ingredientName: IngredientsEnum) => dispatch(removeIngredient(ingredientName)),
+	onInitPurchase: () => dispatch(purchaseInit()),
+	onSetAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path)),
 	// @ts-ignore
 	onInitIngredients: () => dispatch(fetchIngredients()),
-	onInitPurchase: () => dispatch(purchaseInit())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))

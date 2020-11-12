@@ -1,15 +1,13 @@
 import React from 'react'
 import Modal from 'components/UI/Modal/Modal'
-import {
-	AxiosError,
-	AxiosInstance,
-	AxiosRequestConfig,
-	AxiosResponse,
-} from 'axios'
-import { withErrorHandlerStateType } from 'utils/types'
+import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, } from 'axios'
 
 let reqInterceptor: number
 let resInterceptor: number
+
+interface withErrorHandlerStateType {
+	error: AxiosError | null
+}
 
 const withErrorHandler = <P extends object>(WrappedComponent: React.ComponentType<P>, axios: AxiosInstance) => {
 	return class extends React.Component {
