@@ -8,6 +8,7 @@ const initialState: AuthState = {
 	error: '',
 	loading: false,
 	authRedirectPath: '/',
+	authInitialized: false,
 }
 
 export const authReducer = (state = initialState, action: AnyAction): AuthState => {
@@ -42,6 +43,11 @@ export const authReducer = (state = initialState, action: AnyAction): AuthState 
 			return {
 				...state,
 				authRedirectPath: action.path,
+			}
+		case AuthActionTypes.SET_AUTH_INITIALIZED:
+			return {
+				...state,
+				authInitialized: true,
 			}
 		default:
 			return state

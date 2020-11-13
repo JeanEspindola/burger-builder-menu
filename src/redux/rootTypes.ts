@@ -8,6 +8,7 @@ export interface AuthState {
 	error: string
 	loading: boolean
 	authRedirectPath: string
+	authInitialized: boolean
 }
 
 export interface OrderState {

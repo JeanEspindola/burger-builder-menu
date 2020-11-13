@@ -29,10 +29,9 @@ class Orders extends React.Component<OrdersPropsType> {
 	}
 
 	render() {
-		let orders = <Spinner />
+		let orders: React.ReactNode = <Spinner />
 
 		if (!this.props.loading) {
-			// @ts-ignore
 			orders = this.props.orders.map((order: OrderType) => (
 						<Order
 								key={order.id}

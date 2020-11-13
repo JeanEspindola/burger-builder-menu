@@ -91,5 +91,10 @@ export const authCheckSate = () => {
 				dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000))
 			}
 		}
+		dispatch(setAuthInitilized())
 	}
 }
+
+export const setAuthInitilized = () => ({
+	type: AuthActionTypes.SET_AUTH_INITIALIZED,
+})
