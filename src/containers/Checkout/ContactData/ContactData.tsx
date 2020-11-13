@@ -21,6 +21,7 @@ interface Props {
 	price: number
 	loading: boolean
 	token: string
+	userId: string
 }
 
 interface DispatchProps {
@@ -123,7 +124,7 @@ class ContactData extends React.Component<ContactDataProps> {
 		event?.preventDefault()
 
 		const { orderForm } = this.state
-		const { ingredients, price, onPurchaseBurgerStart, token } = this.props
+		const { ingredients, price, onPurchaseBurgerStart, token, userId } = this.props
 
 		const formData = {}
 
@@ -135,6 +136,7 @@ class ContactData extends React.Component<ContactDataProps> {
 		const order = {
 			ingredients,
 			price,
+			userId,
 			orderData: formData,
 		}
 
@@ -207,6 +209,7 @@ const mapStateToProps = (state: RootStateTypes): Props => ({
 	price: state.burgerBuilder.totalPrice,
 	loading: state.order.loading,
 	token: state.auth.token,
+	userId: state.auth.userId,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({

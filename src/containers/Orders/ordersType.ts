@@ -22,5 +22,6 @@ export interface OrderType {
 	ingredients: IngredientsType
 	orderData: OrderData
 	price: number
+	userId: string
 }
 

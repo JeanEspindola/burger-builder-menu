@@ -13,18 +13,19 @@ interface Props {
 	orders: OrderType[]
 	loading: boolean
 	token: string
+	userId: string
 }
 
 interface DispatchProps {
-	onFetchOrders: (token: string) => void
+	onFetchOrders: (token: string, userId: string) => void
 }
 
 interface OrdersPropsType extends Props, DispatchProps {}
 
 class Orders extends React.Component<OrdersPropsType> {
 	componentDidMount() {
-		const { onFetchOrders, token } = this.props
-		onFetchOrders(token)
+		const { onFetchOrders, token, userId } = this.props
+		onFetchOrders(token, userId)
 	}
 
 	render() {
@@ -53,11 +54,12 @@ const mapStateToProps = (state: RootStateTypes): Props => ({
 	orders: state.order.orders,
 	loading: state.order.loading,
 	token: state.auth.token,
+	userId: state.auth.userId,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	// @ts-ignore
-	onFetchOrders: (token: string) => dispatch(fetchOrders(token))
+	onFetchOrders: (token: string, userId: string) => dispatch(fetchOrders(token, userId))
 })
 
 
