@@ -12,9 +12,13 @@ import { RootStateTypes } from './redux/rootTypes'
 import Spinner from './components/UI/Spinner/Spinner'
 import asyncComponent from './hoc/asyncComponent/asynComponent'
 
-interface Props {
+type Props = {
   isAuthenticated: boolean
   isAuthInitialized: boolean
+}
+
+type DispatchProps = {
+  onTryAutoSignup: () => void
 }
 
 const asyncCheckout = asyncComponent(() => {
@@ -29,18 +33,17 @@ const asyncAuth = asyncComponent(() => {
   return import('./containers/Auth/Auth')
 })
 
-class App extends React.Component {
+class App extends React.Component<Props & DispatchProps> {
   componentDidMount() {
-    // @ts-ignore
     this.props.onTryAutoSignup()
   }
 
   render () {
+    const { isAuthInitialized, isAuthenticated} = this.props
 
     let routes: React.ReactNode = <Spinner />
 
-    // @ts-ignore
-    if (this.props.isAuthInitialized) {
+    if (isAuthInitialized) {
       routes = (
           <Switch>
             <Route path="/auth" component={asyncAuth} />
@@ -49,8 +52,7 @@ class App extends React.Component {
           </Switch>
       )
 
-      // @ts-ignore
-      if (this.props.isAuthenticated) {
+      if (isAuthenticated) {
         routes = (
             <Switch>
               <Route path="/checkout" component={asyncCheckout} />
@@ -86,7 +88,7 @@ const mapStateToProps = (state: RootStateTypes): Props => ({
   isAuthInitialized: state.auth.authInitialized,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   // @ts-ignore
   onTryAutoSignup: () => dispatch(authCheckSate())
 })

@@ -33,7 +33,7 @@ interface ContactDataProps extends Props, DispatchProps{
 }
 
 class ContactData extends React.Component<ContactDataProps> {
-	state: ContactDataStateType = {
+	state: Readonly<ContactDataStateType> = {
 		orderForm: {
 			name: {
 				elementType: 'input',

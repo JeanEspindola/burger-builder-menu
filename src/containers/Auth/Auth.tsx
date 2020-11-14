@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
 import { ButtonsEnum } from '../../utils/constants'
@@ -34,7 +34,7 @@ interface DispatchProps {
 interface AuthProps extends DispatchProps, Props {}
 
 class Auth extends React.Component<AuthProps> {
-	state: AuthStateType = {
+	state: Readonly<AuthStateType> = {
 		controls: {
 			email: {
 				elementType: 'input',
@@ -91,8 +91,8 @@ class Auth extends React.Component<AuthProps> {
 		this.setState({controls: updatedControls})
 	}
 
-	submitHandler = (event?: { preventDefault: () => void }) => {
-		event?.preventDefault()
+	submitHandler = (event: FormEvent<HTMLElement>) => {
+		event.preventDefault()
 
 		const { controls: {  email, password}, isSignup } = this.state
 		const { onAuth } = this.props

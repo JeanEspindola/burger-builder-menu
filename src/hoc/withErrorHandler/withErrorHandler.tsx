@@ -11,7 +11,7 @@ interface withErrorHandlerStateType {
 
 const withErrorHandler = <P extends object>(WrappedComponent: React.ComponentType<P>, axios: AxiosInstance) => {
 	return class extends React.Component {
-		state: withErrorHandlerStateType = {
+		state: Readonly<withErrorHandlerStateType> = {
 			error: null,
 		}
 

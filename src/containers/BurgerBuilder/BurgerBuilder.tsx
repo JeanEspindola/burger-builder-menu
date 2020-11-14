@@ -40,7 +40,7 @@ interface BurgerBuilderStateType {
 }
 
 class BurgerBuilder extends React.Component<BurgerBuilderProps> {
-	state: BurgerBuilderStateType = {
+	state: Readonly<BurgerBuilderStateType> = {
 		purchasing: false,
 	}
 

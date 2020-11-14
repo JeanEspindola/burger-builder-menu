@@ -4,7 +4,7 @@ import classes from './Button.module.scss'
 interface ButtonProps {
 	disabled?: boolean
 	children: React.ReactNode
-	clicked?: (event?: { preventDefault: () => void }) => void
+	clicked?: (event: React.MouseEvent<HTMLElement>) => void
 	btnType: string
 }
 

@@ -18,7 +18,7 @@ interface LayoutState {
 }
 
 class Layout extends React.Component<LayoutProps> {
-	state: LayoutState = {
+	state: Readonly<LayoutState> = {
 		showSideDrawer: false
 	}
 
