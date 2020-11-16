@@ -23,7 +23,7 @@ export const BASE_URL = 'https://react-burger-builder-menu.firebaseio.com/'
 export const AUTH_BASE_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:'
 export const SING_UP_URL = 'signUp'
 export const SIGN_IN_URL = 'signInWithPassword'
-export const API_KEY = '?key=AIzaSyAk9OHZ2MBlIahZ_pPgxkzhDnUsKjkLh94'
+export const API_KEY = '?key=' //Add API key here
 export const INGREDIENTS_URL = 'ingredients.json'
 
 export const EMAIL_REGEX = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
