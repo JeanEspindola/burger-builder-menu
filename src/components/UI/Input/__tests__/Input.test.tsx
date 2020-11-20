@@ -3,7 +3,7 @@ import { screen, render  } from '@testing-library/react';
 import { IntlProvider } from 'react-intl'
 import translationMessages from '../../../../i18n/translationMessages'
 import Input from '../Input'
-import { dummyContactForm } from '../../../../../tests/testObjects/dummyContactData'
+import { dummyContactForm } from '../../../../tests/testObjects/dummyContactData'
 
 describe('Input', () => {
 	const changed = jest.fn()
@@ -50,7 +50,6 @@ describe('Input', () => {
 
 	test('renders correctly select option', () => {
 		const input = dummyContactForm.deliveryMethod
-		const value = 'Jean'
 
 		render(
 				// @ts-ignore
@@ -60,7 +59,6 @@ describe('Input', () => {
 						elementConfig={input.elementConfig}
 						changed={changed}
 						elementType={input.elementType}
-						value={value}
 						touched={input.touched}
 				>
 				</Input>,

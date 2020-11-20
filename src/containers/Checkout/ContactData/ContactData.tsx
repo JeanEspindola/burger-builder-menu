@@ -15,7 +15,7 @@ import { RootStateTypes } from '../../../redux/rootTypes'
 import { IngredientsType } from '../../../utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { checkValidity, createFormArray } from '../../../utils/helper'
-import { dummyContactForm } from '../../../../tests/testObjects/dummyContactData'
+import { dummyContactForm } from '../../../tests/testObjects/dummyContactData'
 
 interface Props {
 	ingredients: IngredientsType
