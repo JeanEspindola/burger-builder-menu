@@ -26,4 +26,5 @@ export const SIGN_IN_URL = 'signInWithPassword'
 export const API_KEY = '?key=' //Add API key here
 export const INGREDIENTS_URL = 'ingredients.json'
 
+
 export const EMAIL_REGEX = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
