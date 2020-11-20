@@ -8,9 +8,9 @@ describe('Button', () => {
 		const text = 'Danger'
 
 		render(
-				<Button btnType={ButtonsEnum.danger} disabled={true}>
-					{text}
-				</Button>
+			<Button btnType={ButtonsEnum.danger} disabled={true}>
+				{text}
+			</Button>
 		)
 
 		const button = screen.getByRole('button', {name: text})

@@ -5,7 +5,6 @@ import translationMessages from '../../../../i18n/translationMessages'
 import { IntlProvider } from 'react-intl'
 
 describe('Spinner', () => {
-
 	// @ts-ignore
 	const Wrapper = ({children}) => (
 			<IntlProvider
