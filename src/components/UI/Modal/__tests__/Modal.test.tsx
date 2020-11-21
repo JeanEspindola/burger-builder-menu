@@ -23,9 +23,9 @@ describe('Modal', () => {
 
 	test('renders correctly hidden modal', () => {
 		render(
-				<Modal show={false} modalClosed={func} >
-					{modal}
-				</Modal>
+			<Modal show={false} modalClosed={func} >
+				{modal}
+			</Modal>
 		)
 
 		const text = screen.getByText(modal)
