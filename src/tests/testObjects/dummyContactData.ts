@@ -1,4 +1,4 @@
-import { OrderFormElement } from '../../containers/Checkout/ContactData/ContactDataTypes'
+import { OrderFormElement } from 'containers/Checkout/ContactData/ContactDataTypes'
 
 export const dummyContactForm: OrderFormElement = {
 	name: {

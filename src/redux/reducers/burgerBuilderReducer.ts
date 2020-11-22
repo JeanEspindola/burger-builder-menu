@@ -1,9 +1,9 @@
 import { AnyAction } from 'redux'
-import { IngredientsType } from '../../utils/types'
+import { IngredientsType } from 'utils/types'
 import { BurgerActionTypes } from '../actions/actionTypes'
 import { BurgerBuilderState } from '../rootTypes'
 
-const INGREDIENT_PRICES: IngredientsType = {
+export const INGREDIENT_PRICES: IngredientsType = {
 	breadTop: 0,
 	breadBottom: 0,
 	salad: 0.5,
