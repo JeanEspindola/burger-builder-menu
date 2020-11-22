@@ -9,7 +9,7 @@ export const dummyBurgerBuilderState: BurgerBuilderState = {
 }
 
 
-export const dummyIngredients: IngredientsType = {
+export const dummyEmptyIngredients: IngredientsType = {
 	salad: 0,
 	cheese: 0,
 	meat: 0,

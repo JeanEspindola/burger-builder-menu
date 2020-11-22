@@ -37,7 +37,6 @@ describe('BuildControls', () => {
 		const cheese = screen.getByText(/cheese/i)
 		const meat = screen.getByText(/meat/i)
 		const salad = screen.getByText(/salad/i)
-
 		const orderNowBtn = screen.getByRole('button', { name: /order now/i })
 
 		expect(currentPrice).toHaveTextContent('Current price: 4.00')
@@ -45,17 +44,10 @@ describe('BuildControls', () => {
 		expect(cheese).toBeInTheDocument()
 		expect(meat).toBeInTheDocument()
 		expect(salad).toBeInTheDocument()
-
 		expect(orderNowBtn).toBeDisabled()
 	})
 
 	test('click on user events and check price and button', () => {
-		const currentPrice = screen.getByText(/current price/i)
-		expect(currentPrice).toHaveTextContent('Current price: 4.00')
-
-		const orderNowBtn = screen.getByRole('button', { name: /order now/i })
-		expect(orderNowBtn).toBeDisabled()
-
 		/* Buttons of Bacon ingredient */
 		const lessButton = screen.getAllByRole('button', { name: /less/i })[0]
 		expect(lessButton).toBeDisabled()

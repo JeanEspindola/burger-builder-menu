@@ -1,5 +1,6 @@
 import React from 'react'
-import { Route, RouteProps, RouteComponentProps, Redirect } from 'react-router-dom'
+import { Route, RouteProps, Redirect } from 'react-router-dom'
+import { Location, History } from 'history';
 import CheckoutSummary from 'components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { connect } from 'react-redux'
@@ -12,8 +13,8 @@ interface Props {
 }
 
 export interface CheckoutProps extends Props {
-	history: RouteComponentProps['history']
-	location: RouteProps['location']
+	history?: History
+	location: Location
 	match: {
 		path: RouteProps['path']
 	},
@@ -21,11 +22,11 @@ export interface CheckoutProps extends Props {
 
 class Checkout extends React.Component<CheckoutProps> {
 	checkoutCancelledHandler = () => {
-		this.props.history.goBack()
+		this.props.history?.goBack()
 	}
 
 	checkoutContinuedHandler = () => {
-		this.props.history.replace('/checkout/contact-data')
+		this.props.history?.replace('/checkout/contact-data')
 	}
 
 	render() {

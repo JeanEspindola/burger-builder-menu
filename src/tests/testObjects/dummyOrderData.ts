@@ -19,7 +19,7 @@ export const dummyCustomerData: CustomerData = {
 
 export const dummyOrderIngredients: IngredientsType = {
 	bacon: 3,
-	cheese: 0,
+	cheese: 1,
 	meat: 2,
 	salad: 1
 }

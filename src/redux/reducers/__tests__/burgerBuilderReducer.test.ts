@@ -1,6 +1,6 @@
 import { BurgerActionTypes } from '../../actions/actionTypes'
 import burgerBuilderReducer, { INGREDIENT_PRICES } from '../burgerBuilderReducer'
-import { dummyBurgerBuilderState, dummyIngredients } from 'tests/testObjects/dummyBurgerData'
+import { dummyBurgerBuilderState, dummyEmptyIngredients } from 'tests/testObjects/dummyBurgerData'
 import { IngredientsEnum } from 'utils/constants'
 
 describe('burgerBuilderReducer', () => {
@@ -13,18 +13,18 @@ describe('burgerBuilderReducer', () => {
 				{...tempState },
 				{
 					type: BurgerActionTypes.SET_INGREDIENTS,
-					ingredients: dummyIngredients,
+					ingredients: dummyEmptyIngredients,
 				}
 		)
 
 		expect(newState.totalPrice).toEqual(4)
 		expect(newState.building).toBeFalsy()
-		expect(newState.ingredients).toEqual(dummyIngredients)
+		expect(newState.ingredients).toEqual(dummyEmptyIngredients)
 	})
 
 	test('addIngredients action', () => {
 		const tempState = { ...dummyBurgerBuilderState }
-		tempState.ingredients = dummyIngredients
+		tempState.ingredients = dummyEmptyIngredients
 
 		const ingredient = IngredientsEnum.bacon
 
@@ -46,7 +46,7 @@ describe('burgerBuilderReducer', () => {
 
 		const tempState = { ...dummyBurgerBuilderState }
 		tempState.ingredients = {
-			...dummyIngredients,
+			...dummyEmptyIngredients,
 			bacon: 1,
 		}
 		tempState.totalPrice = tempState.totalPrice + INGREDIENT_PRICES[ingredient]

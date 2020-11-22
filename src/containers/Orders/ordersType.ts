@@ -1,6 +1,6 @@
-import { IngredientsType } from '../../utils/types'
+import { IngredientsType } from 'utils/types'
 
-interface OrderData {
+export interface CustomerData {
 	country: string
 	deliveryMethod: string
 	email: string
@@ -20,7 +20,7 @@ export interface OrderIngredients {
 export interface OrderType {
 	id: string
 	ingredients: IngredientsType
-	orderData: OrderData
+	orderData: CustomerData
 	price: number
 	userId: string
 }
