@@ -35,7 +35,7 @@ const Order = (props: OrderProps) => {
 			<p>
 				<FormattedMessage id="order.price" />
 				<strong>
-					{` $ ${Number.parseFloat(String(props.price)).toFixed(2)}`}
+					{` $${Number.parseFloat(String(props.price)).toFixed(2)}`}
 				</strong>
 			</p>
 		</div>
