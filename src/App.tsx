@@ -7,7 +7,7 @@ import translationMessages from './i18n/translationMessages'
 import Logout from './containers/Auth/Logout/Logout'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { authCheckSate } from './redux/actions/authActions'
+import { authCheckState } from './redux/actions/authActions'
 import { RootStateTypes } from './redux/rootTypes'
 import Spinner from './components/UI/Spinner/Spinner'
 import asyncComponent from './hoc/asyncComponent/asynComponent'
@@ -90,7 +90,7 @@ const mapStateToProps = (state: RootStateTypes): Props => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   // @ts-ignore
-  onTryAutoSignup: () => dispatch(authCheckSate())
+  onTryAutoSignup: () => dispatch(authCheckState())
 })
 
 // @ts-ignore

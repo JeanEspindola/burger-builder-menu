@@ -7,16 +7,22 @@ import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga'
 import { rootReducer } from './redux/rootReducer'
+import { watchAuth } from './redux/rootSaga'
 
 const composeEnhancers = process.env.NODE_ENV === 'development'
     // @ts-ignore
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 
+const sagaMiddleware = createSagaMiddleware()
+
 const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, sagaMiddleware),
 ));
+
+sagaMiddleware.run(watchAuth)
 
 ReactDOM.render(
   <React.StrictMode>
