@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import { dummyOrderIngredients } from 'tests/testObjects/dummyOrderData'
 import Checkout from '../../Checkout'
-import { dummyLocation } from '../../../../tests/testObjects/dummyRoutes'
+import { dummyLocation } from '../../../../tests/testObjects/dummyRouter'
 import { dummyRootAppState } from '../../../../tests/testObjects/dummyRootState'
 
 describe('Checkout', () => {
