@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 import { rootReducer } from './redux/rootReducer'
-import { watchAuth } from './redux/rootSaga'
+import { watchAuth, watchBurgerBuilder, watchOrder } from './redux/rootSaga'
 
 const composeEnhancers = process.env.NODE_ENV === 'development'
     // @ts-ignore
@@ -23,6 +23,8 @@ const store = createStore(rootReducer, composeEnhancers(
 ));
 
 sagaMiddleware.run(watchAuth)
+sagaMiddleware.run(watchBurgerBuilder)
+sagaMiddleware.run(watchOrder)
 
 ReactDOM.render(
   <React.StrictMode>

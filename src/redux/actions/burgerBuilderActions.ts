@@ -1,8 +1,6 @@
-import { BASE_URL, INGREDIENTS_URL, IngredientsEnum } from '../../utils/constants'
-import axios from '../../axios-orders'
+import { IngredientsEnum } from '../../utils/constants'
 import { BurgerActionTypes } from './actionTypes'
 import { IngredientsType } from '../../utils/types'
-import { Dispatch } from '../rootTypes'
 
 export const addIngredient = (ingredientName: IngredientsEnum) => ({
 	type: BurgerActionTypes.ADD_INGREDIENT,
@@ -23,14 +21,6 @@ export const fetchIngredientsFailed = () => ({
 	type: BurgerActionTypes.FETCH_INGREDIENTS_FAILED,
 })
 
-export const fetchIngredients = () => {
-	return (dispatch: Dispatch) => {
-		axios.get(`${BASE_URL}${INGREDIENTS_URL}`)
-			.then(response => {
-				dispatch(setIngredients(response.data))
-			})
-			.catch(error => {
-				dispatch(fetchIngredientsFailed())
-			})
-	}
-}
+export const fetchIngredients = () => ({
+	type: BurgerActionTypes.INIT_INGREDIENTS,
+})
