@@ -6,7 +6,7 @@ import { Dispatch } from 'redux'
 import { fetchOrders } from '../../redux/actions/orderActions'
 import { connect } from 'react-redux'
 import Spinner from '../../components/UI/Spinner/Spinner'
-import { RootStateTypes } from '../../redux/rootTypes'
+import { RootStateType } from '../../redux/rootTypes'
 import { OrderType } from './ordersType'
 
 interface Props {
@@ -49,7 +49,7 @@ class Orders extends React.Component<OrdersPropsType> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
 	orders: state.order.orders,
 	loading: state.order.loading,
 	token: state.auth.token,

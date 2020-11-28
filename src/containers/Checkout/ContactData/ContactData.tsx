@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import { Dispatch } from 'redux'
 import { purchaseBurger } from '../../../redux/actions/orderActions'
-import { RootStateTypes } from '../../../redux/rootTypes'
+import { RootStateType } from '../../../redux/rootTypes'
 import { IngredientsType } from '../../../utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { checkValidity, createFormArray } from '../../../utils/helper'
@@ -123,7 +123,7 @@ class ContactData extends React.Component<ContactDataProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	price: state.burgerBuilder.totalPrice,
 	loading: state.order.loading,

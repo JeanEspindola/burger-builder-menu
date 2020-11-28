@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import translationMessages from '../i18n/translationMessages'
 import { MemoryRouter } from 'react-router'
 import { IntlProvider } from 'react-intl'
-import { RootStateTypes } from '../redux/rootTypes'
+import { RootStateType } from '../redux/rootTypes'
 import { Provider } from 'react-redux'
 
 export const WrappedRender = (component: React.ReactElement, store?: any) => {
@@ -42,7 +42,7 @@ const componentWithoutStore = (children: React.ReactNode) => (
 	</IntlProvider>
 )
 
-export const createDummyStore = (state: RootStateTypes) => {
+export const createDummyStore = (state: RootStateType) => {
 	return {
 		dispatch: jest.fn(),
 		getState: () => state,
@@ -50,4 +50,25 @@ export const createDummyStore = (state: RootStateTypes) => {
 		replaceReducer: jest.fn(),
 		[Symbol.observable]: jest.fn(),
 	};
+}
+
+export const mockApi = (
+		apiMethod: Function,
+		statusCode: number,
+		response: Record<string, any>,
+) => {
+	const mockedAPI = apiMethod as jest.Mock;
+	mockedAPI.mockClear();
+
+	if (statusCode === 200) {
+		mockedAPI.mockResolvedValue({ ...response });
+	} else {
+		mockedAPI.mockRejectedValue({ response });
+	}
+	return mockedAPI;
+};
+
+export interface TestDispatchType<T> {
+	type?: string;
+	payload?: T;
 }

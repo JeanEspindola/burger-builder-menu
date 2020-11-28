@@ -5,7 +5,7 @@ import CheckoutSummary from 'components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { connect } from 'react-redux'
 import { IngredientsType } from '../../utils/types'
-import { RootStateTypes } from '../../redux/rootTypes'
+import { RootStateType } from '../../redux/rootTypes'
 
 interface Props {
 	ingredients: IngredientsType,
@@ -56,7 +56,7 @@ class Checkout extends React.Component<CheckoutProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	purchased: state.order.purchased
 })

@@ -1,9 +1,9 @@
-import { RootStateTypes } from 'redux/rootTypes'
+import { RootStateType } from 'redux/rootTypes'
 import { dummyAuthState } from './dummyAuthData'
 import { dummyBurgerBuilderState } from './dummyBurgerData'
 import { dummyOrderState } from './dummyOrderData'
 
-export const dummyRootAppState = () :RootStateTypes => {
+export const dummyRootAppState = () :RootStateType => {
 	return {
 		auth: dummyAuthState,
 		burgerBuilder: dummyBurgerBuilderState,

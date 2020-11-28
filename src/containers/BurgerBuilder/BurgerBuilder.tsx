@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { IngredientsEnum } from '../../utils/constants'
 import { addIngredient, removeIngredient, fetchIngredients } from '../../redux/actions/burgerBuilderActions'
-import { Dispatch, RootStateTypes } from '../../redux/rootTypes'
+import { Dispatch, RootStateType } from '../../redux/rootTypes'
 import { purchaseInit } from '../../redux/actions/orderActions'
 import { setAuthRedirectPath } from '../../redux/actions/authActions'
 
@@ -126,7 +126,7 @@ class BurgerBuilder extends React.Component<BurgerBuilderProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
 	ingredients: state.burgerBuilder.ingredients,
 	price: state.burgerBuilder.totalPrice,
 	error: state.burgerBuilder.error,

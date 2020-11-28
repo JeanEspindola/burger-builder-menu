@@ -3,7 +3,7 @@ import classes from './Layout.module.scss'
 import Toolbar from 'components/Navigation/Toolbar/Toolbar'
 import SideDrawer from 'components/Navigation/SideDrawer/SideDrawer'
 import { connect } from 'react-redux'
-import { RootStateTypes } from '../../redux/rootTypes'
+import { RootStateType } from '../../redux/rootTypes'
 
 interface Props {
 	isAuthenticated: boolean
@@ -54,7 +54,7 @@ class Layout extends React.Component<LayoutProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
 	isAuthenticated: state.auth.token !== '',
 })
 

@@ -46,5 +46,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/api/api.ts",
+      "<rootDir>/src/tests",
+      "<rootDir>/src/i18n"
+    ]
   }
 }

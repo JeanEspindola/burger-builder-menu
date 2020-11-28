@@ -24,7 +24,7 @@ export interface BurgerBuilderState {
 	building: boolean
 }
 
-export interface RootStateTypes {
+export interface RootStateType {
 	burgerBuilder: BurgerBuilderState,
 	order: OrderState,
 	auth: AuthState,

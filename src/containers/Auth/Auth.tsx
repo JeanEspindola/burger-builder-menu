@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { checkValidity, createFormArray } from '../../utils/helper'
 import Spinner from '../../components/UI/Spinner/Spinner'
-import { RootStateTypes } from '../../redux/rootTypes'
+import { RootStateType } from '../../redux/rootTypes'
 
 interface AuthStateType {
 	controls: OrderFormElement
@@ -160,7 +160,7 @@ class Auth extends React.Component<AuthProps> {
 	}
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
 	loading: state.auth.loading,
 	error: state.auth.error,
 	isAuthenticated: state.auth.token !== '',

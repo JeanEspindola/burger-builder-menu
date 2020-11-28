@@ -8,7 +8,7 @@ import Logout from './containers/Auth/Logout/Logout'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { authCheckState } from './redux/actions/authActions'
-import { RootStateTypes } from './redux/rootTypes'
+import { RootStateType } from './redux/rootTypes'
 import Spinner from './components/UI/Spinner/Spinner'
 import asyncComponent from './hoc/asyncComponent/asynComponent'
 
@@ -83,7 +83,7 @@ class App extends React.Component<Props & DispatchProps> {
   }
 }
 
-const mapStateToProps = (state: RootStateTypes): Props => ({
+const mapStateToProps = (state: RootStateType): Props => ({
   isAuthenticated: state.auth.token !== '',
   isAuthInitialized: state.auth.authInitialized,
 })
