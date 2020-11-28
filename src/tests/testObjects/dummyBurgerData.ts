@@ -8,7 +8,6 @@ export const dummyBurgerBuilderState: BurgerBuilderState = {
 	totalPrice: 4,
 }
 
-
 export const dummyEmptyIngredients: IngredientsType = {
 	salad: 0,
 	cheese: 0,

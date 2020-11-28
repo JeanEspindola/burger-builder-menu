@@ -7,6 +7,8 @@ import {
 	purchaseBurgerStart,
 	purchaseBurgerSuccess
 } from '../actions/orderActions'
+import { all, takeEvery } from 'redux-saga/effects'
+import { OrdersActionTypes } from '../actions/actionTypes'
 
 // @ts-ignore
 export function* purchaseBurgerSaga(action) {
@@ -44,4 +46,11 @@ export function* fetchOrdersSaga(action) {
 	} catch (error) {
 		yield put(fetchOrdersFail(true))
 	}
+}
+
+export function* orderWatcher() {
+	yield all([
+		takeEvery(OrdersActionTypes.PURCHASE_BURGER, purchaseBurgerSaga),
+		takeEvery(OrdersActionTypes.FETCH_ORDERS, fetchOrdersSaga),
+	])
 }

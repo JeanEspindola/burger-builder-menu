@@ -5,26 +5,9 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
-import createSagaMiddleware from 'redux-saga'
-import { rootReducer } from './redux/rootReducer'
-import { watchAuth, watchBurgerBuilder, watchOrder } from './redux/rootSaga'
+import { configureStore } from './redux/rootStore'
 
-const composeEnhancers = process.env.NODE_ENV === 'development'
-    // @ts-ignore
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
-
-const sagaMiddleware = createSagaMiddleware()
-
-const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk, sagaMiddleware),
-));
-
-sagaMiddleware.run(watchAuth)
-sagaMiddleware.run(watchBurgerBuilder)
-sagaMiddleware.run(watchOrder)
+const store = configureStore()
 
 ReactDOM.render(
   <React.StrictMode>

@@ -10,6 +10,8 @@ import {
 } from '../actions/authActions'
 import { API_KEY, AUTH_BASE_URL, SIGN_IN_URL, SING_UP_URL } from '../../utils/constants'
 import axios from 'axios'
+import { all, takeEvery } from 'redux-saga/effects'
+import { AuthActionTypes } from '../actions/actionTypes'
 
 // @ts-ignore
 export function* logoutSaga(action) {
@@ -79,4 +81,13 @@ export function* authCheckStateSaga(action) {
 	}
 
 	yield put(setAuthInitilized())
+}
+
+export function* authWatcher() {
+	yield all([
+		takeEvery(AuthActionTypes.AUTH_INITIATE_LOGOUT, logoutSaga),
+		takeEvery(AuthActionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),
+		takeEvery(AuthActionTypes.AUTH_USER, authUserSaga),
+		takeEvery(AuthActionTypes.AUTH_CHECK_STATE, authCheckStateSaga),
+	])
 }
