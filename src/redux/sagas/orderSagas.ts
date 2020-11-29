@@ -1,5 +1,4 @@
-import { put } from '@redux-saga/core/effects';
-import axios from '../../axios-orders'
+import { put, call } from '@redux-saga/core/effects';
 import {
 	fetchOrdersFail,
 	fetchOrdersStart,
@@ -10,13 +9,15 @@ import {
 } from '../actions/orderActions'
 import { all, takeEvery } from 'redux-saga/effects'
 import { FetchOrdersType, OrdersActionTypes, PurchaseBurgerType } from '../actions/actionTypes'
+import API from '../../api/api'
+import { getOrdersArray } from '../../utils/helper'
 
 export function* purchaseBurgerSaga(action: PurchaseBurgerType) {
 	const { token, orderData } = action
 
 	try {
 		yield put(purchaseBurgerStart())
-		const response = yield axios.post(`/orders.json?auth=${token}`, orderData)
+		const response = yield call(API.setPurchaseBurger, token, orderData)
 		yield put(purchaseBurgerSuccess(response.data.name, orderData))
 
 	} catch (error) {
@@ -29,16 +30,9 @@ export function* fetchOrdersSaga(action: FetchOrdersType) {
 
 	try {
 		yield put(fetchOrdersStart())
-		const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`
-		const response = yield axios.get(`/orders.json${queryParams}`)
+		const response = yield call(API.fetchOrders, token, userId)
 
-		const fetchedOrders = []
-		for (let key in response.data) {
-			fetchedOrders.push({
-				...response.data[key],
-				id: key,
-			})
-		}
+		const fetchedOrders = getOrdersArray(response.data)
 
 		yield put(fetchOrdersSuccess(fetchedOrders))
 

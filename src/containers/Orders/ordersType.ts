@@ -25,3 +25,13 @@ export interface OrderType {
 	userId: string
 }
 
+export interface OrderResponseMap {
+	[key: string]: OrderResponse,
+}
+
+export interface OrderResponse {
+	ingredients: IngredientsType
+	orderData: CustomerData
+	price: number
+	userId: string
+}

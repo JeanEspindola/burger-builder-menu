@@ -1,5 +1,5 @@
 import { OrderState } from 'redux/rootTypes'
-import { CustomerData, OrderType } from 'containers/Orders/ordersType'
+import { CustomerData, OrderResponseMap, OrderType } from 'containers/Orders/ordersType'
 import { IngredientsType } from 'utils/types'
 
 export const dummyOrderState: OrderState = {
@@ -33,5 +33,18 @@ export const dummyOrder: OrderType = {
 }
 
 export const dummyOrders: OrderType[] = [
-		dummyOrder
+	dummyOrder
+]
+
+export const dummyOrderResponse: OrderResponseMap = {
+	'123' : {
+		userId: '-123',
+		ingredients: dummyOrderIngredients,
+		orderData: dummyCustomerData,
+		price: 9.2,
+	}
+}
+
+export const dummyOrdersResponse: OrderResponseMap[] = [
+	dummyOrderResponse,
 ]
