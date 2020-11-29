@@ -1,6 +1,6 @@
 import { IngredientsType } from '../utils/types'
 import { applyMiddleware, compose, createStore, Store } from 'redux'
-import { RootStateTypes } from './rootTypes'
+import { RootStateType } from './rootTypes'
 import createSagaMiddleware from 'redux-saga'
 import { rootReducer } from './rootReducer'
 import thunk from 'redux-thunk'
@@ -13,7 +13,7 @@ export interface InitialStateType {
 }
 
 // @ts-ignore
-export function configureStore(): Store<RootStateTypes> {
+export function configureStore(): Store<RootStateType> {
 
 	const composeEnhancers = process.env.NODE_ENV === 'development'
 			// @ts-ignore

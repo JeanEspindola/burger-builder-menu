@@ -11,24 +11,22 @@ import {
 import { API_KEY, AUTH_BASE_URL, SIGN_IN_URL, SING_UP_URL } from '../../utils/constants'
 import axios from 'axios'
 import { all, takeEvery } from 'redux-saga/effects'
-import { AuthActionTypes } from '../actions/actionTypes'
+import { AuthActionTypes, AuthCheckStateType, AuthType, CheckAuthTimeoutType, LogoutType } from '../actions/actionTypes'
 
-// @ts-ignore
-export function* logoutSaga(action) {
+
+export function* logoutSaga(action: LogoutType) {
 	yield call([localStorage, 'removeItem'], 'token')
 	yield call([localStorage, 'removeItem'], 'expirationDate')
 	yield call([localStorage, 'removeItem'], 'userId')
 	yield put(logoutSucceed())
 }
 
-// @ts-ignore
-export function* checkAuthTimeoutSaga(action) {
+export function* checkAuthTimeoutSaga(action: CheckAuthTimeoutType) {
 	yield delay(action.expirationTime * 1000)
 	yield put(logout())
 }
 
-// @ts-ignore
-export function* authUserSaga(action) {
+export function* authUserSaga(action: AuthType) {
 	yield put(authStart())
 	const { email, password, isSignup } = action
 
@@ -61,8 +59,7 @@ export function* authUserSaga(action) {
 	}
 }
 
-// @ts-ignore
-export function* authCheckStateSaga(action) {
+export function* authCheckStateSaga(action: AuthCheckStateType) {
 	const token = yield localStorage.getItem('token')
 
 	if (!token) {
@@ -83,7 +80,7 @@ export function* authCheckStateSaga(action) {
 	yield put(setAuthInitilized())
 }
 
-export function* authWatcher() {
+export default function* authWatcher() {
 	yield all([
 		takeEvery(AuthActionTypes.AUTH_INITIATE_LOGOUT, logoutSaga),
 		takeEvery(AuthActionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),

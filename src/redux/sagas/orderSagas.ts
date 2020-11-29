@@ -2,16 +2,16 @@ import { put } from '@redux-saga/core/effects';
 import axios from '../../axios-orders'
 import {
 	fetchOrdersFail,
-	fetchOrdersStart, fetchOrdersSuccess,
+	fetchOrdersStart,
+	fetchOrdersSuccess,
 	purchaseBurgerFail,
 	purchaseBurgerStart,
 	purchaseBurgerSuccess
 } from '../actions/orderActions'
 import { all, takeEvery } from 'redux-saga/effects'
-import { OrdersActionTypes } from '../actions/actionTypes'
+import { FetchOrdersType, OrdersActionTypes, PurchaseBurgerType } from '../actions/actionTypes'
 
-// @ts-ignore
-export function* purchaseBurgerSaga(action) {
+export function* purchaseBurgerSaga(action: PurchaseBurgerType) {
 	const { token, orderData } = action
 
 	try {
@@ -24,8 +24,7 @@ export function* purchaseBurgerSaga(action) {
 	}
 }
 
-// @ts-ignore
-export function* fetchOrdersSaga(action) {
+export function* fetchOrdersSaga(action: FetchOrdersType) {
 	const { userId, token } = action
 
 	try {
@@ -48,7 +47,7 @@ export function* fetchOrdersSaga(action) {
 	}
 }
 
-export function* orderWatcher() {
+export default function* orderWatcher() {
 	yield all([
 		takeEvery(OrdersActionTypes.PURCHASE_BURGER, purchaseBurgerSaga),
 		takeEvery(OrdersActionTypes.FETCH_ORDERS, fetchOrdersSaga),
