@@ -35,7 +35,7 @@ export const createFormArray = (form: OrderFormElement) => {
 	return formArray
 }
 
-export const getOrdersArray = (ordersResponse: any) => {
+export const createOrdersArray = (ordersResponse: any) => {
 	const fetchedOrders = []
 	for (let key in ordersResponse) {
 		fetchedOrders.push({

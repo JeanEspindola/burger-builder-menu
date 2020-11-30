@@ -26,7 +26,6 @@ describe('burgerBuilderSagas', () => {
 				dispatch: action => dispatched.push(action),
 				getState: () => dummyRootAppState()
 			},
-			// @ts-ignore
 			() => initIngredientsSaga(),
 		)
 
@@ -36,10 +35,8 @@ describe('burgerBuilderSagas', () => {
 			expect.arrayContaining([
 				expect.objectContaining({
 					type: BurgerActionTypes.SET_INGREDIENTS,
-				}),
-				expect.objectContaining({
 					ingredients: {
-						...dummyEmptyIngredients
+						...dummyEmptyIngredients,
 					},
 				}),
 			]),
@@ -55,7 +52,6 @@ describe('burgerBuilderSagas', () => {
 					dispatch: action => dispatched.push(action),
 					getState: () => dummyRootAppState()
 				},
-				// @ts-ignore
 				() => initIngredientsSaga(),
 		)
 

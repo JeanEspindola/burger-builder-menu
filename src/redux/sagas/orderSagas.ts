@@ -10,7 +10,7 @@ import {
 import { all, takeEvery } from 'redux-saga/effects'
 import { FetchOrdersType, OrdersActionTypes, PurchaseBurgerType } from '../actions/actionTypes'
 import API from '../../api/api'
-import { getOrdersArray } from '../../utils/helper'
+import { createOrdersArray } from '../../utils/helper'
 
 export function* purchaseBurgerSaga(action: PurchaseBurgerType) {
 	const { token, orderData } = action
@@ -31,9 +31,7 @@ export function* fetchOrdersSaga(action: FetchOrdersType) {
 	try {
 		yield put(fetchOrdersStart())
 		const response = yield call(API.fetchOrders, token, userId)
-
-		const fetchedOrders = getOrdersArray(response.data)
-
+		const fetchedOrders = createOrdersArray(response.data)
 		yield put(fetchOrdersSuccess(fetchedOrders))
 
 	} catch (error) {
