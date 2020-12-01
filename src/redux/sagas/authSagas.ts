@@ -8,11 +8,16 @@ import {
 	logoutSucceed,
 	setAuthInitilized
 } from '../actions/authActions'
-import { API_KEY, AUTH_BASE_URL, SIGN_IN_URL, SING_UP_URL } from '../../utils/constants'
-import axios from 'axios'
 import { all, takeEvery } from 'redux-saga/effects'
-import { AuthActionTypes, AuthCheckStateType, AuthType, CheckAuthTimeoutType, LogoutType } from '../actions/actionTypes'
-
+import {
+	AuthActionTypes,
+	AuthCheckStateType,
+	AuthData,
+	AuthType,
+	CheckAuthTimeoutType,
+	LogoutType
+} from '../actions/actionTypes'
+import API from '../../api/api'
 
 export function* logoutSaga(action: LogoutType) {
 	yield call([localStorage, 'removeItem'], 'token')
@@ -30,22 +35,14 @@ export function* authUserSaga(action: AuthType) {
 	yield put(authStart())
 	const { email, password, isSignup } = action
 
-	const authData = {
+	const authData: AuthData = {
 		email,
 		password,
 		returnSecureToken: true,
 	}
 
-	let postType = SING_UP_URL
-
-	if (!isSignup) {
-		postType = SIGN_IN_URL
-	}
-
-	const url = `${AUTH_BASE_URL}${postType}${API_KEY}`
-
 	try {
-		const response = yield axios.post(url, authData)
+		const response = yield call(API.authenticateUser, isSignup, authData)
 		const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
 
 		yield localStorage.setItem('token', response.data.idToken)

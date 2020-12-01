@@ -64,3 +64,10 @@ export type AuthType = { type: string; email: string; password: string; isSignup
 export type SetAuthRedirectPathType = { type: string; path: string }
 export type AuthCheckStateType = { type: string; }
 export type SetAuthInitilizedType = { type: string; }
+
+
+export type AuthData = {
+	email: string
+	password: string
+	returnSecureToken: boolean
+}
