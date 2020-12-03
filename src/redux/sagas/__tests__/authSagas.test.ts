@@ -57,5 +57,43 @@ describe('authSagas', () => {
 					]),
 			)
 		})
+
+		it('authUser fails', async () => {
+			const errorResponse = {
+				response: {
+					data: {
+						error: {
+							message: 'error message',
+						}
+					},
+				}
+			}
+
+			mockApi(API.authenticateUser, 403, errorResponse);
+
+			const dispatched: TestDispatchType<{}>[] = []
+			const saga = runSaga<AnyAction, RootStateType, () => SagaIterator>(
+					{
+						dispatch: action => dispatched.push(action),
+						getState: () => dummyRootAppState()
+					},
+					// @ts-ignore
+					() => authUserSaga(authAction),
+			)
+
+			await saga.toPromise()
+
+			expect(dispatched).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						type: AuthActionTypes.AUTH_START,
+					}),
+					expect.objectContaining({
+						error: errorResponse.response.data.error.message,
+						type: AuthActionTypes.AUTH_FAIL,
+					}),
+				]),
+			)
+		})
 	})
 })
