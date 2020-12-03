@@ -8,3 +8,9 @@ export const dummyAuthState: AuthState = {
 	error: '',
 	loading: false,
 }
+
+export const dummyAuthResponse = {
+	expiresIn: 3600,
+	idToken: 'xxxAAA',
+	localId: 'user123',
+}
