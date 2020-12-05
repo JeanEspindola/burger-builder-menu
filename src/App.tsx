@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, Suspense } from 'react';
 import Layout from './hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import { IntlProvider } from 'react-intl'
@@ -10,7 +10,6 @@ import { Dispatch } from 'redux'
 import { authCheckState } from './redux/actions/authActions'
 import { RootStateType } from './redux/rootTypes'
 import Spinner from './components/UI/Spinner/Spinner'
-import asyncComponent from './hoc/asyncComponent/asynComponent'
 
 type Props = {
   isAuthenticated: boolean
@@ -21,66 +20,68 @@ type DispatchProps = {
   onTryAutoSignup: () => void
 }
 
-const asyncCheckout = asyncComponent(() => {
+const Checkout = React.lazy(() => {
   return import('./containers/Checkout/Checkout')
 })
 
-const asyncOrders = asyncComponent(() => {
+const Orders = React.lazy(() => {
   return import('./containers/Orders/Orders')
 })
 
-const asyncAuth = asyncComponent(() => {
+const Auth = React.lazy(() => {
   return import('./containers/Auth/Auth')
 })
 
-class App extends React.Component<Props & DispatchProps> {
-  componentDidMount() {
-    this.props.onTryAutoSignup()
-  }
+const App = (props: Props & DispatchProps) => {
+  useEffect(() => {
+    props.onTryAutoSignup()
+  }, [])
 
-  render () {
-    const { isAuthInitialized, isAuthenticated} = this.props
+  let routes: React.ReactNode = <Spinner />
 
-    let routes: React.ReactNode = <Spinner />
+  if (props.isAuthInitialized) {
+    routes = (
+        <Switch>
+          {/*@ts-ignore*/}
+          <Route path="/auth" render={(props) => <Auth {...props }/>}/>
+          <Route path="/" exact component={BurgerBuilder}/>
+          <Redirect to="/"/>
+        </Switch>
+    )
 
-    if (isAuthInitialized) {
+    if (props.isAuthenticated) {
+      // @ts-ignore
       routes = (
           <Switch>
-            <Route path="/auth" component={asyncAuth} />
-            <Route path="/" exact component={BurgerBuilder} />
-            <Redirect to="/" />
+            {/*@ts-ignore*/}
+            <Route path="/checkout" render={(props) => <Checkout {...props }/>}/>
+            <Route path="/orders" render={(props) => <Orders {...props } />}/>
+            <Route path="/logout" component={Logout}/>
+            {/*@ts-ignore*/}
+            <Route path="/auth" render={(props) => <Auth {...props }/>}/>
+            <Route path="/" exact component={BurgerBuilder}/>
+            <Redirect to="/"/>
           </Switch>
       )
-
-      if (isAuthenticated) {
-        routes = (
-            <Switch>
-              <Route path="/checkout" component={asyncCheckout} />
-              <Route path="/orders" component={asyncOrders} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/auth" component={asyncAuth} />
-              <Route path="/" exact component={BurgerBuilder} />
-              <Redirect to="/" />
-            </Switch>
-        )
-      }
     }
-
-    return (
-        <div>
-          <IntlProvider
-              key="en"
-              locale="en"
-              defaultLocale="en"
-              messages={translationMessages['en']}
-          >
-            <Layout>
-              {routes}
-            </Layout>
-          </IntlProvider>
-        </div>
-    )
   }
+
+  return (
+      <div>
+        <IntlProvider
+            key="en"
+            locale="en"
+            defaultLocale="en"
+            messages={translationMessages['en']}
+        >
+          <Layout>
+            <Suspense fallback={<p>Loading...</p>}>
+              {routes}
+            </Suspense>
+          </Layout>
+        </IntlProvider>
+      </div>
+  )
 }
 
 const mapStateToProps = (state: RootStateType): Props => ({
