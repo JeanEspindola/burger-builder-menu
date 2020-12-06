@@ -20,40 +20,38 @@ export interface CheckoutProps extends Props {
 	},
 }
 
-class Checkout extends React.Component<CheckoutProps> {
-	checkoutCancelledHandler = () => {
-		this.props.history?.goBack()
+const Checkout = (props: CheckoutProps) => {
+	const checkoutCancelledHandler = () => {
+		props.history?.goBack()
 	}
 
-	checkoutContinuedHandler = () => {
-		this.props.history?.replace('/checkout/contact-data')
+	const checkoutContinuedHandler = () => {
+		props.history?.replace('/checkout/contact-data')
 	}
 
-	render() {
-		const { ingredients, match, purchased } = this.props
+	const { ingredients, match, purchased } = props
 
-		let summary = <Redirect to="/" />
+	let summary = <Redirect to="/" />
 
-		if (Object.keys(ingredients).length > 0) {
-			const purchasedRedirect = purchased ? <Redirect to="/" /> : null
-			summary = (
-					<div>
-						{purchasedRedirect}
-						<CheckoutSummary
-								ingredients={ingredients}
-								checkoutCancelled={this.checkoutCancelledHandler}
-								checkoutContinued={this.checkoutContinuedHandler}
-						/>
-						<Route
-								path={match.path + '/contact-data'}
-								component={ContactData}
-						/>
-					</div>
-			)
-		}
-
-		return summary
+	if (Object.keys(ingredients).length > 0) {
+		const purchasedRedirect = purchased ? <Redirect to="/" /> : null
+		summary = (
+				<div>
+					{purchasedRedirect}
+					<CheckoutSummary
+							ingredients={ingredients}
+							checkoutCancelled={checkoutCancelledHandler}
+							checkoutContinued={checkoutContinuedHandler}
+					/>
+					<Route
+							path={match.path + '/contact-data'}
+							component={ContactData}
+					/>
+				</div>
+		)
 	}
+
+	return summary
 }
 
 const mapStateToProps = (state: RootStateType): Props => ({

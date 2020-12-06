@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dispatch } from 'redux'
 import { Redirect } from 'react-router-dom'
 import { logout } from '../../../redux/actions/authActions'
@@ -10,14 +10,12 @@ interface DispatchProps {
 
 interface LogoutProps extends DispatchProps {}
 
-class Logout extends React.Component<LogoutProps> {
-	componentDidMount() {
-		this.props.onLogout()
-	}
+const Logout = (props: LogoutProps) => {
+	useEffect(() => {
+		props.onLogout()
+	}, [])
 
-	render () {
-		return <Redirect to="/" />
-	}
+	return <Redirect to="/" />
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({

@@ -8,28 +8,27 @@ export interface ModalProps {
 	children: React.ReactNode
 }
 
-class Modal extends React.Component<ModalProps> {
-	shouldComponentUpdate(nextProps: ModalProps, nextState: any) {
-		return nextProps.show !== this.props.show ||
-				nextProps.children !== this.props.children
-	}
-	render() {
-		const { show, children, modalClosed } = this.props
-		return (
-				<React.Fragment>
-					<Backdrop show={show} clicked={modalClosed}/>
-					<div
-							className={classes.Modal}
-							style={{
-								transform: show ? 'translateY(0)':'translateY(-100vh)',
-								opacity: show ? '1':'0'
-							}}
-					>
-						{children}
-					</div>
-				</React.Fragment>
-		)
-	}
+const Modal = (props: ModalProps) => {
+	const { show, children, modalClosed } = props
+	return (
+			<React.Fragment>
+				<Backdrop show={show} clicked={modalClosed}/>
+				<div
+						className={classes.Modal}
+						style={{
+							transform: show ? 'translateY(0)':'translateY(-100vh)',
+							opacity: show ? '1':'0'
+						}}
+				>
+					{children}
+				</div>
+			</React.Fragment>
+	)
 }
 
-export default Modal
+export default React.memo(
+		Modal,
+		(prevProps, nextProps) =>
+				nextProps.show === prevProps.show &&
+				nextProps.children === prevProps.children
+)
