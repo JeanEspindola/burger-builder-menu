@@ -55,6 +55,7 @@ const App = (props: Props & DispatchProps) => {
           <Switch>
             {/*@ts-ignore*/}
             <Route path="/checkout" render={(props) => <Checkout {...props }/>}/>
+            {/*@ts-ignore*/}
             <Route path="/orders" render={(props) => <Orders {...props } />}/>
             <Route path="/logout" component={Logout}/>
             {/*@ts-ignore*/}
