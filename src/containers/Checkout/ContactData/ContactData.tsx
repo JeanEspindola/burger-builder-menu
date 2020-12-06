@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from 'components/UI/Button/Button'
 import { ButtonsEnum } from 'utils/constants'
 import axios from 'axios-orders'
@@ -6,7 +6,7 @@ import classes from './ContactData.module.scss'
 import Spinner from 'components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
-import { ContactDataStateType } from './ContactDataTypes'
+import { OrderFormElement } from './ContactDataTypes'
 import { connect } from 'react-redux'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import { Dispatch } from 'redux'
@@ -33,21 +33,18 @@ interface ContactDataProps extends Props, DispatchProps{
 	history: RouteComponentProps['history']
 }
 
-class ContactData extends React.Component<ContactDataProps> {
-	state: Readonly<ContactDataStateType> = {
-		orderForm: dummyContactForm,
-		formValid: false,
-	}
+const ContactData = (props: ContactDataProps) => {
+	const [customerForm, setCustomerForm] = useState<OrderFormElement>(dummyContactForm)
+	const [formValid, setFormIsValid] = useState<boolean>(false)
 
-	orderHandler = (event?: { preventDefault: () => void }) => {
+	const orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
 
-		const { orderForm } = this.state
-		const { ingredients, price, onPurchaseBurgerStart, token, userId } = this.props
+		const { ingredients, price, onPurchaseBurgerStart, token, userId } = props
 
 		const formData = {}
 
-		for (let formElementId in orderForm) {
+		for (let formElementId in customerForm) {
 			// @ts-ignore
 			formData[formElementId] = orderForm[formElementId].value
 		}
@@ -62,8 +59,8 @@ class ContactData extends React.Component<ContactDataProps> {
 		onPurchaseBurgerStart(order, token)
 	}
 
-	inputChangedHandler = (event: { target: { value: string } }, inputIdentifier: string) => {
-		const updatedForm = { ...this.state.orderForm }
+	const inputChangedHandler = (event: { target: { value: string } }, inputIdentifier: string) => {
+		const updatedForm = { ...customerForm }
 
 		const updatedElement = { ...updatedForm[inputIdentifier] }
 		updatedElement.value = event.target.value
@@ -76,51 +73,49 @@ class ContactData extends React.Component<ContactDataProps> {
 		}
 
 		updatedForm[inputIdentifier] = updatedElement
-		this.setState({ orderForm: updatedForm, formValid: formIsValid})
+		setCustomerForm(updatedForm)
+		setFormIsValid(formIsValid)
 	}
 
-	render() {
-		const { orderForm, formValid } = this.state
-		const { loading } = this.props
+	const { loading } = props
 
-		const formArray = createFormArray(orderForm)
+	const formArray = createFormArray(customerForm)
 
-		// TODO: Add hooks for react-intl
-		let form = (
-				<form onSubmit={this.orderHandler}>
-					{formArray.map(formElement => (
-							<Input key={formElement.id}
-										 changed={(event) => this.inputChangedHandler(event, formElement.id)}
-										 elementType={formElement.config.elementType}
-										 elementConfig={formElement.config.elementConfig}
-										 value={formElement.config.value}
-										 invalid={!formElement.config.valid}
-										 shouldValidate={formElement.config.validation.required}
-										 touched={formElement.config.touched}
-							/>
-					))}
-					<Button
-							clicked={this.orderHandler}
-							btnType={ButtonsEnum.success}
-							disabled={!formValid}
-					>
-						<FormattedMessage id="contactData.order" />
-					</Button>
-				</form>
-		)
-		if (loading) {
-			form = <Spinner />
-		}
-
-		return(
-			<div className={classes.ContactData}>
-				<h4>
-					<FormattedMessage id="contactData.title" />
-				</h4>
-				{form}
-			</div>
-		)
+	// TODO: Add hooks for react-intl
+	let form = (
+			<form onSubmit={orderHandler}>
+				{formArray.map(formElement => (
+						<Input key={formElement.id}
+									 changed={(event) => inputChangedHandler(event, formElement.id)}
+									 elementType={formElement.config.elementType}
+									 elementConfig={formElement.config.elementConfig}
+									 value={formElement.config.value}
+									 invalid={!formElement.config.valid}
+									 shouldValidate={formElement.config.validation.required}
+									 touched={formElement.config.touched}
+						/>
+				))}
+				<Button
+						clicked={orderHandler}
+						btnType={ButtonsEnum.success}
+						disabled={!formValid}
+				>
+					<FormattedMessage id="contactData.order" />
+				</Button>
+			</form>
+	)
+	if (loading) {
+		form = <Spinner />
 	}
+
+	return(
+		<div className={classes.ContactData}>
+			<h4>
+				<FormattedMessage id="contactData.title" />
+			</h4>
+			{form}
+		</div>
+	)
 }
 
 const mapStateToProps = (state: RootStateType): Props => ({
