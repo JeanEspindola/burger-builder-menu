@@ -11,9 +11,10 @@ interface DispatchProps {
 interface LogoutProps extends DispatchProps {}
 
 const Logout = (props: LogoutProps) => {
+	const { onLogout } = props
 	useEffect(() => {
-		props.onLogout()
-	}, [])
+		onLogout()
+	}, [onLogout])
 
 	return <Redirect to="/" />
 }

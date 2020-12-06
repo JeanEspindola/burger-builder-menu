@@ -12,6 +12,7 @@ import { FormattedMessage } from 'react-intl'
 import { checkValidity, createFormArray } from '../../utils/helper'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { RootStateType } from '../../redux/rootTypes'
+import { dummyAuthData } from '../../tests/testObjects/dummyAuthData'
 
 interface Props {
 	loading: boolean
@@ -29,46 +30,16 @@ interface DispatchProps {
 interface AuthProps extends DispatchProps, Props {}
 
 const Auth = (props: AuthProps) => {
-	const [authForm, setAuthForm] = useState<OrderFormElement>({
-		email: {
-			elementType: 'input',
-			elementConfig: {
-				type: 'email',
-				placeholder: 'Mail Address'
-			},
-			value: '',
-			validation: {
-				required: true,
-				isEmail: true,
-			},
-			valid: false,
-			touched: false,
-		},
-		password: {
-			elementType: 'input',
-			elementConfig: {
-				type: 'password',
-				placeholder: 'Password'
-			},
-			value: '',
-			validation: {
-				required: true,
-				minLength: 6
-			},
-			valid: false,
-			touched: false,
-		},
-	})
-
+	const [authForm, setAuthForm] = useState<OrderFormElement>(dummyAuthData)
 	const [isSignup, setIsSignup] = useState<boolean>(true)
 
-	useEffect(() => {
-		const { building, authRedirectPath, onSetAuthRedirectPath } = props
+	const { building, authRedirectPath, onSetAuthRedirectPath, loading, isAuthenticated, error, onAuth } = props
 
+	useEffect(() => {
 		if (!building && authRedirectPath !== '/') {
 			onSetAuthRedirectPath()
 		}
-	}, [])
+	}, [building, authRedirectPath, onSetAuthRedirectPath])
 
 	const inputChangedHandler = (event: { target: { value: string } }, controlName: string) => {
 		const newValue = event.target.value
@@ -87,10 +58,7 @@ const Auth = (props: AuthProps) => {
 
 	const submitHandler = (event: FormEvent<HTMLElement>) => {
 		event.preventDefault()
-
 		const { email, password } = authForm
-		const { onAuth } = props
-
 		onAuth(email.value, password.value, isSignup)
 	}
 
@@ -98,7 +66,6 @@ const Auth = (props: AuthProps) => {
 		setIsSignup(!isSignup)
 	}
 
-	const { loading, error, isAuthenticated, authRedirectPath } = props
 	const formArray = createFormArray(authForm)
 
 	let form: React.ReactNode = formArray.map(formElement => (

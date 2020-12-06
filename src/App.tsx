@@ -33,13 +33,14 @@ const Auth = React.lazy(() => {
 })
 
 const App = (props: Props & DispatchProps) => {
+  const { onTryAutoSignup , isAuthInitialized, isAuthenticated} = props
   useEffect(() => {
-    props.onTryAutoSignup()
-  }, [])
+    onTryAutoSignup()
+  }, [onTryAutoSignup])
 
   let routes: React.ReactNode = <Spinner />
 
-  if (props.isAuthInitialized) {
+  if (isAuthInitialized) {
     routes = (
         <Switch>
           {/*@ts-ignore*/}
@@ -49,8 +50,7 @@ const App = (props: Props & DispatchProps) => {
         </Switch>
     )
 
-    if (props.isAuthenticated) {
-      // @ts-ignore
+    if (isAuthenticated) {
       routes = (
           <Switch>
             {/*@ts-ignore*/}

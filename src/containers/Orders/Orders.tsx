@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Order from 'components/Order/Order'
 import axios from 'axios-orders'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
@@ -22,31 +22,30 @@ interface DispatchProps {
 
 interface OrdersPropsType extends Props, DispatchProps {}
 
-class Orders extends React.Component<OrdersPropsType> {
-	componentDidMount() {
-		const { onFetchOrders, token, userId } = this.props
+const Orders = (props: OrdersPropsType) => {
+	const { onFetchOrders, token, userId } = props
+
+	useEffect(() => {
 		onFetchOrders(token, userId)
+	}, [onFetchOrders, token, userId])
+
+	let orders: React.ReactNode = <Spinner />
+
+	if (!props.loading) {
+		orders = props.orders.map((order: OrderType) => (
+					<Order
+							key={order.id}
+							ingredients={order.ingredients}
+							price={order.price}
+					/>
+			))
 	}
 
-	render() {
-		let orders: React.ReactNode = <Spinner />
-
-		if (!this.props.loading) {
-			orders = this.props.orders.map((order: OrderType) => (
-						<Order
-								key={order.id}
-								ingredients={order.ingredients}
-								price={order.price}
-						/>
-				))
-		}
-
-		return(
-				<div>
-					{orders}
-				</div>
-		)
-	}
+	return(
+			<div>
+				{orders}
+			</div>
+	)
 }
 
 const mapStateToProps = (state: RootStateType): Props => ({
@@ -60,6 +59,5 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 	// @ts-ignore
 	onFetchOrders: (token: string, userId: string) => dispatch(fetchOrders(token, userId))
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios))
