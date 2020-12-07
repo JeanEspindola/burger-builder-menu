@@ -1,38 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Order from 'components/Order/Order'
 import axios from 'axios-orders'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
-import { Dispatch } from 'redux'
 import { fetchOrders } from '../../redux/actions/orderActions'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { RootStateType } from '../../redux/rootTypes'
 import { OrderType } from './ordersType'
 
-interface Props {
-	orders: OrderType[]
-	loading: boolean
-	token: string
-	userId: string
-}
+const Orders = () => {
+	const { orders, loading } = useSelector((state: RootStateType) => state.order)
+	const { token, userId } = useSelector((state: RootStateType) => state.auth)
 
-interface DispatchProps {
-	onFetchOrders: (token: string, userId: string) => void
-}
+	const dispatch = useDispatch()
 
-interface OrdersPropsType extends Props, DispatchProps {}
-
-const Orders = (props: OrdersPropsType) => {
-	const { onFetchOrders, token, userId } = props
+	const onFetchOrders = useCallback((token: string, userId: string) => dispatch(fetchOrders(token, userId)), [dispatch])
 
 	useEffect(() => {
 		onFetchOrders(token, userId)
 	}, [onFetchOrders, token, userId])
 
-	let orders: React.ReactNode = <Spinner />
+	let ordersElem: React.ReactNode = <Spinner />
 
-	if (!props.loading) {
-		orders = props.orders.map((order: OrderType) => (
+	if (!loading) {
+		ordersElem = orders.map((order: OrderType) => (
 					<Order
 							key={order.id}
 							ingredients={order.ingredients}
@@ -43,21 +34,9 @@ const Orders = (props: OrdersPropsType) => {
 
 	return(
 			<div>
-				{orders}
+				{ordersElem}
 			</div>
 	)
 }
 
-const mapStateToProps = (state: RootStateType): Props => ({
-	orders: state.order.orders,
-	loading: state.order.loading,
-	token: state.auth.token,
-	userId: state.auth.userId,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-	// @ts-ignore
-	onFetchOrders: (token: string, userId: string) => dispatch(fetchOrders(token, userId))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios))
+export default withErrorHandler(Orders, axios)

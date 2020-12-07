@@ -1,39 +1,30 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
 import { ButtonsEnum } from '../../utils/constants'
 import classes from './Auth.module.scss'
 import { OrderFormElement } from '../Checkout/ContactData/ContactDataTypes'
-import { Dispatch } from 'redux'
 import { Redirect } from 'react-router-dom'
 import { auth, setAuthRedirectPath } from '../../redux/actions/authActions'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { checkValidity, createFormArray } from '../../utils/helper'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { RootStateType } from '../../redux/rootTypes'
 import { dummyAuthData } from '../../tests/testObjects/dummyAuthData'
 
-interface Props {
-	loading: boolean
-	error: string
-	isAuthenticated: boolean
-	building: boolean
-	authRedirectPath: string,
-}
-
-interface DispatchProps {
-	onAuth: (email: string, password: string, isSignup: boolean) => void
-	onSetAuthRedirectPath: () => void
-}
-
-interface AuthProps extends DispatchProps, Props {}
-
-const Auth = (props: AuthProps) => {
+const Auth = () => {
 	const [authForm, setAuthForm] = useState<OrderFormElement>(dummyAuthData)
 	const [isSignup, setIsSignup] = useState<boolean>(true)
 
-	const { building, authRedirectPath, onSetAuthRedirectPath, loading, isAuthenticated, error, onAuth } = props
+	const dispatch = useDispatch()
+
+	const onSetAuthRedirectPath = useCallback(() => dispatch(setAuthRedirectPath('/')), [dispatch])
+	const onAuth = (email: string, password: string, isSignup: boolean) => dispatch(auth(email, password, isSignup))
+
+	const { loading, error, authRedirectPath } = useSelector((state: RootStateType) => state.auth)
+	const isAuthenticated = useSelector((state: RootStateType) => state.auth.token !== '')
+	const { building } = useSelector((state: RootStateType) => state.burgerBuilder)
 
 	useEffect(() => {
 		if (!building && authRedirectPath !== '/') {
@@ -96,6 +87,7 @@ const Auth = (props: AuthProps) => {
 		authRedirect = <Redirect to={authRedirectPath} />
 	}
 
+	// TODO: intl here
 	return (
 			<div className={classes.Auth}>
 				{authRedirect}
@@ -116,18 +108,4 @@ const Auth = (props: AuthProps) => {
 	)
 }
 
-const mapStateToProps = (state: RootStateType): Props => ({
-	loading: state.auth.loading,
-	error: state.auth.error,
-	isAuthenticated: state.auth.token !== '',
-	building: state.burgerBuilder.building,
-	authRedirectPath: state.auth.authRedirectPath,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-	onSetAuthRedirectPath: () => dispatch(setAuthRedirectPath('/')),
-	// @ts-ignore
-	onAuth: (email: string, password: string, isSignup: boolean) => dispatch(auth(email, password, isSignup)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Auth)
+export default Auth
