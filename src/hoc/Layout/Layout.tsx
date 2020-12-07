@@ -2,12 +2,8 @@ import React, { useState } from 'react'
 import classes from './Layout.module.scss'
 import Toolbar from 'components/Navigation/Toolbar/Toolbar'
 import SideDrawer from 'components/Navigation/SideDrawer/SideDrawer'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootStateType } from '../../redux/rootTypes'
-
-interface Props {
-	isAuthenticated: boolean
-}
 
 interface LayoutProps {
 	children: React.ReactNode
@@ -16,6 +12,8 @@ interface LayoutProps {
 const Layout = (props: LayoutProps) => {
 	const [sideDrawerIsVisible, setSideDrawrerIsVisible] = useState(false)
 
+	const isAuthenticated = useSelector((state: RootStateType) => state.auth.token !== '')
+
 	const sideDrawerClosedHandler = () => {
 		setSideDrawrerIsVisible(false)
 	}
@@ -23,9 +21,6 @@ const Layout = (props: LayoutProps) => {
 	const sideDrawerToggleHandler = () => {
 		setSideDrawrerIsVisible(!sideDrawerIsVisible)
 	}
-
-	// @ts-ignore
-	const { isAuthenticated } = props
 
 	return (
 		<React.Fragment>
@@ -45,8 +40,4 @@ const Layout = (props: LayoutProps) => {
 	)
 }
 
-const mapStateToProps = (state: RootStateType): Props => ({
-	isAuthenticated: state.auth.token !== '',
-})
-
-export default connect(mapStateToProps, null)(Layout)
+export default Layout

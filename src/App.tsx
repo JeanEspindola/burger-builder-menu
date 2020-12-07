@@ -1,24 +1,14 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useCallback } from 'react';
 import Layout from './hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import { IntlProvider } from 'react-intl'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import translationMessages from './i18n/translationMessages'
 import Logout from './containers/Auth/Logout/Logout'
-import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authCheckState } from './redux/actions/authActions'
 import { RootStateType } from './redux/rootTypes'
 import Spinner from './components/UI/Spinner/Spinner'
-
-type Props = {
-  isAuthenticated: boolean
-  isAuthInitialized: boolean
-}
-
-type DispatchProps = {
-  onTryAutoSignup: () => void
-}
 
 const Checkout = React.lazy(() => {
   return import('./containers/Checkout/Checkout')
@@ -32,8 +22,14 @@ const Auth = React.lazy(() => {
   return import('./containers/Auth/Auth')
 })
 
-const App = (props: Props & DispatchProps) => {
-  const { onTryAutoSignup , isAuthInitialized, isAuthenticated} = props
+const App = () => {
+  const isAuthenticated = useSelector((state: RootStateType) => state.auth.token !== '')
+  const isAuthInitialized = useSelector((state: RootStateType) => state.auth.authInitialized)
+
+  const dispatch = useDispatch()
+
+  const onTryAutoSignup = useCallback(() => dispatch(authCheckState()), [dispatch])
+
   useEffect(() => {
     onTryAutoSignup()
   }, [onTryAutoSignup])
@@ -85,15 +81,4 @@ const App = (props: Props & DispatchProps) => {
   )
 }
 
-const mapStateToProps = (state: RootStateType): Props => ({
-  isAuthenticated: state.auth.token !== '',
-  isAuthInitialized: state.auth.authInitialized,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  // @ts-ignore
-  onTryAutoSignup: () => dispatch(authCheckState())
-})
-
-// @ts-ignore
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(App)

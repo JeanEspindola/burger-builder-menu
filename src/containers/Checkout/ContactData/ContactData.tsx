@@ -7,29 +7,15 @@ import Spinner from 'components/UI/Spinner/Spinner'
 import { FormattedMessage } from 'react-intl'
 import Input from 'components/UI/Input/Input'
 import { OrderFormElement } from './ContactDataTypes'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
-import { Dispatch } from 'redux'
 import { purchaseBurger } from '../../../redux/actions/orderActions'
 import { RootStateType } from '../../../redux/rootTypes'
-import { IngredientsType } from '../../../utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { checkValidity, createFormArray } from '../../../utils/helper'
 import { dummyContactForm } from '../../../tests/testObjects/dummyContactData'
 
-interface Props {
-	ingredients: IngredientsType
-	price: number
-	loading: boolean
-	token: string
-	userId: string
-}
-
-interface DispatchProps {
-	onPurchaseBurgerStart: (order: any, token: string) => void
-}
-
-interface ContactDataProps extends Props, DispatchProps{
+interface ContactDataProps {
 	history: RouteComponentProps['history']
 }
 
@@ -37,22 +23,29 @@ const ContactData = (props: ContactDataProps) => {
 	const [customerForm, setCustomerForm] = useState<OrderFormElement>(dummyContactForm)
 	const [formValid, setFormIsValid] = useState<boolean>(false)
 
+	const dispatch = useDispatch()
+	//TODO: check typing
+	const onPurchaseBurgerStart = (orderData: any, token: string) => dispatch(purchaseBurger(orderData, token))
+
+	const { ingredients, totalPrice } = useSelector((state: RootStateType) => state.burgerBuilder)
+	const { token, userId } = useSelector((state: RootStateType) => state.auth)
+	const loading = useSelector((state: RootStateType) => state.order.loading)
+
+
 	const orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
-
-		const { ingredients, price, onPurchaseBurgerStart, token, userId } = props
 
 		const formData = {}
 
 		for (let formElementId in customerForm) {
 			// @ts-ignore
-			formData[formElementId] = orderForm[formElementId].value
+			formData[formElementId] = customerForm[formElementId].value
 		}
 
 		const order = {
 			ingredients,
-			price,
 			userId,
+			price: totalPrice,
 			orderData: formData,
 		}
 
@@ -76,8 +69,6 @@ const ContactData = (props: ContactDataProps) => {
 		setCustomerForm(updatedForm)
 		setFormIsValid(formIsValid)
 	}
-
-	const { loading } = props
 
 	const formArray = createFormArray(customerForm)
 
@@ -118,17 +109,4 @@ const ContactData = (props: ContactDataProps) => {
 	)
 }
 
-const mapStateToProps = (state: RootStateType): Props => ({
-	ingredients: state.burgerBuilder.ingredients,
-	price: state.burgerBuilder.totalPrice,
-	loading: state.order.loading,
-	token: state.auth.token,
-	userId: state.auth.userId,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-	// @ts-ignore
-	onPurchaseBurgerStart: (orderData, token: string) => dispatch(purchaseBurger(orderData, token)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))
+export default withErrorHandler(ContactData, axios)
