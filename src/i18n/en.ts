@@ -32,8 +32,12 @@ export default {
 	'contactData.email': 'Your Email',
 	'contactData.street': 'Street',
 	'contactData.postal': 'Postal Code',
+	'contactData.country': 'Country',
+	'contactData.fastest': 'Fastest',
+	'contactData.cheapest': 'Cheapest',
 	'contactData.order': 'ORDER',
 	'checkoutSummary.title': 'We hope it tastes well!!',
-
-	'auth.submit': 'SUBMIT'
+	'auth.submit': 'SUBMIT',
+	'auth.email': 'Email Address',
+	'auth.password': 'Password'
 };

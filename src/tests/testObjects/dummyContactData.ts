@@ -5,7 +5,7 @@ export const dummyContactForm: OrderFormElement = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'text',
-			placeholder: 'Your Name'
+			placeholder: 'contactData.name'
 		},
 		value: '',
 		validation: {
@@ -18,7 +18,7 @@ export const dummyContactForm: OrderFormElement = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'text',
-			placeholder: 'Street'
+			placeholder: 'contactData.street'
 		},
 		value: '',
 		validation: {
@@ -31,7 +31,7 @@ export const dummyContactForm: OrderFormElement = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'text',
-			placeholder: 'Postal Code'
+			placeholder: 'contactData.postal'
 		},
 		value: '',
 		validation: {
@@ -46,7 +46,7 @@ export const dummyContactForm: OrderFormElement = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'text',
-			placeholder: 'Country'
+			placeholder: 'contactData.country'
 		},
 		value: '',
 		validation: {
@@ -59,7 +59,7 @@ export const dummyContactForm: OrderFormElement = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'email',
-			placeholder: 'Your Email'
+			placeholder: 'contactData.email'
 		},
 		value: '',
 		validation: {
@@ -72,8 +72,8 @@ export const dummyContactForm: OrderFormElement = {
 		elementType: 'select',
 		elementConfig: {
 			options: [
-				{value: 'fastest', displayValue: 'Fastest'},
-				{value: 'cheapest', displayValue: 'Cheapest'},
+				{value: 'fastest', displayValue: 'contactData.fastest'},
+				{value: 'cheapest', displayValue: 'contactData.cheapest'},
 			],
 		},
 		valid: true,

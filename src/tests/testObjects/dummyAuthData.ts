@@ -20,12 +20,12 @@ export const dummyAuthData: OrderFormElement = {
 	email: {
 		elementType: 'input',
 				elementConfig: {
-			type: 'email',
-					placeholder: 'Mail Address'
+					type: 'email',
+					placeholder: 'auth.email'
 		},
 		value: '',
 				validation: {
-			required: true,
+					required: true,
 					isEmail: true,
 		},
 		valid: false,
@@ -34,12 +34,12 @@ export const dummyAuthData: OrderFormElement = {
 	password: {
 		elementType: 'input',
 				elementConfig: {
-			type: 'password',
-					placeholder: 'Password'
+					type: 'password',
+					placeholder: 'auth.password'
 		},
 		value: '',
 				validation: {
-			required: true,
+					required: true,
 					minLength: 6
 		},
 		valid: false,

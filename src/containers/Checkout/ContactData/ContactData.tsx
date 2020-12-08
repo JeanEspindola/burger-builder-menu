@@ -31,7 +31,6 @@ const ContactData = (props: ContactDataProps) => {
 	const { token, userId } = useSelector((state: RootStateType) => state.auth)
 	const loading = useSelector((state: RootStateType) => state.order.loading)
 
-
 	const orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
 
@@ -72,7 +71,6 @@ const ContactData = (props: ContactDataProps) => {
 
 	const formArray = createFormArray(customerForm)
 
-	// TODO: Add hooks for react-intl
 	let form = (
 			<form onSubmit={orderHandler}>
 				{formArray.map(formElement => (
