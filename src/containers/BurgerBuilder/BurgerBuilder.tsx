@@ -10,20 +10,13 @@ import { DisableInfoType, IngredientsType } from 'utils/types'
 import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { useSelector, useDispatch } from 'react-redux'
-import { IngredientsEnum } from '../../utils/constants'
-import { addIngredient, removeIngredient, fetchIngredients } from '../../redux/actions/burgerBuilderActions'
-import { RootStateType } from '../../redux/rootTypes'
-import { purchaseInit } from '../../redux/actions/orderActions'
-import { setAuthRedirectPath } from '../../redux/actions/authActions'
+import { IngredientsEnum } from 'utils/constants'
+import { addIngredient, removeIngredient, fetchIngredients } from 'redux/actions/burgerBuilderActions'
+import { RootStateType } from 'redux/rootTypes'
+import { purchaseInit } from 'redux/actions/orderActions'
+import { setAuthRedirectPath } from 'redux/actions/authActions'
 
-interface Props {
-	ingredients: IngredientsType
-	price: number
-	error: boolean
-	isAuthenticated: boolean
-}
-
-interface BurgerBuilderProps extends Props {
+interface BurgerBuilderProps {
 	history: RouteComponentProps['history']
 }
 
@@ -55,7 +48,7 @@ const BurgerBuilder = (props: BurgerBuilderProps) => {
 	}
 
 	const purchaseHandler = () => {
-		const { isAuthenticated, history } = props
+		const { history } = props
 		if (isAuthenticated) {
 			setIsPurchasing(true)
 		} else {
