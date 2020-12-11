@@ -16,7 +16,7 @@ import { checkValidity, createFormArray } from '../../../utils/helper'
 import { dummyContactForm } from '../../../tests/testObjects/dummyContactData'
 
 interface ContactDataProps {
-	history: RouteComponentProps['history']
+	history?: RouteComponentProps['history']
 }
 
 const ContactData = (props: ContactDataProps) => {
