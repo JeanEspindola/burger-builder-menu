@@ -16,12 +16,14 @@ const BuildControl = (props: BuildControlProps) => (
 					className={classes.Label}
 					onClick={props.removed}
 					disabled={props.disable}
+					data-testid={`less-${props.label}`}
 			>
 				<FormattedMessage id="button.less" />
 			</button>
 			<button
 					className={classes.More}
 					onClick={props.added}
+					data-testid={`more-${props.label}`}
 			>
 				<FormattedMessage id="button.more" />
 			</button>

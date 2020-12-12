@@ -17,7 +17,7 @@ describe('BuildControls', () => {
 		meat: true,
 	}
 
-	beforeEach(() => {
+	test('renders BuildControls correctly when authenticated', () => {
 		WrappedRender(
 				<BuildControls
 						price={price}
@@ -29,9 +29,7 @@ describe('BuildControls', () => {
 						purchasable={false}
 				/>,
 		)
-	})
 
-	test('renders BuildControls correctly', () => {
 		const currentPrice = screen.getByText(/current price/i)
 		const bacon = screen.getByText(/bacon/i)
 		const cheese = screen.getByText(/cheese/i)
@@ -47,18 +45,60 @@ describe('BuildControls', () => {
 		expect(orderNowBtn).toBeDisabled()
 	})
 
+	test('renders BuildControls correctly when not authenticated', () => {
+		WrappedRender(
+				<BuildControls
+						price={price}
+						isAuth={false}
+						disabled={disabledInfo}
+						ingredientAdded={ingredientAdded}
+						ingredientRemoved={ingredientRemoved}
+						ordered={ordered}
+						purchasable={false}
+				/>,
+		)
+
+		const currentPrice = screen.getByText(/current price/i)
+		const bacon = screen.getByText(/bacon/i)
+		const cheese = screen.getByText(/cheese/i)
+		const meat = screen.getByText(/meat/i)
+		const salad = screen.getByText(/salad/i)
+		const orderNowBtn = screen.queryByRole('button', { name: /order now/i })
+		const signUpButton = screen.getByRole('button', { name: /sign up to order/i })
+
+		expect(currentPrice).toHaveTextContent('Current price: 4.00')
+		expect(bacon).toBeInTheDocument()
+		expect(cheese).toBeInTheDocument()
+		expect(meat).toBeInTheDocument()
+		expect(salad).toBeInTheDocument()
+		expect(orderNowBtn).not.toBeInTheDocument()
+		expect(signUpButton).toBeDisabled()
+	})
+
 	test('click on user events and check price and button', () => {
+		WrappedRender(
+				<BuildControls
+						price={price}
+						isAuth={true}
+						disabled={disabledInfo}
+						ingredientAdded={ingredientAdded}
+						ingredientRemoved={ingredientRemoved}
+						ordered={ordered}
+						purchasable={false}
+				/>,
+		)
+
 		/* Buttons of Bacon ingredient */
-		const lessButton = screen.getAllByRole('button', { name: /less/i })[0]
+		const lessButton = screen.getByTestId('less-Bacon')
 		expect(lessButton).toBeDisabled()
 
-		const moreButton = screen.getAllByRole('button', { name: /more/i })[0]
+		const moreButton = screen.getByTestId('more-Bacon')
 		expect(moreButton).not.toBeDisabled()
 
-		userEvent.click(moreButton)
-		expect(ingredientAdded).toHaveBeenCalledTimes(1)
 
-		userEvent.click(lessButton)
+		expect(ingredientAdded).toHaveBeenCalledTimes(0)
+
+		userEvent.click(moreButton)
 		expect(ingredientAdded).toHaveBeenCalledTimes(1)
 	})
 })
