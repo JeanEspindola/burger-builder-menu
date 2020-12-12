@@ -12,7 +12,7 @@ export default {
 	'order.price': 'Price:',
 	'order.ingredients': 'Ingredients:',
 
-	'ingredients.error': 'Ingredients can\'\t be loaded!',
+	'ingredients.error': 'Ingredients can\'t be loaded!',
 	'ingredients.salad': 'Salad',
 	'ingredients.bacon': 'Bacon',
 	'ingredients.meat': 'Meat',

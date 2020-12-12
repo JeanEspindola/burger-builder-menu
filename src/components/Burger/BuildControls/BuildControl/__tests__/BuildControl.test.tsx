@@ -5,7 +5,7 @@ import { WrappedRender } from 'tests/testUtils'
 import BuildControl from '../BuildControl'
 
 describe('BuildControl', () => {
-	test('renders BuildControl correctly', () => {
+	test('renders correctly', () => {
 		const labelText = 'Salad'
 		const added = jest.fn()
 		const removed = jest.fn()
