@@ -102,9 +102,11 @@ const BurgerBuilder = (props: BurgerBuilderProps) => {
 
 	return (
 			<React.Fragment>
-				<Modal show={purchasing} modalClosed={purchaseCancelHandler}>
-					{orderSummary}
-				</Modal>
+				{purchasing &&
+					<Modal show={purchasing} modalClosed={purchaseCancelHandler}>
+						{orderSummary}
+					</Modal>
+				}
 				{burger}
 			</React.Fragment>
 	);

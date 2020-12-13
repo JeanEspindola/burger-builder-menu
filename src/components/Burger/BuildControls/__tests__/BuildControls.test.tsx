@@ -75,7 +75,7 @@ describe('BuildControls', () => {
 		expect(signUpButton).toBeDisabled()
 	})
 
-	test('click on user events and check price and button', () => {
+	test('click on user events and check price and more button', () => {
 		WrappedRender(
 				<BuildControls
 						price={price}
@@ -100,5 +100,29 @@ describe('BuildControls', () => {
 
 		userEvent.click(moreButton)
 		expect(ingredientAdded).toHaveBeenCalledTimes(1)
+	})
+
+	test('renders without disable button and check the click on remove', () => {
+		const disabledData = { ...disabledInfo }
+		disabledData.bacon = false
+
+		WrappedRender(
+				<BuildControls
+						price={price}
+						isAuth={true}
+						disabled={disabledData}
+						ingredientAdded={ingredientAdded}
+						ingredientRemoved={ingredientRemoved}
+						ordered={ordered}
+						purchasable={false}
+				/>,
+		)
+
+		/* Buttons of Bacon ingredient */
+		const lessButton = screen.getByTestId('less-Bacon')
+		expect(lessButton).not.toBeDisabled()
+
+		userEvent.click(lessButton)
+		expect(ingredientRemoved).toHaveBeenCalledTimes(1)
 	})
 })
