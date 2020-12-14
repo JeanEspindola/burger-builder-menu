@@ -39,7 +39,6 @@ const App = () => {
   if (isAuthInitialized) {
     routes = (
         <Switch>
-          {/*@ts-ignore*/}
           <Route path="/auth" render={(props) => <Auth {...props }/>}/>
           <Route path="/" exact component={BurgerBuilder}/>
           <Redirect to="/"/>
@@ -49,12 +48,10 @@ const App = () => {
     if (isAuthenticated) {
       routes = (
           <Switch>
-            {/*@ts-ignore*/}
             <Route path="/checkout" render={(props) => <Checkout {...props }/>}/>
-            {/*@ts-ignore*/}
+            {/* @ts-ignore*/}
             <Route path="/orders" render={(props) => <Orders {...props } />}/>
             <Route path="/logout" component={Logout}/>
-            {/*@ts-ignore*/}
             <Route path="/auth" render={(props) => <Auth {...props }/>}/>
             <Route path="/" exact component={BurgerBuilder}/>
             <Redirect to="/"/>

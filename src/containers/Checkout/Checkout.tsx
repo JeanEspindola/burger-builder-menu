@@ -6,7 +6,7 @@ import ContactData from './ContactData/ContactData'
 import { useSelector } from 'react-redux'
 import { RootStateType } from '../../redux/rootTypes'
 
-export interface CheckoutProps {
+export interface HistoryProps {
 	history?: History
 	location: Location
 	match: {
@@ -14,7 +14,7 @@ export interface CheckoutProps {
 	},
 }
 
-const Checkout = (props: CheckoutProps) => {
+const Checkout = (props: HistoryProps) => {
 	const ingredients = useSelector((state: RootStateType) => state.burgerBuilder.ingredients)
 	const purchased = useSelector((state: RootStateType) => state.order.purchased)
 
