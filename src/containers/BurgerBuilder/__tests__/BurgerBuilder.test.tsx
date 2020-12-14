@@ -1,12 +1,21 @@
 import * as React from 'react'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { createBrowserHistory } from 'history'
 import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
 import BurgerBuilder from '../BurgerBuilder'
 import { dummyOrderIngredients } from 'tests/testObjects/dummyOrderData'
 import userEvent from '@testing-library/user-event'
+import { addIngredient, removeIngredient } from '../../../redux/actions/burgerBuilderActions'
+import { IngredientsEnum } from '../../../utils/constants'
+import { setAuthRedirectPath } from '../../../redux/actions/authActions'
+import { purchaseInit } from '../../../redux/actions/orderActions'
 
 describe('BurgerBuilder', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const state = dummyRootAppState()
   state.burgerBuilder.ingredients = { ...dummyOrderIngredients }
   state.burgerBuilder.totalPrice = 10
@@ -63,7 +72,7 @@ describe('BurgerBuilder', () => {
     expect(orderNow).toBeInTheDocument()
   })
 
-  test('clicks on order now and check the modal content', () => {
+  test('clicks on order now, check the modal content and close the modal', () => {
     const store = createDummyStore(state)
 
     WrappedRender(<BurgerBuilder />, store)
@@ -75,6 +84,30 @@ describe('BurgerBuilder', () => {
 
     expect(heading).not.toBeInTheDocument()
     expect(subText).not.toBeInTheDocument()
+
+    const orderButton = screen.getByRole('button', { name: /order now/i })
+    userEvent.click(orderButton)
+
+    const cancelBtn = screen.getByRole('button', { name: /cancel/i })
+    const continueBtn = screen.getByRole('button', { name: /continue/i })
+    const continueMsg = screen.getByText(/continue to checkout\?/i)
+    const totalTxt = screen.getByText(/total price/i)
+
+    expect(cancelBtn).toBeInTheDocument()
+    expect(continueBtn).toBeInTheDocument()
+    expect(continueMsg).toBeInTheDocument()
+    expect(totalTxt).toHaveTextContent('Total Price: $10.00')
+
+    userEvent.click(cancelBtn)
+
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+  })
+
+  test('clicks on order now, check the modal content and proceed with the order', async () => {
+    const store = createDummyStore(state)
+
+    // @ts-ignore
+    WrappedRender(<BurgerBuilder history={createBrowserHistory()} />, store)
 
     const orderButton = screen.getByRole('button', { name: /order now/i })
     userEvent.click(orderButton)
@@ -122,14 +155,66 @@ describe('BurgerBuilder', () => {
       </ul>
     `)
 
-    const cancelBtn = screen.getByRole('button', { name: /cancel/i })
     const continueBtn = screen.getByRole('button', { name: /continue/i })
-    const continueMsg = screen.getByText(/continue to checkout\?/i)
-    const totalTxt = screen.getByText(/total price/i)
 
-    expect(cancelBtn).toBeInTheDocument()
-    expect(continueBtn).toBeInTheDocument()
-    expect(continueMsg).toBeInTheDocument()
-    expect(totalTxt).toHaveTextContent('Total Price: $10.00')
+    await waitFor(() => {
+      userEvent.click(continueBtn)
+    })
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      purchaseInit()
+    )
+  })
+
+  test('clicks on order now when not authenticated', async () => {
+    const newState = { ...state }
+    const auth = { ...newState.auth }
+
+    newState.auth = {
+      ...auth,
+      token: '',
+    }
+
+    const store = createDummyStore(newState)
+
+    // @ts-ignore
+    WrappedRender(<BurgerBuilder history={createBrowserHistory()} />, store)
+
+    const orderButton = screen.queryByRole('button', { name: /order now/i })
+    expect(orderButton).not.toBeInTheDocument()
+
+    const signUpToOrder = screen.getByRole('button', { name: /sign up to order/i })
+
+    await waitFor(() => {
+      userEvent.click(signUpToOrder)
+    })
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      setAuthRedirectPath('/checkout')
+    )
+  })
+
+  test('add an remove ingredients to the burger', () => {
+    const store = createDummyStore(state)
+
+    WrappedRender(<BurgerBuilder />, store)
+
+    const baconLess = screen.getByTestId('less-Bacon')
+    const baconMore = screen.getByTestId('more-Bacon')
+
+    expect(baconLess).toBeInTheDocument()
+    expect(baconMore).toBeInTheDocument()
+
+    userEvent.click(baconLess)
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      removeIngredient(IngredientsEnum.bacon)
+    )
+
+    userEvent.click(baconMore)
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      addIngredient(IngredientsEnum.bacon)
+    )
   })
 })
