@@ -3,13 +3,25 @@ import { screen } from '@testing-library/react'
 import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import Auth from '../Auth'
 import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
+import { dummyLocation } from '../../../tests/testObjects/dummyRouter'
+
 
 describe('Auth', () => {
 	const state = dummyRootAppState()
 	const store = createDummyStore(state)
 
+	const match = {
+		path: '/auth',
+	}
+
 	test('renders correctly', () => {
-		WrappedRender(<Auth	/>, store)
+		WrappedRender(
+			<Auth
+				match={match}
+				location={dummyLocation}
+			/>,
+			store,
+		)
 
 		const email = screen.getByPlaceholderText(/email address/i)
 		const password = screen.getByPlaceholderText(/password/i)

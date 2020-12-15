@@ -8,7 +8,7 @@ import { RootStateType } from '../../redux/rootTypes'
 
 export interface HistoryProps {
 	history?: History
-	location: Location
+	location?: Location
 	match: {
 		path: RouteProps['path']
 	},

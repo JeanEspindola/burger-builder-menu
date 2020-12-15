@@ -3,5 +3,5 @@ export const dummyLocation: Location = {
 	hash: '',
 	search: '',
 	state: '',
-	pathname: '/dpl/cv',
+	pathname: '/',
 };
