@@ -7,7 +7,6 @@ import axios from 'axios-orders'
 import Spinner from 'components/UI/Spinner/Spinner'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
 import { DisableInfoType, IngredientsType } from 'utils/types'
-import { RouteComponentProps } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { useSelector, useDispatch } from 'react-redux'
 import { IngredientsEnum } from 'utils/constants'
@@ -15,9 +14,10 @@ import { addIngredient, removeIngredient, fetchIngredients } from 'redux/actions
 import { RootStateType } from 'redux/rootTypes'
 import { purchaseInit } from 'redux/actions/orderActions'
 import { setAuthRedirectPath } from 'redux/actions/authActions'
+import { History } from 'history'
 
 interface BurgerBuilderProps {
-	history: RouteComponentProps['history']
+	history: History
 }
 
 const BurgerBuilder = (props: BurgerBuilderProps) => {

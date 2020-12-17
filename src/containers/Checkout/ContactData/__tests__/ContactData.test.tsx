@@ -3,16 +3,18 @@ import { screen } from '@testing-library/react'
 import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import ContactData from '../ContactData'
 import { dummyRootAppState } from '../../../../tests/testObjects/dummyRootState'
-import { dummyOrders } from '../../../../tests/testObjects/dummyOrderData'
+import { dummyOrderIngredients, dummyOrders } from '../../../../tests/testObjects/dummyOrderData'
+import userEvent from '@testing-library/user-event'
+import { purchaseBurger } from '../../../../redux/actions/orderActions'
 
 describe('ContactData', () => {
-	test('renders correctly contact data', () => {
-		const state = dummyRootAppState()
-		state.order.orders = [ ...dummyOrders ]
-		state.order.loading = false
-		state.auth.userId = 'xxxAAA'
-		state.auth.token = '12345'
+	const state = dummyRootAppState()
+	state.order.orders = [ ...dummyOrders ]
+	state.order.loading = false
+	state.auth.userId = 'xxxAAA'
+	state.auth.token = '12345'
 
+	test('renders correctly contact data', () => {
 		const store = createDummyStore(state)
 
 		WrappedRender(<ContactData />, store)
@@ -43,13 +45,15 @@ describe('ContactData', () => {
 	})
 
 	test('do not render form while it is loading', () => {
-		const state = dummyRootAppState()
-		state.order.orders = [ ...dummyOrders ]
-		state.order.loading = true
-		state.auth.userId = 'xxxAAA'
-		state.auth.token = '12345'
+		const newState = { ...state }
+		const { order } = newState
 
-		const store = createDummyStore(state)
+		newState.order = {
+			...order,
+			loading: true,
+		}
+
+		const store = createDummyStore(newState)
 
 		WrappedRender(<ContactData />, store)
 
@@ -62,5 +66,59 @@ describe('ContactData', () => {
 		expect(name).not.toBeInTheDocument()
 		expect(orderButton).not.toBeInTheDocument()
 		expect(loading).toBeInTheDocument()
+	})
+
+	test('fill the form and submit the data', () => {
+		const newState = { ...state }
+		const { burgerBuilder, auth } = newState
+
+		newState.burgerBuilder = {
+			...burgerBuilder,
+			ingredients: { ...dummyOrderIngredients }
+		}
+
+		const store = createDummyStore(state)
+
+		WrappedRender(<ContactData />, store)
+
+		const name = screen.getByPlaceholderText(/your name/i)
+		userEvent.type(name, 'Jean')
+
+		const street = screen.getByPlaceholderText(/street/i)
+		userEvent.type(street, 'Strasse 1')
+
+		const postalCode = screen.getByPlaceholderText(/postal code/i)
+		userEvent.type(postalCode, '80000')
+
+		const country = screen.getByPlaceholderText(/country/i)
+		userEvent.type(country, 'Germany')
+
+		const email = screen.getByPlaceholderText(/your email/i)
+		userEvent.type(email, 'test@email.com')
+
+		const orderButton = screen.getByRole('button', { name: /order/i })
+		userEvent.click(orderButton)
+
+		const { userId, token } = auth
+		const { totalPrice, ingredients } = burgerBuilder
+
+		const order = {
+			price: totalPrice,
+			orderData: {
+				name: 'Jean',
+				country: 'Germany',
+				email: 'test@email.com',
+				street: 'Strasse 1',
+				zipCode: '80000',
+				deliveryMethod: 'fastest',
+			},
+			ingredients,
+			userId,
+		}
+
+		expect(store.dispatch).toHaveBeenCalledWith(
+				// @ts-ignore
+				purchaseBurger(order, token)
+		)
 	})
 })
