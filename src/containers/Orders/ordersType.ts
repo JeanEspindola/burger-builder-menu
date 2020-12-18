@@ -28,7 +28,7 @@ export interface PurchaseOrderType {
 	userId: string
 }
 
-export interface OrderResponseMap {
+export interface FetchedOrdersType {
 	[key: string]: OrderResponse,
 }
 

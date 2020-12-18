@@ -1,5 +1,6 @@
 import { FormInputValidation } from '../../containers/Checkout/ContactData/ContactDataTypes'
-import { checkValidity } from '../helper'
+import { checkValidity, createOrdersArray } from '../helper'
+import { dummyFetchedOrders, dummyOrders } from '../../tests/testObjects/dummyOrderData'
 
 describe('helper', () => {
 	describe('checkValidity', () => {
@@ -13,6 +14,10 @@ describe('helper', () => {
 		const formValidityEmail: FormInputValidation = {
 			required: true,
 			isEmail: true,
+		}
+
+		const formValidityGeneric: FormInputValidation = {
+			required: false
 		}
 
 		it('validate zipcode truthy', () => {
@@ -29,6 +34,16 @@ describe('helper', () => {
 
 		it('validate email falsy', () => {
 			expect(checkValidity('aaa@ddd', formValidityEmail)).toBeFalsy()
+		})
+
+		it('validate generic field', () => {
+			expect(checkValidity('1', formValidityGeneric)).toBeTruthy()
+		})
+	})
+
+	describe('createOrdersArray', () => {
+		it('creates orders array from fetched data', () => {
+			expect(createOrdersArray(dummyFetchedOrders)).toEqual(dummyOrders)
 		})
 	})
 })

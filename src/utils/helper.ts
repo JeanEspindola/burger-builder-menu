@@ -1,5 +1,6 @@
 import { FormInputValidation, OrderFormElement } from '../containers/Checkout/ContactData/ContactDataTypes'
 import { EMAIL_REGEX } from './constants'
+import { FetchedOrdersType } from '../containers/Orders/ordersType'
 
 export const checkValidity = (value: string, rules: FormInputValidation) => {
 	let isValid = true
@@ -35,7 +36,7 @@ export const createFormArray = (form: OrderFormElement) => {
 	return formArray
 }
 
-export const createOrdersArray = (ordersResponse: any) => {
+export const createOrdersArray = (ordersResponse: FetchedOrdersType) => {
 	const fetchedOrders = []
 	for (let key in ordersResponse) {
 		fetchedOrders.push({
