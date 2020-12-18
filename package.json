@@ -52,7 +52,9 @@
     "coveragePathIgnorePatterns": [
       "<rootDir>/src/api/api.ts",
       "<rootDir>/src/tests",
-      "<rootDir>/src/i18n"
+      "<rootDir>/src/i18n",
+      "<rootDir>/src/serviceWorker.ts",
+      "<rootDir>/src/index.tsx"
     ]
   }
 }

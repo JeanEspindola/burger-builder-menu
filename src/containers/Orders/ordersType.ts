@@ -17,8 +17,11 @@ export interface OrderIngredients {
 }
 
 // TODO: check IngredientsType
-export interface OrderType {
+export interface OrderType extends PurchaseOrderType {
 	id: string
+}
+
+export interface PurchaseOrderType {
 	ingredients: IngredientsType
 	orderData: CustomerData
 	price: number

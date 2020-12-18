@@ -100,4 +100,14 @@ describe('orderReducer', () => {
 
 		expect(newState.loading).toBeFalsy()
 	})
+
+	test('returns default state when no action is passed', () => {
+		const newState = orderReducer(
+				{ ...dummyOrderState },
+				{
+					type: ''
+				},
+		)
+		expect(newState).toEqual(dummyOrderState)
+	})
 })

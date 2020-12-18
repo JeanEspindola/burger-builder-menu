@@ -74,4 +74,14 @@ describe('burgerBuilderReducer', () => {
 
 		expect(newState.error).toBeTruthy()
 	})
+
+	test('returns default state when no action is passed', () => {
+		const newState = burgerBuilderReducer(
+				{ ...dummyBurgerBuilderState },
+				{
+					type: ''
+				},
+		)
+		expect(newState).toEqual(dummyBurgerBuilderState)
+	})
 })

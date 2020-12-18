@@ -99,4 +99,14 @@ describe('authReducer', () => {
 
 		expect(newState.authInitialized).toBeTruthy()
 	})
+
+	test('returns default state when no action is passed', () => {
+		const newState = authReducer(
+				{ ...dummyAuthState },
+				{
+					type: ''
+				},
+		)
+		expect(newState).toEqual(dummyAuthState)
+	})
 })

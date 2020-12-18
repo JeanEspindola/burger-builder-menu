@@ -1,4 +1,7 @@
 // eslint-disable-next-line import/no-anonymous-default-export
+import Button from '../components/UI/Button/Button'
+import React from 'react'
+
 export default {
 	'loading': 'Loading...',
 	'menu.burgerBuilder': 'Burger Builder',
@@ -39,5 +42,7 @@ export default {
 	'checkoutSummary.title': 'We hope it tastes well!!',
 	'auth.submit': 'SUBMIT',
 	'auth.email': 'Email Address',
-	'auth.password': 'Password'
+	'auth.password': 'Password',
+	'auth.switchToSignin': 'Switch to Signin',
+	'auth.switchToSignup': 'Switch to Signup'
 };
