@@ -1,7 +1,4 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-import Button from '../components/UI/Button/Button'
-import React from 'react'
-
 export default {
 	'loading': 'Loading...',
 	'menu.burgerBuilder': 'Burger Builder',

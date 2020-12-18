@@ -6,7 +6,7 @@ import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import Auth from '../Auth'
 import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
 import { dummyLocation } from '../../../tests/testObjects/dummyRouter'
-import { auth, setAuthRedirectPath } from '../../../redux/actions/authActions'
+import { auth } from '../../../redux/actions/authActions'
 
 
 describe('Auth', () => {

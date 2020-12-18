@@ -8,7 +8,7 @@ import {
 	SIGN_IN_URL,
 	SING_UP_URL
 } from '../utils/constants'
-import { OrderType } from '../containers/Orders/ordersType'
+import { PurchaseOrderType } from '../containers/Orders/ordersType'
 import axios from 'axios'
 import { AuthData } from '../redux/actions/actionTypes'
 
@@ -17,7 +17,7 @@ const API = {
 		return axiosOrder.get(`${BASE_URL}${INGREDIENTS_URL}`)
 	},
 
-	setPurchaseBurger(token: string, orderData: OrderType) {
+	setPurchaseBurger(token: string, orderData: PurchaseOrderType) {
 		return axiosOrder.post(`${ORDERS_URL}?auth=${token}`, orderData)
 	},
 

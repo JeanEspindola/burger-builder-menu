@@ -19,13 +19,15 @@ interface FormSelectionElement {
 	displayValue: string
 }
 
+export interface ElementConfigType {
+	type?: string,
+	placeholder?: string
+	options?: FormSelectionElement[]
+}
+
 interface OrderFormElementDesc {
 	elementType: string
-	elementConfig: {
-		type?: string,
-		placeholder?: string
-		options?: FormSelectionElement[]
-	},
+	elementConfig: ElementConfigType,
 	value: string,
 	validation: FormInputValidation
 	valid: boolean

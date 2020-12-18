@@ -1,4 +1,4 @@
-import { OrderType } from '../../containers/Orders/ordersType'
+import { OrderType, PurchaseOrderType } from '../../containers/Orders/ordersType'
 import { IngredientsEnum } from '../../utils/constants'
 import { IngredientsType } from '../../utils/types'
 
@@ -38,10 +38,10 @@ export enum AuthActionTypes {
 	SET_AUTH_INITIALIZED = 'SET_AUTH_INITIALIZED',
 }
 
-export type PurchaseBurgerSuccessType = { type: string; orderId: string; orderData: OrderType }
+export type PurchaseBurgerSuccessType = { type: string; orderId: string; orderData: PurchaseOrderType }
 export type PurchaseBurgerFailType = { type: string; error: boolean }
 export type PurchaseBurgerStartType = { type: string; }
-export type PurchaseBurgerType = { type: string; token: string; orderData: OrderType }
+export type PurchaseBurgerType = { type: string; token: string; orderData: PurchaseOrderType }
 export type PurchaseInitType = { type: string; }
 export type FetchOrdersSuccessType = { type: string; orders: OrderType[] }
 export type FetchOrdersFailType = { type: string; error: boolean }

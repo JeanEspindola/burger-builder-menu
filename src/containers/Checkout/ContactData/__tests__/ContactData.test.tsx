@@ -117,8 +117,7 @@ describe('ContactData', () => {
 		}
 
 		expect(store.dispatch).toHaveBeenCalledWith(
-				// @ts-ignore
-				purchaseBurger(order, token)
+			purchaseBurger(order, token)
 		)
 	})
 })

@@ -88,7 +88,6 @@ const Auth = (props: HistoryProps) => {
 		authRedirect = <Redirect to={authRedirectPath} />
 	}
 
-	// TODO: intl here
 	return (
 			<div className={classes.Auth}>
 				{authRedirect}
@@ -103,7 +102,7 @@ const Auth = (props: HistoryProps) => {
 						btnType={ButtonsEnum.danger}
 						clicked={switchAuthModeHandler}
 				>
-					Switch to {isSignup ? 'Signin' : 'Signup'}
+					<FormattedMessage id={isSignup ? 'auth.switchToSignin' : 'auth.switchToSignup'} />
 				</Button>
 			</div>
 	)

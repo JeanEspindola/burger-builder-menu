@@ -11,9 +11,9 @@ import {
 	PurchaseBurgerSuccessType,
 	PurchaseInitType
 } from './actionTypes'
-import { OrderType } from '../../containers/Orders/ordersType'
+import { OrderType, PurchaseOrderType } from '../../containers/Orders/ordersType'
 
-export const purchaseBurgerSuccess = (id: string, orderData: OrderType): PurchaseBurgerSuccessType => ({
+export const purchaseBurgerSuccess = (id: string, orderData: PurchaseOrderType): PurchaseBurgerSuccessType => ({
 	type: PurchaseActionTypes.PURCHASE_BURGER_SUCCESS,
 	orderId: id,
 	orderData: orderData,
@@ -28,7 +28,7 @@ export const purchaseBurgerStart = (): PurchaseBurgerStartType => ({
 	type: PurchaseActionTypes.PURCHASE_BURGER_START
 })
 
-export const purchaseBurger = (orderData: OrderType, token: string): PurchaseBurgerType => ({
+export const purchaseBurger = (orderData: PurchaseOrderType, token: string): PurchaseBurgerType => ({
 	type: OrdersActionTypes.PURCHASE_BURGER,
 	orderData,
 	token,

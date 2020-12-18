@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from './Input.module.scss'
 import { useIntl } from 'react-intl'
+import { ElementConfigType } from '../../../containers/Checkout/ContactData/ContactDataTypes'
 
 interface InputProps {
 	shouldValidate: boolean
@@ -10,7 +11,7 @@ interface InputProps {
 	changed: (event: any) => void
 	value: string
 	label?: string
-	elementConfig: any
+	elementConfig: ElementConfigType
 }
 
 const Input = (props: InputProps) => {
@@ -49,8 +50,7 @@ const Input = (props: InputProps) => {
 						{...props.elementConfig}
 						onChange={props.changed}
 					>
-						{ /* @ts-ignore */ }
-						{props.elementConfig.options.map(option => (
+						{props.elementConfig.options?.map(option => (
 								<option key={option.value} value={option.value}>
 									{intl.formatMessage({ id: option.displayValue })}
 								</option>

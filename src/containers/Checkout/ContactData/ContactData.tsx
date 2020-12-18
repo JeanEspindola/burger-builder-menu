@@ -14,6 +14,7 @@ import { RootStateType } from '../../../redux/rootTypes'
 import { RouteComponentProps } from 'react-router-dom'
 import { checkValidity, createFormArray } from '../../../utils/helper'
 import { dummyContactForm } from '../../../tests/testObjects/dummyContactData'
+import { CustomerData, PurchaseOrderType } from '../../Orders/ordersType'
 
 interface ContactDataProps {
 	history?: RouteComponentProps['history']
@@ -24,8 +25,8 @@ const ContactData = (props: ContactDataProps) => {
 	const [formValid, setFormIsValid] = useState<boolean>(false)
 
 	const dispatch = useDispatch()
-	//TODO: check typing
-	const onPurchaseBurgerStart = (orderData: any, token: string) => dispatch(purchaseBurger(orderData, token))
+
+	const onPurchaseBurgerStart = (orderData: PurchaseOrderType, token: string) => dispatch(purchaseBurger(orderData, token))
 
 	const { ingredients, totalPrice } = useSelector((state: RootStateType) => state.burgerBuilder)
 	const { token, userId } = useSelector((state: RootStateType) => state.auth)
@@ -34,7 +35,14 @@ const ContactData = (props: ContactDataProps) => {
 	const orderHandler = (event?: { preventDefault: () => void }) => {
 		event?.preventDefault()
 
-		const formData = {}
+		const formData: CustomerData = {
+			country: '',
+			deliveryMethod: '',
+			email: '',
+			name: '',
+			street: '',
+			zipCode: ''
+		}
 
 		for (let formElementId in customerForm) {
 			// @ts-ignore
