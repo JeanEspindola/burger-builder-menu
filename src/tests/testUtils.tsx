@@ -63,7 +63,7 @@ export const mockApi = (
 	if (statusCode === 200) {
 		mockedAPI.mockResolvedValue({ ...response });
 	} else {
-		mockedAPI.mockRejectedValue({ ...response });
+		mockedAPI.mockRejectedValue(response);
 	}
 	return mockedAPI;
 };
