@@ -10,9 +10,7 @@ jobs:
         run: npm install
       - name: Build
         run: npm run-script build
-      - name: Percy Test
-        uses: percy/snapshot-action@v0.1.0
-        with:
-          build-directory: "build/"
-        env:
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      - name: Test coverage
+        run: npm run test:coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1.1.0
