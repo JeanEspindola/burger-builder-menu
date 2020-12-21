@@ -1,6 +1,7 @@
+[![MIT License][license-badge]][license]
 [![Build Status][build-badge]][build]
-[![codecov](https://codecov.io/gh/JeanEspindola/burger-builder-menu/branch/main/graph/badge.svg?token=IZUUAIOF61)](https://codecov.io/gh/JeanEspindola/burger-builder-menu)
-[![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/ba9e109f/burger-builder-menu)
+[![codecov][codecov-badge]][coverage]
+[![This project is using Percy.io for visual regression testing.][percy-badge]][percy]
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -49,3 +50,10 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 [build-badge]: https://img.shields.io/github/workflow/status/JeanEspindola/burger-builder-menu/CI?label=build
 [build]: https://github.com/JeanEspindola/burger-builder-menu/actions?query=workflow%3ACI
+[codecov-badge]: https://codecov.io/gh/JeanEspindola/burger-builder-menu/branch/main/graph/badge.svg?token=IZUUAIOF61
+[coverage]: https://codecov.io/gh/JeanEspindola/burger-builder-menu
+[percy-badge]: https://percy.io/static/images/percy-badge.svg
+[percy]: https://percy.io/ba9e109f/burger-builder-menu
+[license-badge]: https://img.shields.io/github/license/JeanEspindola/burger-builder-menu?label=license
+[license]: https://github.com/JeanEspindola/burger-builder-menu/blob/main/LICENSE
+
