@@ -11,15 +11,13 @@ import {
 import { all, takeEvery } from 'redux-saga/effects'
 import {
 	AuthActionTypes,
-	AuthCheckStateType,
 	AuthData,
 	AuthType,
 	CheckAuthTimeoutType,
-	LogoutType
 } from '../actions/actionTypes'
-import API from '../../api/api'
+import API from 'api/api'
 
-export function* logoutSaga(action: LogoutType) {
+export function* logoutSaga() {
 	yield call([localStorage, 'removeItem'], 'token')
 	yield call([localStorage, 'removeItem'], 'expirationDate')
 	yield call([localStorage, 'removeItem'], 'userId')
@@ -56,7 +54,7 @@ export function* authUserSaga(action: AuthType) {
 	}
 }
 
-export function* authCheckStateSaga(action: AuthCheckStateType) {
+export function* authCheckStateSaga() {
 	const token = yield localStorage.getItem('token')
 
 	if (!token) {

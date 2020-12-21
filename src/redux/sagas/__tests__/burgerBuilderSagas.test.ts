@@ -1,6 +1,6 @@
 import { mockApi, TestDispatchType } from 'tests/testUtils'
 import { dummyEmptyIngredients } from 'tests/testObjects/dummyBurgerData'
-import API from '../../../api/api'
+import API from 'api/api'
 import { AnyAction } from 'redux'
 import { runSaga, SagaIterator } from 'redux-saga'
 import { RootStateType } from '../../rootTypes'
@@ -8,7 +8,7 @@ import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
 import { initIngredientsSaga } from '../burgerBuilderSagas'
 import { BurgerActionTypes } from '../../actions/actionTypes'
 
-jest.mock('../../../api/api');
+jest.mock('api/api');
 
 describe('burgerBuilderSagas', () => {
 	it('initIngredientsSaga success', async () => {
