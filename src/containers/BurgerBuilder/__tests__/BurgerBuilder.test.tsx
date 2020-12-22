@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { screen, waitFor } from '@testing-library/react'
-import { createBrowserHistory } from 'history'
 import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
 import BurgerBuilder from '../BurgerBuilder'
@@ -106,8 +105,7 @@ describe('BurgerBuilder', () => {
   test('clicks on order now, check the modal content and proceed with the order', async () => {
     const store = createDummyStore(state)
 
-    // @ts-ignore
-    WrappedRender(<BurgerBuilder history={createBrowserHistory()} />, store)
+    WrappedRender(<BurgerBuilder />, store)
 
     const orderButton = screen.getByRole('button', { name: /order now/i })
     userEvent.click(orderButton)
@@ -177,8 +175,7 @@ describe('BurgerBuilder', () => {
 
     const store = createDummyStore(newState)
 
-    // @ts-ignore
-    WrappedRender(<BurgerBuilder history={createBrowserHistory()} />, store)
+    WrappedRender(<BurgerBuilder />, store)
 
     const orderButton = screen.queryByRole('button', { name: /order now/i })
     expect(orderButton).not.toBeInTheDocument()

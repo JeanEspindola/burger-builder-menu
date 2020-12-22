@@ -5,6 +5,8 @@ import { MemoryRouter } from 'react-router'
 import { IntlProvider } from 'react-intl'
 import { RootStateType } from '../redux/rootTypes'
 import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
+import { History, LocationState } from 'history';
 
 export const WrappedRender = (component: React.ReactElement, store?: any) => {
 	const Wrapper: React.FunctionComponent<React.PropsWithChildren<{}>> = ({
@@ -40,6 +42,23 @@ const componentWithoutStore = (children: React.ReactNode) => (
 			{children}
 		</MemoryRouter>
 	</IntlProvider>
+)
+
+export const renderRouteComponent = (component: React.ReactElement, store: any, history: History<LocationState>) => (
+	render(
+			<Provider store={store}>
+				<IntlProvider
+						key="en"
+						locale="en"
+						defaultLocale="en"
+						messages={translationMessages['en']}
+				>
+					<Router history={history}>
+						{component}
+					</Router>
+				</IntlProvider>
+			</Provider>
+	)
 )
 
 export const createDummyStore = (state: RootStateType) => {

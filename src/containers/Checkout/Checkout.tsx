@@ -1,29 +1,28 @@
 import React from 'react'
-import { Route, RouteProps, Redirect } from 'react-router-dom'
-import { Location, History } from 'history';
+import { Route, RouteProps, Redirect, useHistory } from 'react-router-dom'
 import CheckoutSummary from 'components/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { useSelector } from 'react-redux'
 import { RootStateType } from '../../redux/rootTypes'
 
 export interface HistoryProps {
-	history?: History
-	location?: Location
 	match: {
 		path: RouteProps['path']
 	},
 }
 
 const Checkout = (props: HistoryProps) => {
+	const history = useHistory()
+
 	const ingredients = useSelector((state: RootStateType) => state.burgerBuilder.ingredients)
 	const purchased = useSelector((state: RootStateType) => state.order.purchased)
 
 	const checkoutCancelledHandler = () => {
-		props.history?.goBack()
+		history.goBack()
 	}
 
 	const checkoutContinuedHandler = () => {
-		props.history?.replace('/checkout/contact-data')
+		history.replace('/checkout/contact-data')
 	}
 
 	const { match } = props

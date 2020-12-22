@@ -11,16 +11,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import { purchaseBurger } from '../../../redux/actions/orderActions'
 import { RootStateType } from '../../../redux/rootTypes'
-import { RouteComponentProps } from 'react-router-dom'
 import { checkValidity, createFormArray } from '../../../utils/helper'
 import { dummyContactForm } from '../../../tests/testObjects/dummyContactData'
 import { CustomerData, PurchaseOrderType } from '../../Orders/ordersType'
 
-interface ContactDataProps {
-	history?: RouteComponentProps['history']
-}
-
-const ContactData = (props: ContactDataProps) => {
+const ContactData = () => {
 	const [customerForm, setCustomerForm] = useState<OrderFormElement>(dummyContactForm)
 	const [formValid, setFormIsValid] = useState<boolean>(false)
 

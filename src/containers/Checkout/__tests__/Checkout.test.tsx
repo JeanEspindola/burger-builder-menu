@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { screen } from '@testing-library/react';
-import { createDummyStore, WrappedRender } from 'tests/testUtils'
+import { createDummyStore, renderRouteComponent, WrappedRender } from 'tests/testUtils'
 import { dummyOrderIngredients } from 'tests/testObjects/dummyOrderData'
 import Checkout from '../Checkout'
-import { dummyLocation } from 'tests/testObjects/dummyRouter'
 import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
 import { Route } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
+import { createMemoryHistory } from 'history'
 import userEvent from '@testing-library/user-event'
 
 describe('Checkout', () => {
@@ -34,7 +33,6 @@ describe('Checkout', () => {
 		WrappedRender(
 				<Checkout
 						match={match}
-						location={dummyLocation}
 				/>,
 				dummyStore,
 		)
@@ -57,7 +55,6 @@ describe('Checkout', () => {
 				<>
 					<Checkout
 							match={match}
-							location={dummyLocation}
 					/>
 					<Route path="/">Test Redirect</Route>
 				</>,
@@ -78,22 +75,14 @@ describe('Checkout', () => {
 		}
 
 		const store = createDummyStore(newState)
-		const history = createBrowserHistory()
 
+		const history = createMemoryHistory()
 		const goBackSpy = jest.spyOn(history, 'goBack');
 
-		WrappedRender(
-				<Checkout
-						history={history}
-						match={match}
-						location={dummyLocation}
-				/>,
-				store,
-		)
+		renderRouteComponent(<Checkout match={match} />, store, history)
 
 		const cancelBtn = screen.getByRole('button', { name: /cancel/i })
 		userEvent.click(cancelBtn)
-
 		expect(goBackSpy).toHaveBeenCalled()
 	})
 
@@ -107,18 +96,11 @@ describe('Checkout', () => {
 		}
 
 		const store = createDummyStore(newState)
-		const history = createBrowserHistory()
 
+		const history = createMemoryHistory()
 		const replaceSpy = jest.spyOn(history, 'replace');
 
-		WrappedRender(
-				<Checkout
-						history={history}
-						match={match}
-						location={dummyLocation}
-				/>,
-				store,
-		)
+		renderRouteComponent(<Checkout match={match} />, store, history)
 
 		const continueBtn = screen.getByRole('button', { name: /continue/i })
 		userEvent.click(continueBtn)

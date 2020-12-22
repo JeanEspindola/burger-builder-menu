@@ -5,24 +5,15 @@ import userEvent from '@testing-library/user-event'
 import { createDummyStore, WrappedRender } from 'tests/testUtils'
 import Auth from '../Auth'
 import { dummyRootAppState } from 'tests/testObjects/dummyRootState'
-import { dummyLocation } from '../../../tests/testObjects/dummyRouter'
 import { auth } from '../../../redux/actions/authActions'
-
 
 describe('Auth', () => {
 	const state = dummyRootAppState()
 	const store = createDummyStore(state)
 
-	const match = {
-		path: '/auth',
-	}
-
 	test('renders correctly - not authenticated', () => {
 		WrappedRender(
-			<Auth
-				match={match}
-				location={dummyLocation}
-			/>,
+			<Auth />,
 			store,
 		)
 
@@ -55,10 +46,7 @@ describe('Auth', () => {
 		const newStore = createDummyStore(newState)
 
 		WrappedRender(
-				<Auth
-						match={match}
-						location={dummyLocation}
-				/>,
+				<Auth />,
 				newStore,
 		)
 
@@ -78,10 +66,7 @@ describe('Auth', () => {
 		const newStore = createDummyStore(newState)
 
 		WrappedRender(
-				<Auth
-						match={match}
-						location={dummyLocation}
-				/>,
+				<Auth />,
 				newStore,
 		)
 
@@ -104,10 +89,7 @@ describe('Auth', () => {
 
 		WrappedRender(
 				<>
-					<Auth
-							match={match}
-							location={dummyLocation}
-					/>
+					<Auth />
 					<Route path="/checkout/redirect">Test Redirect</Route>
 				</>,
 				newStore,
@@ -119,10 +101,7 @@ describe('Auth', () => {
 
 	test('click on the link and switches to sign in', () => {
 		WrappedRender(
-				<Auth
-						match={match}
-						location={dummyLocation}
-				/>,
+				<Auth />,
 				store,
 		)
 
@@ -144,10 +123,7 @@ describe('Auth', () => {
 
 	test('types an invalid on email input field', () => {
 		WrappedRender(
-				<Auth
-						match={match}
-						location={dummyLocation}
-				/>,
+				<Auth />,
 				store,
 		)
 
@@ -161,10 +137,7 @@ describe('Auth', () => {
 
 	test('fill and submit form', () => {
 		WrappedRender(
-				<Auth
-						match={match}
-						location={dummyLocation}
-				/>,
+				<Auth />,
 				store,
 		)
 

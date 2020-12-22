@@ -14,14 +14,12 @@ import { addIngredient, removeIngredient, fetchIngredients } from 'redux/actions
 import { RootStateType } from 'redux/rootTypes'
 import { purchaseInit } from 'redux/actions/orderActions'
 import { setAuthRedirectPath } from 'redux/actions/authActions'
-import { History } from 'history'
+import { useHistory } from "react-router-dom"
 
-interface BurgerBuilderProps {
-	history: History
-}
-
-const BurgerBuilder = (props: BurgerBuilderProps) => {
+const BurgerBuilder = () => {
 	const [purchasing, setIsPurchasing] = useState<boolean>(false)
+
+	const history = useHistory()
 
 	const dispatch = useDispatch()
 
@@ -48,7 +46,6 @@ const BurgerBuilder = (props: BurgerBuilderProps) => {
 	}
 
 	const purchaseHandler = () => {
-		const { history } = props
 		if (isAuthenticated) {
 			setIsPurchasing(true)
 		} else {
@@ -62,7 +59,6 @@ const BurgerBuilder = (props: BurgerBuilderProps) => {
 	}
 
 	const purchaseContinueHandler = () => {
-		const { history } = props
 		onInitPurchase()
 		history.push('/checkout')
 	}

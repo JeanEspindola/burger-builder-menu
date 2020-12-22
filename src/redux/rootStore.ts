@@ -14,7 +14,6 @@ export interface InitialStateType {
 
 // @ts-ignore
 export function configureStore(): Store<RootStateType> {
-
 	const composeEnhancers = process.env.NODE_ENV === 'development'
 			// @ts-ignore
 			? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

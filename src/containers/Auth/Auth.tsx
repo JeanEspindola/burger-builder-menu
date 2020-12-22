@@ -12,9 +12,8 @@ import { checkValidity, createFormArray } from '../../utils/helper'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { RootStateType } from '../../redux/rootTypes'
 import { dummyAuthData } from '../../tests/testObjects/dummyAuthData'
-import { HistoryProps } from '../Checkout/Checkout'
 
-const Auth = (props: HistoryProps) => {
+const Auth = () => {
 	const [authForm, setAuthForm] = useState<OrderFormElement>(dummyAuthData)
 	const [isSignup, setIsSignup] = useState<boolean>(true)
 
