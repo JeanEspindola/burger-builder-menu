@@ -39,7 +39,9 @@ const App = () => {
   if (isAuthInitialized) {
     routes = (
         <Switch>
-          <Route path="/auth" render={(props) => <Auth {...props }/>}/>
+          <Route path="/auth">
+            <Auth />
+          </Route>
           <Route path="/" exact component={BurgerBuilder}/>
           <Redirect to="/"/>
         </Switch>
@@ -49,10 +51,15 @@ const App = () => {
       routes = (
           <Switch>
             <Route path="/checkout" render={(props) => <Checkout {...props }/>}/>
-            {/* @ts-ignore*/}
-            <Route path="/orders" render={(props) => <Orders {...props } />}/>
-            <Route path="/logout" component={Logout}/>
-            <Route path="/auth" render={(props) => <Auth {...props }/>}/>
+            <Route path="/orders">
+              <Orders />
+            </Route>
+            <Route path="/logout">
+              <Logout />
+            </Route>
+            <Route path="/auth">
+              <Auth />
+            </Route>
             <Route path="/" exact component={BurgerBuilder}/>
             <Redirect to="/"/>
           </Switch>
